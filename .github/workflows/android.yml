@@ -29,4 +29,8 @@ jobs:
         with:
           path: ./**/*.apk
           if-no-files-found: warn
-      
+      - name: Releasing using Hub
+        uses: sangatdesai/release-apk@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          APP_FOLDER: app
