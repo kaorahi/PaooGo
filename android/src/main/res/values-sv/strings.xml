@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_name">Gobandroid</string>
+  <string name="app_name">PaooGo</string>
   <string name="start_game">Börja spela</string>
   <string name="start">Börja</string>
   <string name="load_game">Ladda parti</string>

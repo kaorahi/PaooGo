@@ -68,13 +68,13 @@ android {
     compileSdkVersion 36
 
     defaultConfig {
-        versionCode 260
-        versionName "2.6.0"
+        versionCode 1
+        versionName "0.0.1"
         minSdkVersion 21
         targetSdkVersion 36
-        applicationId "org.ligi.gobandroid_hd"
-        testInstrumentationRunner "org.ligi.gobandroid_hd.AppReplacingRunner"
-        archivesBaseName = "Gobandroid-$versionName"
+        applicationId "io.github.karino2.paoogo"
+        testInstrumentationRunner "io.github.karino2.paoogo.AppReplacingRunner"
+        archivesBaseName = "PaooGo-$versionName"
         vectorDrawables.useSupportLibrary = true
     }
     packagingOptions {
@@ -100,6 +100,7 @@ android {
             debuggable true
             // to avoid MultiDex http://stackoverflow.com/questions/38329248/dexindexoverflowexception-when-running-androidtests
             minifyEnabled false
+            applicationIdSuffix ".debug"
         }
     }
     buildFeatures {
