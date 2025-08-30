@@ -13,6 +13,7 @@ import org.ligi.gobandroid_hd.ui.review.GameReviewActivity
 import org.ligi.gobandroid_hd.ui.review.GoGamePlayerActivity
 import org.ligi.gobandroid_hd.ui.scoring.GameScoringActivity
 import org.ligi.gobandroid_hd.ui.tsumego.TsumegoActivity
+import org.ligi.gobandroid_hd.ui.vs_engine.PlayAgainstEngineActivity
 
 object SwitchModeHelper {
 
@@ -33,6 +34,7 @@ object SwitchModeHelper {
 
             GNUGO -> return Intent(ctx, PlayAgainstGnuGoActivity::class.java)
 
+            GNUGO2 -> return Intent(ctx, PlayAgainstEngineActivity::class.java)
             SETUP -> return Intent(ctx, GoSetupActivity::class.java)
 
             else -> return null

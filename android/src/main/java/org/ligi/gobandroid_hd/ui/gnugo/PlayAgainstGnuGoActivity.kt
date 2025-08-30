@@ -1,7 +1,6 @@
 package org.ligi.gobandroid_hd.ui.gnugo
 
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
@@ -20,6 +19,7 @@ import org.ligi.gobandroid_hd.logic.*
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.recording.RecordingGameExtrasFragment
+import org.ligi.gobandroid_hd.ui.vs_engine.EngineGoGame
 import org.ligi.gobandroid_hd.util.SimpleStopwatch
 import org.ligi.gobandroidhd.ai.gnugo.IGnuGoService
 import org.ligi.kaxt.makeExplicit
@@ -39,7 +39,8 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
 
     private var avgTimeInMillis: Long = 0
 
-    private var gnuGoGame: GnuGoGame? = null
+    private var engineGoGame: EngineGoGame? = null
+    private var level: Byte = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,13 +53,16 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
         dlg = GnuGoSetupDialog(this)
 
         dlg.setPositiveButton(R.string.ok) { dialog ->
-            gnuGoGame = GnuGoGame(dlg.isBlackActive() or dlg.isBothActive(),
-                    dlg.isWhiteActive() or dlg.isBothActive(),
-                    dlg.strength().toByte(),
-                    game)
+            engineGoGame = EngineGoGame(
+                dlg.isBlackActive() or dlg.isBothActive(),
+                dlg.isWhiteActive() or dlg.isBothActive(),
+                game,
+                getString(R.string.gnugo)
+            )
+            level = dlg.strength().toByte()
 
 
-            gnuGoGame!!.setMetaDataForGame(app)
+            engineGoGame!!.setMetaDataForGame(app)
             dlg.saveRecentAsDefault()
             dialog.dismiss()
         }
@@ -73,7 +77,7 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
 
     override fun doTouch(event: MotionEvent) {
 
-        if (gnuGoGame != null && gnuGoGame!!.gnugoNowBlack() or gnuGoGame!!.gnugoNowWhite()) {
+        if (engineGoGame != null && engineGoGame!!.engineNowBlack() or engineGoGame!!.engineNowWhite()) {
             showInfoToast(R.string.not_your_turn)
         } else {
             super.doTouch(event)
@@ -164,15 +168,15 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
 
 
     public override fun doMoveWithUIFeedback(cell: Cell?): GoGame.MoveStatus {
-        if (gnuGoGame != null && cell != null) {
-            if (gnuGoGame!!.aiIsThinking) {
+        if (engineGoGame != null && cell != null) {
+            if (engineGoGame!!.aiIsThinking) {
                 Toast.makeText(this, R.string.ai_is_thinking, Toast.LENGTH_LONG).show()
                 return GoGame.MoveStatus.VALID
             }
 
-            if (game.isBlackToMove && !gnuGoGame!!.playingBlack) {
+            if (game.isBlackToMove && !engineGoGame!!.playingBlack) {
                 processMove("black", cell)
-            } else if (!game.isBlackToMove && !gnuGoGame!!.playingWhite) {
+            } else if (!game.isBlackToMove && !engineGoGame!!.playingWhite) {
                 processMove("white", cell)
             }
 
@@ -203,7 +207,7 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
             SystemClock.sleep(100)
 
             // blocker for the following steps
-            if (service == null || gnuGoGame == null || game.isFinished || connection == null) {
+            if (service == null || engineGoGame == null || game.isFinished || connection == null) {
                 continue
             }
 
@@ -252,18 +256,18 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
                         }
                     }
 
-                    Timber.i("setting level " + service!!.processGTP("level " + gnuGoGame!!.level))
+                    Timber.i("setting level " + service!!.processGTP("level " + level))
                     gnugoSizeSet = true
                 } catch (e: Exception) {
                     Timber.w(e, "RemoteException when configuring")
                 }
             }
 
-            if (gnuGoGame!!.gnugoNowBlack()) {
+            if (engineGoGame!!.engineNowBlack()) {
                 doMove("black")
             }
 
-            if (gnuGoGame!!.gnugoNowWhite()) {
+            if (engineGoGame!!.engineNowWhite()) {
                 doMove("white")
             }
 
@@ -281,7 +285,7 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
     }
 
     private fun doMove(color: String) {
-        gnuGoGame!!.aiIsThinking = true
+        engineGoGame!!.aiIsThinking = true
         val simpleStopwatch = SimpleStopwatch()
         try {
             val answer = service!!.processGTP("genmove " + color)
@@ -299,7 +303,7 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
         val elapsed = simpleStopwatch.elapsed()
         avgTimeInMillis = (avgTimeInMillis + elapsed) / 2
         Timber.i("TimeSpent average:$avgTimeInMillis last:$elapsed")
-        gnuGoGame!!.aiIsThinking = false
+        engineGoGame!!.aiIsThinking = false
     }
 
     private fun coordinates2gtpstr(cell: Cell?): String {

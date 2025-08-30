@@ -19,6 +19,7 @@ import org.ligi.gobandroid_hd.InteractionScope
 import org.ligi.gobandroid_hd.InteractionScope.Mode.COUNT
 import org.ligi.gobandroid_hd.InteractionScope.Mode.EDIT
 import org.ligi.gobandroid_hd.InteractionScope.Mode.GNUGO
+import org.ligi.gobandroid_hd.InteractionScope.Mode.GNUGO2
 import org.ligi.gobandroid_hd.InteractionScope.Mode.RECORD
 import org.ligi.gobandroid_hd.InteractionScope.Mode.REVIEW
 import org.ligi.gobandroid_hd.InteractionScope.Mode.SETUP
@@ -140,6 +141,7 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
         if (isPlayStoreInstalled() || GnuGoHelper.isGnuGoAvail(activity)) {
             addModeItem(contentView, GNUGO, R.string.gnugo, R.drawable.ic_hardware_computer, pop)
         }
+        addModeItem(contentView, GNUGO2, R.string.gnugo2, R.drawable.ic_hardware_computer, pop)
 
         scrollView.addView(contentView)
         pop.setContentView(scrollView)

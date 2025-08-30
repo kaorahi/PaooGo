@@ -65,6 +65,12 @@ android {
 
     }
 
+    externalNativeBuild {
+        cmake {
+            path 'src/main/cpp/CMakeLists.txt'
+        }
+    }
+
     compileSdkVersion 36
 
     defaultConfig {

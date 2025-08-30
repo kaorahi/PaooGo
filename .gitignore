@@ -20,3 +20,4 @@ monkey_scripts/
 proguard/
 proguard_logs/
 
+android/.cxx

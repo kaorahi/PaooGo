@@ -1,26 +1,30 @@
-package org.ligi.gobandroid_hd.ui.gnugo
+package org.ligi.gobandroid_hd.ui.vs_engine
 
 import org.ligi.gobandroid_hd.App
-import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.ui.GoPrefs
 
-class GnuGoGame internal constructor(val playingBlack: Boolean, val playingWhite: Boolean, val level: Byte, private val game: GoGame) {
+class EngineGoGame internal constructor(
+    val playingBlack: Boolean,
+    val playingWhite: Boolean,
+    private val game: GoGame,
+    private val engineName: String
+) {
 
     var aiIsThinking = false
 
-    fun gnugoNowWhite(): Boolean {
+    fun engineNowWhite(): Boolean {
         return !game.isBlackToMove && playingWhite
     }
 
-    fun gnugoNowBlack(): Boolean {
+    fun engineNowBlack(): Boolean {
         return game.isBlackToMove && playingBlack
     }
 
     fun setMetaDataForGame(app: App) {
         val metaData = game.metaData
         if (playingBlack) {
-            metaData.blackName = app.getString(R.string.gnugo)
+            metaData.blackName = engineName
             metaData.blackRank = ""
         } else {
             metaData.blackName = GoPrefs.username
@@ -28,7 +32,7 @@ class GnuGoGame internal constructor(val playingBlack: Boolean, val playingWhite
         }
 
         if (playingWhite) {
-            metaData.whiteName = app.getString(R.string.gnugo)
+            metaData.whiteName = engineName
             metaData.whiteRank = ""
         } else {
             metaData.whiteName = GoPrefs.username

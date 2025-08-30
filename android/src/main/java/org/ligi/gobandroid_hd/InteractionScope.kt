@@ -11,6 +11,7 @@ class InteractionScope {
         REVIEW,
         RECORD,
         GNUGO,
+        GNUGO2,
         TELEVIZE,
         EDIT,
         COUNT,
@@ -25,6 +26,7 @@ class InteractionScope {
                 TELEVIZE -> R.string.go_tv
                 COUNT -> R.string.count
                 GNUGO -> R.string.gnugo
+                GNUGO2 -> R.string.gnugo2
                 EDIT -> R.string.edit
                 SETUP -> R.string.setup
                 else -> R.string.empty_str
