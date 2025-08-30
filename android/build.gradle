@@ -71,33 +71,18 @@ android {
         versionCode 260
         versionName "2.6.0"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 36
         applicationId "org.ligi.gobandroid_hd"
         testInstrumentationRunner "org.ligi.gobandroid_hd.AppReplacingRunner"
         archivesBaseName = "Gobandroid-$versionName"
         vectorDrawables.useSupportLibrary = true
     }
-
-
-    lintOptions {
-        warning 'MissingTranslation'
-        warning 'ResourceType'
-
-        // for OKIO
-        warning 'InvalidPackage'
-    }
-
     packagingOptions {
-        // needed for assertJ
-        exclude 'asm-license.txt'
-        exclude 'LICENSE'
-        exclude 'NOTICE'
-
-        // important for androidTest
-        exclude 'LICENSE.txt'
-
-        exclude 'META-INF/lib_release.kotlin_module'
+        resources {
+            excludes += ['asm-license.txt', 'LICENSE', 'NOTICE', 'LICENSE.txt', 'META-INF/lib_release.kotlin_module']
+        }
     }
+
 
     testOptions {
         animationsDisabled = true
@@ -122,10 +107,13 @@ android {
         buildConfig true
         aidl true
     }
+    lint {
+        warning 'MissingTranslation', 'ResourceType', 'InvalidPackage'
+    }
 } // android
 
 configurations {
-    all {
+    configureEach {
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
         exclude group: 'com.google.guava', module: 'listenablefuture'
