@@ -84,7 +84,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     public override fun doMoveWithUIFeedback(cell: Cell?): GoGame.MoveStatus {
         if (cell != null) {
             if (engineGoGame.aiIsThinking) {
-                Toast.makeText(this, R.string.ai_is_thinking, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.ai_is_thinking, Toast.LENGTH_SHORT).show()
                 return GoGame.MoveStatus.VALID
             }
             manualMove(cell)
@@ -105,7 +105,7 @@ class PlayAgainstEngineActivity : GoActivity() {
         val move = engine.genMove(game.isBlackToMove)
         if (move.pass) {
             game.pass()
-            Toast.makeText(this, R.string.pass, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.pass, Toast.LENGTH_SHORT).show()
             bus.post(Message(getString(R.string.pass)))
         } else {
             val boardCell = game.calcBoard.getCell(move.x, move.y)
