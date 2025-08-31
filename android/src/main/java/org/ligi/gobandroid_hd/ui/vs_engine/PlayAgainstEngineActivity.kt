@@ -1,11 +1,19 @@
 package org.ligi.gobandroid_hd.ui.vs_engine
 
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import io.github.karino2.goengine.gnugo2.GnuGo2Native
+import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.Cell
@@ -26,6 +34,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     private val engine by lazy {  GnuGo2Native().apply { initNative() } }
 
     private var running = false
+    private var syncing = false;
 
     override fun doTouch(event: MotionEvent) {
         if (engineGoGame.engineNowBlack() or engineGoGame.engineNowWhite()) {
@@ -39,21 +48,30 @@ class PlayAgainstEngineActivity : GoActivity() {
         running = false
         super.onPause()
     }
+    val handler = Handler(Looper.getMainLooper())
 
     override fun onResume() {
         super.onResume()
 
+        // Timber.plant(Timber.DebugTree())
         running = true
         setupEngine()
 
         Thread( {
             while(running) {
                 SystemClock.sleep(100)
-                if (engineGoGame.engineNowBlack() || engineGoGame.engineNowWhite() ) {
-                    genMove()
-                }
+                handler.post { engineTick() }
             }
         }).start()
+    }
+
+    private fun engineTick()
+    {
+        if (syncing || engineGoGame.aiIsThinking)
+            return
+        if (engineGoGame.engineNowBlack() || engineGoGame.engineNowWhite() ) {
+            genMove()
+        }
     }
 
     private fun setupEngine() {
@@ -76,7 +94,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     }
 
     private fun manualMove(cell: Cell) {
-        if(!engine.doMove(cell.x, cell.y))
+        if(!engine.doMove(cell.x, cell.y, game.isBlackToMove))
         {
             Timber.w("problem processing move to (%d, %d)", cell.x, cell.y)
         }
@@ -84,9 +102,11 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     private fun genMove() {
         engineGoGame.aiIsThinking = true
-        val move = engine.genMove()
+        val move = engine.genMove(game.isBlackToMove)
         if (move.pass) {
             game.pass()
+            Toast.makeText(this, R.string.pass, Toast.LENGTH_LONG).show()
+            bus.post(Message(getString(R.string.pass)))
         } else {
             val boardCell = game.calcBoard.getCell(move.x, move.y)
             game.do_move(boardCell)
@@ -95,6 +115,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     }
 
     fun syncFromScratch() {
+        Timber.w("sync start")
         engine.clearBoard()
         val replay_moves = ArrayList<GoMove>()
         replay_moves.add(game.actMove)
@@ -106,33 +127,48 @@ class PlayAgainstEngineActivity : GoActivity() {
         }
         for (step in replay_moves.indices.reversed()) {
             tmp_move = replay_moves[step]
+
+            // どうもisFirstMoveがtrueの時は何も無いらしい。
+            if (tmp_move.isFirstMove)
+                continue
+
             if (tmp_move.isPassMove) {
+                Timber.w("sync: pass")
                 engine.doPass()
             } else {
-                engine.doMove(tmp_move.cell!!.x, tmp_move.cell!!.x)
+                Timber.w("sync: doMove (%d, %d, %d, %b)", tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.player, tmp_move.player == GoDefinitions.PLAYER_BLACK)
+                engine.doMove(tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.player == GoDefinitions.PLAYER_BLACK)
             }
         }
-
+        syncing = false
     }
 
     override fun requestUndo() {
         try {
-            var needSync = false
             if (game.canUndo()) {
-                game.undo(GoPrefs.isKeepVariantWanted)
-                needSync = true
-            }
-
-            if (game.canUndo()) {
+                syncing = true
                 game.undo(GoPrefs.isKeepVariantWanted)
             }
 
-            if(needSync) {
+            if (game.canUndo()) {
+                syncing = true
+                game.undo(GoPrefs.isKeepVariantWanted)
+            }
+
+            if(syncing) {
                 syncFromScratch()
             }
         } catch (e: Exception) {
             Timber.w(e, "RemoteException when undoing")
         }
+    }
+
+    override fun doPass(): Boolean {
+        game.pass()
+        engine.doPass()
+
+        bus.post(GameChangedEvent)
+        return true
     }
 
     override fun doAutoSave(): Boolean {
@@ -162,9 +198,34 @@ class PlayAgainstEngineActivity : GoActivity() {
         }
 
     }
+    /*
+     */
 
     override val gameExtraFragment: Fragment
-        get() = RecordingGameExtrasFragment()
+        get() = ConsoleGameExtrasFragment().apply {
+            askNewInfo = { engine.debugInfo()!! }
+            bus.register(this)
+        }
+}
 
+data class Message(val msg: String)
+
+class ConsoleGameExtrasFragment : Fragment() {
+    var askNewInfo : Function0<String> = {""}
+
+    val textView by lazy {
+        TextView(this.activity).apply {
+            text = "Deb: "
+            setOnClickListener { text = askNewInfo() }
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
+            = textView
+
+    @Subscribe
+    fun showMessage(msg: Message) {
+        textView.text = msg.msg
+    }
 
 }

@@ -15,12 +15,12 @@ public class GnuGo2Native {
     external fun clearBoard()
     external fun setBoardSize(komi: Int)
     external fun debugInfo(): String?
-    external fun doMove(x: Int, y: Int) : Boolean
-    external fun genMoveInternal() : Int
+    external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
+    external fun genMoveInternal(isBlack: Boolean) : Int
     external fun doPass()
 
-    fun genMove() : MovePos {
-        val move = genMoveInternal()
+    fun genMove(isBlack: Boolean) : MovePos {
+        val move = genMoveInternal(isBlack)
         if (move == -1) {
             return MovePos( 0, 0, true)
         }

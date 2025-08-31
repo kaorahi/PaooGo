@@ -227,6 +227,14 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         return super.onPrepareOptionsMenu(menu)
     }
 
+    open fun doPass() : Boolean {
+        game.pass()
+
+        bus.post(GameChangedEvent)
+
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         bus.post(OptionsItemClickedEvent(item.itemId))
         when (item.itemId) {
@@ -249,11 +257,7 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
             }
 
             R.id.menu_game_pass -> {
-                game.pass()
-
-                bus.post(GameChangedEvent)
-
-                return true
+                return doPass()
             }
 
             R.id.menu_write_sgf -> {
