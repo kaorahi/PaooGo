@@ -13,8 +13,8 @@
             yourapp:showAsAction="withText"/>
 
     <item
-            android:title="@string/new_game"
-            android:id="@+id/menu_game_again"
-            yourapp:showAsAction="withText"/>
+        android:title="@string/back_to_title"
+        android:id="@+id/menu_back_to_title"
+        yourapp:showAsAction="withText"/>
 
 </menu>

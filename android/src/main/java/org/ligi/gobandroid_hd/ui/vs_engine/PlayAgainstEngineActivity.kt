@@ -1,20 +1,24 @@
 package org.ligi.gobandroid_hd.ui.vs_engine
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
+import io.github.karino2.paoogo.ui.GameStartActivity
 import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
+import org.ligi.gobandroid_hd.events.OptionsItemClickedEvent
 import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.logic.GoDefinitions
 import org.ligi.gobandroid_hd.logic.GoGame
@@ -184,8 +188,19 @@ class PlayAgainstEngineActivity : GoActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        this.menuInflater.inflate(R.menu.ingame_record, menu)
+        this.menuInflater.inflate(R.menu.ingame_vs, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_back_to_title -> {
+                gameProvider.set(GoGame(game.size))
+                Intent(this, GameStartActivity::class.java).apply{ flags = Intent.FLAG_ACTIVITY_CLEAR_TOP  }.let { startActivity(it) }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onGameChanged(gameChangedEvent: GameChangedEvent) {
@@ -196,8 +211,6 @@ class PlayAgainstEngineActivity : GoActivity() {
         }
 
     }
-    /*
-     */
 
     override val gameExtraFragment: Fragment
         get() = ConsoleGameExtrasFragment().apply {

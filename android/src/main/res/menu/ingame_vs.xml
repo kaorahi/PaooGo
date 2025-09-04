@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+<item
+    android:title="@string/undo"
+    android:id="@+id/menu_game_undo"
+    android:icon="@drawable/ic_content_undo"
+    yourapp:showAsAction="ifRoom|withText"/>
+<item
+    android:title="@string/game_pass"
+    android:id="@+id/menu_game_pass"
+    yourapp:showAsAction="never" />
+<item
+    android:title="@string/back_to_title"
+    android:id="@+id/menu_back_to_title"
+    yourapp:showAsAction="withText"/>
+</menu>
