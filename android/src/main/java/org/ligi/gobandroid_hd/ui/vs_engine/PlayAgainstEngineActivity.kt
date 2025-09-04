@@ -7,12 +7,11 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MotionEvent
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import io.github.karino2.goengine.gnugo2.GnuGo2Native
+import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
@@ -22,7 +21,6 @@ import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.logic.GoMove
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.GoPrefs
-import org.ligi.gobandroid_hd.ui.recording.RecordingGameExtrasFragment
 import timber.log.Timber
 
 

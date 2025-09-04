@@ -1,4 +1,4 @@
-package io.github.karino2.goengine.gnugo2
+package io.github.karino2.paoogo.goengine.gnugo2
 
 data class MovePos(val x: Int, val y: Int, val pass: Boolean = false)
 public class GnuGo2Native {
