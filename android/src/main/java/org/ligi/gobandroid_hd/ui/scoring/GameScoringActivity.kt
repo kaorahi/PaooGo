@@ -1,11 +1,13 @@
 package org.ligi.gobandroid_hd.ui.scoring
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.WindowManager
+import io.github.karino2.paoogo.ui.GameStartActivity
 
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
@@ -18,6 +20,7 @@ import org.ligi.gobandroid_hd.logic.cell_gatherer.MustBeConnectedCellGatherer
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.gnugo.PlayAgainstGnuGoActivity
 import org.ligi.gobandroid_hd.ui.recording.GameRecordActivity
+import org.ligi.gobandroid_hd.ui.vs_engine.PlayAgainstEngineActivity
 import org.ligi.kaxt.startActivityFromClass
 import java.util.*
 import kotlin.reflect.KClass
@@ -105,10 +108,8 @@ class GameScoringActivity : GoActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_game_again -> {
-                val metaData = game.metaData
                 gameProvider.set(GoGame(game.size))
-                startActivityFromClass(getClassForRestart(metaData).java)
-
+                Intent(this, GameStartActivity::class.java).apply{ flags = Intent.FLAG_ACTIVITY_CLEAR_TOP  }.let { startActivity(it) }
                 return true
             }
         }
