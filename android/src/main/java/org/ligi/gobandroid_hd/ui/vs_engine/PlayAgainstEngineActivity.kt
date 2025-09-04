@@ -77,7 +77,8 @@ class PlayAgainstEngineActivity : GoActivity() {
     }
 
     private fun setupEngine() {
-        engine.setDepth(0)
+        val depth = if(GoPrefs.engineLevel == 3) 0 else 14
+        engine.setDepth(depth)
         engine.setKomi(game.komi)
         engine.setBoardSize(game.boardSize)
         engine.clearBoard()

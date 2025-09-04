@@ -2,6 +2,7 @@ package io.github.karino2.paoogo.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.accessibility.AccessibilityEvent.INVALID_POSITION
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.RadioGroup
@@ -45,8 +46,10 @@ class GameStartActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.start_button).setOnClickListener {
             val boardSize = if(findViewById<RadioGroup>(R.id.board_size_group).checkedRadioButtonId == R.id.board_size_9) 9 else 13
+            val comLevel = levelSpinner.selectedItemPosition.let { if(it == INVALID_POSITION) 3 else it+3 }
             GoPrefs.bulk {
                 lastBoardSize = boardSize
+                engineLevel = comLevel
             }
             clearGame(boardSize)
             Intent(this@GameStartActivity, PlayAgainstEngineActivity::class.java).let { startActivity(it) }

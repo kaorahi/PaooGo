@@ -51,6 +51,8 @@ object GoPrefs : KotprefModel() {
     var lastBoardSize: Int by intPref(default = 9)
     var lastHandicap: Int by intPref(default = 0)
 
+    var engineLevel: Int by intPref(default=3)
+
     var boardLineWidth: Int by intPref(default = 1, key = R.string.prefs_linewidth)
 
     var username: String by stringPref()
