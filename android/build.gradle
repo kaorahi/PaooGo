@@ -75,7 +75,7 @@ android {
 
     defaultConfig {
         versionCode 1
-        versionName "0.0.1"
+        versionName "0.1"
         minSdkVersion 21
         targetSdkVersion 36
         applicationId "io.github.karino2.paoogo"
