@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.chibatching.kotpref.bulk
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.lazy
+import io.github.karino2.paoogo.goengine.ray.RayNative
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.InteractionScope.Mode.GNUGO2
@@ -25,6 +26,7 @@ import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.GoPrefs.lastBoardSize
 import org.ligi.gobandroid_hd.ui.recording.GameRecordActivity
 import org.ligi.gobandroid_hd.ui.vs_engine.PlayAgainstEngineActivity
+import java.util.zip.ZipInputStream
 import kotlin.getValue
 
 class GameStartActivity : AppCompatActivity() {
@@ -54,6 +56,10 @@ class GameStartActivity : AppCompatActivity() {
             clearGame(boardSize)
             Intent(this@GameStartActivity, PlayAgainstEngineActivity::class.java).let { startActivity(it) }
         }
+
+        val ray = RayNative()
+        ray.initNative()
+        ray.setupAssetParams(assets)
     }
 
     val gameProvider: GameProvider by App.kodein.lazy.instance()
