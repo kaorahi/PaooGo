@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import io.github.karino2.paoogo.goengine.EngineRepository
+import io.github.karino2.paoogo.goengine.GoEngine
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.ui.GameStartActivity
 import org.greenrobot.eventbus.Subscribe
@@ -33,7 +35,9 @@ import timber.log.Timber
  */
 class PlayAgainstEngineActivity : GoActivity() {
     private val engineGoGame by lazy { EngineGoGame(false, true, game, getString(R.string.gnugo2)) }
-    private val engine by lazy {  GnuGo2Native().apply { initNative() } }
+    private lateinit var engine : GoEngine
+
+    private val engineRepository by lazy { EngineRepository(assets) }
 
     private var running = false
     private var syncing = false;
@@ -77,8 +81,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     }
 
     private fun setupEngine() {
-        val depth = if(GoPrefs.engineLevel == 3) 0 else 14
-        engine.setDepth(depth)
+        engine = engineRepository.getEngine(GoPrefs.engineLevel)
         engine.setKomi(game.komi)
         engine.setBoardSize(game.boardSize)
         engine.clearBoard()
@@ -137,10 +140,10 @@ class PlayAgainstEngineActivity : GoActivity() {
 
             if (tmp_move.isPassMove) {
                 Timber.w("sync: pass")
-                engine.doPass()
+                engine.doPass(tmp_move.isBlack)
             } else {
-                Timber.w("sync: doMove (%d, %d, %d, %b)", tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.player, tmp_move.player == GoDefinitions.PLAYER_BLACK)
-                engine.doMove(tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.player == GoDefinitions.PLAYER_BLACK)
+                Timber.w("sync: doMove (%d, %d, %d, %b)", tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.player, tmp_move.isBlack)
+                engine.doMove(tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.isBlack)
             }
         }
         syncing = false
@@ -167,8 +170,9 @@ class PlayAgainstEngineActivity : GoActivity() {
     }
 
     override fun doPass(): Boolean {
+        val isBlack = game.isBlackToMove
         game.pass()
-        engine.doPass()
+        engine.doPass(isBlack)
 
         bus.post(GameChangedEvent)
         return true

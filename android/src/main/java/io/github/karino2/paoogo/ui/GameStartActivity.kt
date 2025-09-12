@@ -56,10 +56,6 @@ class GameStartActivity : AppCompatActivity() {
             clearGame(boardSize)
             Intent(this@GameStartActivity, PlayAgainstEngineActivity::class.java).let { startActivity(it) }
         }
-
-        val ray = RayNative()
-        ray.initNative()
-        ray.setupAssetParams(assets)
     }
 
     val gameProvider: GameProvider by App.kodein.lazy.instance()

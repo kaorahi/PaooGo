@@ -11,7 +11,7 @@ class RayNative {
         }
     }
 
-    external fun initNative()
+    external fun initNative(threadNum: Int, thinkingTime: Double)
     external fun initUctParams(src: DoubleArray)
     external fun initUctMD2(firstLineNum: Int, indices: IntArray, src: DoubleArray)
     external fun initUctLargePattern(htype: Int, firstLineNum: Int, indices: IntArray, hashs: ByteArray, src: DoubleArray)
@@ -28,7 +28,7 @@ class RayNative {
     external fun setBoardSize(komi: Int)
     external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
     external fun genMoveInternal(isBlack: Boolean) : Int
-    external fun doPass()
+    external fun doPass(isBlack: Boolean)
 
     fun setupAssetParams(assetManager: AssetManager)
     {

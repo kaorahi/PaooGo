@@ -17,15 +17,8 @@ public class GnuGo2Native {
     external fun debugInfo(): String?
     external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
     external fun genMoveInternal(isBlack: Boolean) : Int
-    external fun doPass()
+    external fun doPass(isBlack: Boolean)
 
-    fun genMove(isBlack: Boolean) : MovePos {
-        val move = genMoveInternal(isBlack)
-        if (move == -1) {
-            return MovePos( 0, 0, true)
-        }
-        return MovePos(move and 0xff, move shr 16)
-    }
 
     // external fun runCommand(pInput: String?): String?
 }

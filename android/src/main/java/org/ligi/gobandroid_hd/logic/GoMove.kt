@@ -38,6 +38,9 @@ class GoMove(val parent: GoMove?) {
     var movePos = 0
         private set
     var player = PLAYER_BLACK
+
+    val isBlack : Boolean
+        get() = player == PLAYER_BLACK
     var isPassMove = false
         private set
     var isFirstMove = false
