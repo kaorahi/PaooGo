@@ -1,6 +1,8 @@
 package io.github.karino2.paoogo.goengine.ray
 
 import android.content.res.AssetManager
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 class RayNative {
     companion object {
@@ -11,32 +13,18 @@ class RayNative {
 
     external fun initNative()
     external fun initUctParams(src: DoubleArray)
-
-    // return ByteBuffer
-    external fun getLargeParamPtr(ltype: Int) : Any
-    external fun getHashPtr(htype: Int) : Any
-    external fun getHashIndexPtr(htype: Int) : Any
-    external fun getPoMD2Ptr() : Any
+    external fun initUctMD2(firstLineNum: Int, indices: IntArray, src: DoubleArray)
+    external fun initUctLargePattern(htype: Int, firstLineNum: Int, indices: IntArray, hashs: ByteArray, src: DoubleArray)
+    external fun getPat3Ptr() : Any
 
     fun setupAssetParams(assetManager: AssetManager)
     {
-        val paramReader = RayParamReader(assetManager)
-        val uct_prefix = "ray_params/uct_params/"
-
-        for(item in listOf("KoExist.txt", "Pass.txt", "CaptureFeature.txt", "SaveExtensionFeature.txt",
-            "AtariFeature.txt","ExtensionFeature.txt", "DameFeature.txt", "ConnectionFeature.txt",
-            "ThrowInFeature.txt",
-            "PosID.txt",
-            "MoveDistance1.txt",
-            "MoveDistance2.txt",
-            "MoveDistance3.txt",
-            "MoveDistance4.txt",
-            )) {
-            paramReader.readParamInto("${uct_prefix}${item}")
-        }
-        // println(paramReader.result.size)
-        initUctParams(paramReader.result)
-
+        val setup = RayParamSetup(assetManager, this)
+        setup.setupUctSmallParams()
+        setup.setupUctPat3()
+        setup.setupUctMD2Bin()
+        setup.setupUctLargePatterns()
+        // debPrint()
     }
 
 }
