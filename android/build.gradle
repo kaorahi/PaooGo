@@ -6,6 +6,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'com.trevjonez.composer'
+
 composer {
     apkInstallTimeout 600
 }
@@ -93,6 +94,9 @@ android {
     testOptions {
         animationsDisabled = true
         unitTests.returnDefaultValues = true
+    }
+    aaptOptions {
+        noCompress 'bin'
     }
 
     buildTypes {
