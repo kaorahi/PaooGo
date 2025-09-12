@@ -21,6 +21,15 @@ class RayNative {
     external fun initSimPat3(firstLineNum: Int, src: FloatArray)
     external fun finishInitSimMD2()
 
+    // gtp like
+    external fun initGame()
+    external fun setKomi(komi: Float)
+    external fun clearBoard()
+    external fun setBoardSize(komi: Int)
+    external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
+    external fun genMoveInternal(isBlack: Boolean) : Int
+    external fun doPass()
+
     fun setupAssetParams(assetManager: AssetManager)
     {
         val setup = RayParamSetup(assetManager, this)
