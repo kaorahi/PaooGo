@@ -16,6 +16,10 @@ class RayNative {
     external fun initUctMD2(firstLineNum: Int, indices: IntArray, src: DoubleArray)
     external fun initUctLargePattern(htype: Int, firstLineNum: Int, indices: IntArray, hashs: ByteArray, src: DoubleArray)
     external fun getPat3Ptr() : Any
+    external fun initSimFeatureParameters(src: FloatArray)
+    external fun initSimMD2(firstLineNum: Int, indices: IntArray, src: FloatArray)
+    external fun initSimPat3(firstLineNum: Int, src: FloatArray)
+    external fun finishInitSimMD2()
 
     fun setupAssetParams(assetManager: AssetManager)
     {
@@ -24,6 +28,9 @@ class RayNative {
         setup.setupUctPat3()
         setup.setupUctMD2Bin()
         setup.setupUctLargePatterns()
+        setup.setupSimSmallParams()
+        setup.setupSimPat3Bin()
+        setup.setupSimMD2Bin()
         // debPrint()
     }
 

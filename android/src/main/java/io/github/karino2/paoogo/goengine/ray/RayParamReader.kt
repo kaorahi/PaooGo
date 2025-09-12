@@ -64,6 +64,7 @@ class DoubleArrayBuilder {
     }
 }
 
+
 class RayParamReader(val assetManager: AssetManager) {
     val builder = DoubleArrayBuilder()
 
@@ -314,4 +315,78 @@ class RayParamSetup(val assetManager: AssetManager, val rayNative: RayNative) {
         istream.close()
     }
 
+    fun setupSimSmallParams() {
+        val sim_prefix = "ray_params/sim_params/"
+
+        val builder = mutableListOf<Float>()
+        for(item in listOf( "PreviousDistance.txt",
+            "CaptureFeature.txt",
+            "SaveExtensionFeature.txt",
+            "AtariFeature.txt",
+            "ExtensionFeature.txt",
+            "DameFeature.txt",
+            "ThrowInFeature.txt",
+        )) {
+            val reader = paramReader.openReader("${sim_prefix}${item}")
+            reader.readLines()
+                .map { it.toFloat() }
+                .let { builder.addAll(it) }
+            reader.close()
+        }
+        // println(paramReader.result.size)
+        rayNative.initSimFeatureParameters(builder.toFloatArray())
+    }
+
+    fun setupSimPat3Bin() {
+        val path = "ray_params/sim_params/Pat3.bin"
+
+        val BUCKET_SIZE = 64*1024
+
+        val istream = BufferedInputStream(assetManager.open(path))
+        val oneElemSize = 4
+        istream.readChunks(oneElemSize)
+            .map { (len, buf)->
+                assert(len == oneElemSize)
+                val bb = ByteBuffer.wrap(buf).order(ByteOrder.LITTLE_ENDIAN)
+                bb.float
+            }
+            .chunked(BUCKET_SIZE)
+            .forEachIndexed{ cindex, chunk->
+                rayNative.initSimPat3(cindex*BUCKET_SIZE, chunk.toFloatArray())
+            }
+        istream.close()
+    }
+
+    fun setupSimMD2Bin() {
+        val path = "ray_params/sim_params/MD2.bin"
+
+        val BUCKET_SIZE = 64*1024
+        val iarr = IntArray(BUCKET_SIZE)
+        val farr = FloatArray(BUCKET_SIZE)
+
+        val istream = BufferedInputStream(assetManager.open(path))
+        val oneElemSize = 4+4
+        istream.readChunks(oneElemSize)
+            .map { (len, buf)->
+                assert(len == oneElemSize)
+                val bb = ByteBuffer.wrap(buf).order(ByteOrder.LITTLE_ENDIAN)
+
+                val index = bb.int
+                val rate = bb.float
+
+
+                Pair(index, rate)
+            }
+            .chunked(BUCKET_SIZE)
+            .forEachIndexed{ cindex, chunk->
+                chunk.forEachIndexed {
+                        index, pair ->
+                    iarr[index] = pair.first
+                    farr[index] = pair.second
+                }
+                rayNative.initSimMD2(cindex*BUCKET_SIZE, iarr, farr)
+            }
+        istream.close()
+        rayNative.finishInitSimMD2()
+    }
 }
