@@ -3,6 +3,7 @@ package io.github.karino2.paoogo.goengine
 import android.content.res.AssetManager
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
+import io.github.karino2.paoogo.goengine.liberty.LibertyNative
 import io.github.karino2.paoogo.goengine.ray.RayNative
 
 interface GoEngine {
@@ -32,6 +33,12 @@ class EngineRepository(val assetManager: AssetManager) {
         }
     }
 
+    val libertyEngine by lazy {
+        LibertyNative().apply {
+            initNative()
+        }
+    }
+
     val rayEngine by lazy {
         RayNative().apply {
             initNative(Runtime.getRuntime().availableProcessors(), 1.0)
@@ -42,6 +49,7 @@ class EngineRepository(val assetManager: AssetManager) {
 
     fun getEngine(level: Int) : GoEngine {
         return when(level) {
+            2->libertyEngine
             3-> object: GoEngine {
                 override fun setKomi(komi: Float) {
                     gnugo2Engine.setKomi(komi)

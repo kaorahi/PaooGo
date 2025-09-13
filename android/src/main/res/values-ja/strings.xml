@@ -200,6 +200,7 @@
   <string name="game_start">対局開始</string>
   <string name="back_to_title">タイトルへ戻る</string>
   <string-array name="level_array">
+    <item>Lv2 ぱおりば</item>
     <item>Lv3 ぱおぬージュニア</item>
     <item>Lv4 ぱおレイ</item>
   </string-array>

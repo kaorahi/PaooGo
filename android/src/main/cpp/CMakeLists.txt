@@ -4,6 +4,7 @@ project(goengine CXX)
 
 add_subdirectory(gnugo-2.6)
 add_subdirectory(Ray)
+add_subdirectory(liberty)
 
 #add_library(
 #  goengine
