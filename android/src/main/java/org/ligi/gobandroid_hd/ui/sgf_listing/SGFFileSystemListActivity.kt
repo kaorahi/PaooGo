@@ -58,7 +58,8 @@ class SGFFileSystemListActivity : GobandroidFragmentActivity() {
         }
 
         if (sgfPathString.substring(sgfPathString.indexOf('/')).startsWith(env.reviewPath.absolutePath.substring(sgfPathString.indexOf('/')))) {
-            interactionScope.mode = REVIEW
+            // TODO: Remove this activity entirely
+            // interactionScope.mode = REVIEW
         }
 
 
@@ -80,11 +81,15 @@ class SGFFileSystemListActivity : GobandroidFragmentActivity() {
     private fun setActionbarProperties(dir: File) {
         when (interactionScope.mode) {
             TSUMEGO -> setTitle(R.string.load_tsumego)
+            /*
             REVIEW -> setTitle(R.string.load_game)
+
+             */
             else -> {
                 // we can only show stuff for tsumego and review - if in doubt -
                 // trade as review
-                interactionScope.mode = REVIEW
+                // TODO: Remove this activity entierly.
+                // interactionScope.mode = REVIEW
                 setTitle(R.string.load_game)
             }
         }
@@ -101,9 +106,13 @@ class SGFFileSystemListActivity : GobandroidFragmentActivity() {
             menuInflater.inflate(R.menu.refresh_tsumego, menu)
         }
 
+        /*
+        TODO: Remove this activity entirely
         if (interactionScope.mode === REVIEW) {
             menuInflater.inflate(R.menu.review_menu, menu)
         }
+
+         */
 
         return super.onCreateOptionsMenu(menu)
     }

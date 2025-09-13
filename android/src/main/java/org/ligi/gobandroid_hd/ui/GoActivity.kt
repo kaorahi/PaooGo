@@ -64,7 +64,6 @@ import org.ligi.gobandroid_hd.ui.alerts.GameInfoDialog
 import org.ligi.gobandroid_hd.ui.application.GobandroidFragmentActivity
 import org.ligi.gobandroid_hd.ui.fragments.DefaultGameExtrasFragment
 import org.ligi.gobandroid_hd.ui.recording.SaveSGFDialog
-import org.ligi.gobandroid_hd.ui.review.BookmarkDialog
 import org.ligi.gobandroid_hd.ui.scoring.GameScoringActivity
 import org.ligi.gobandroid_hd.ui.share.ShareSGFDialog
 import org.ligi.kaxt.disableRotation
@@ -262,11 +261,6 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
 
             R.id.menu_write_sgf -> {
                 prepareSaveWithPermissionCheck()
-                return true
-            }
-
-            R.id.menu_bookmark -> {
-                BookmarkDialog(this).show()
                 return true
             }
 

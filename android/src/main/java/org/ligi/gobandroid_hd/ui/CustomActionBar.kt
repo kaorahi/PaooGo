@@ -18,10 +18,7 @@ import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.InteractionScope
 import org.ligi.gobandroid_hd.InteractionScope.Mode.COUNT
 import org.ligi.gobandroid_hd.InteractionScope.Mode.EDIT
-import org.ligi.gobandroid_hd.InteractionScope.Mode.GNUGO
-import org.ligi.gobandroid_hd.InteractionScope.Mode.GNUGO2
 import org.ligi.gobandroid_hd.InteractionScope.Mode.RECORD
-import org.ligi.gobandroid_hd.InteractionScope.Mode.REVIEW
 import org.ligi.gobandroid_hd.InteractionScope.Mode.SETUP
 import org.ligi.gobandroid_hd.InteractionScope.Mode.TSUMEGO
 import org.ligi.gobandroid_hd.R
@@ -29,7 +26,6 @@ import org.ligi.gobandroid_hd.databinding.DropdownItemBinding
 import org.ligi.gobandroid_hd.databinding.TopNavAndExtrasBinding
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.model.GameProvider
-import org.ligi.gobandroid_hd.ui.gnugo.GnuGoHelper
 import org.ligi.gobandroid_hd.ui.ingame_common.SwitchModeHelper
 import timber.log.Timber
 
@@ -87,18 +83,6 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
         addItem(container, icon_res, string_res, Runnable {
             pop.dismiss()
 
-            if (mode === GNUGO && !GnuGoHelper.isGnuGoAvail(activity)) {
-                AlertDialog.Builder(activity).setTitle(R.string.install_gnugo)
-                        .setMessage(R.string.gnugo_not_installed)
-                        .setPositiveButton(android.R.string.ok) { _, _ ->
-                            val intent = Intent(Intent.ACTION_VIEW)
-                            intent.data = Uri.parse("market://details?id=org.ligi.gobandroidhd.ai.gnugo")
-                            val chooser = Intent.createChooser(intent, null)
-                            activity.startActivity(chooser)
-                        }
-                        .setNegativeButton(android.R.string.cancel, null).show()
-                return@Runnable
-            }
             activity.finish()
             Timber.i("set mode" + mode)
             interactionScope.mode = mode
@@ -124,8 +108,11 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
         addModeItem(contentView, EDIT, R.string.edit, R.drawable.ic_editor_mode_edit, pop)
 
         val actMove = gameProvider.get().actMove
+        /*
+        TODO: support this in the future.
         if (actMove.hasNextMove() || actMove.parent != null)
             addModeItem(contentView, REVIEW, R.string.review, R.drawable.ic_maps_local_movies, pop)
+         */
 
         if (actMove.movePos > 0) {
             // these modes only make sense if there is minimum one
@@ -135,11 +122,6 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
         if (actMove.hasNextMove()) {
             addModeItem(contentView, TSUMEGO, R.string.tsumego, R.drawable.ic_action_extension, pop)
         }
-
-        if (isPlayStoreInstalled() || GnuGoHelper.isGnuGoAvail(activity)) {
-            addModeItem(contentView, GNUGO, R.string.gnugo, R.drawable.ic_hardware_computer, pop)
-        }
-        addModeItem(contentView, GNUGO2, R.string.gnugo2, R.drawable.ic_hardware_computer, pop)
 
         scrollView.addView(contentView)
         pop.setContentView(scrollView)

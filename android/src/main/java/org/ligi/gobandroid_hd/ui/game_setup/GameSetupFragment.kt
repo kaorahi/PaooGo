@@ -112,9 +112,6 @@ class GameSetupFragment : GobandroidFragment(), OnSeekBarChangeListener {
 
         if (act_lineWidth != binding.lineWidthSeek.progress) binding.lineWidthSeek.progress = act_lineWidth
 
-        if (interactionScope.mode === InteractionScope.Mode.GNUGO)
-            binding.sizeSeek.max = 19 - size_offset
-
         GoPrefs.bulk {
             lastBoardSize = act_size
             lastHandicap = act_handicap

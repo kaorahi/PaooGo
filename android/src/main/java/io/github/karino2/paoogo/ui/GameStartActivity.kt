@@ -14,19 +14,14 @@ import androidx.core.view.WindowInsetsCompat
 import com.chibatching.kotpref.bulk
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.lazy
-import io.github.karino2.paoogo.goengine.ray.RayNative
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.App
-import org.ligi.gobandroid_hd.InteractionScope.Mode.GNUGO2
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
-import org.ligi.gobandroid_hd.ui.GoPrefs.lastBoardSize
-import org.ligi.gobandroid_hd.ui.recording.GameRecordActivity
 import org.ligi.gobandroid_hd.ui.vs_engine.PlayAgainstEngineActivity
-import java.util.zip.ZipInputStream
 import kotlin.getValue
 
 class GameStartActivity : AppCompatActivity() {

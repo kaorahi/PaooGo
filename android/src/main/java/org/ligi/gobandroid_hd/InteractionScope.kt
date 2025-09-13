@@ -10,8 +10,6 @@ class InteractionScope {
         TSUMEGO,
         REVIEW,
         RECORD,
-        GNUGO,
-        GNUGO2,
         EDIT,
         COUNT,
         SETUP;
@@ -23,8 +21,6 @@ class InteractionScope {
                 REVIEW -> R.string.review
                 RECORD -> R.string.play
                 COUNT -> R.string.count
-                GNUGO -> R.string.gnugo
-                GNUGO2 -> R.string.gnugo2
                 EDIT -> R.string.edit
                 SETUP -> R.string.setup
                 else -> R.string.empty_str
