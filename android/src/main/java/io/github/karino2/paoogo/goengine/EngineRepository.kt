@@ -49,73 +49,9 @@ class EngineRepository(val assetManager: AssetManager) {
 
     fun getEngine(level: Int) : GoEngine {
         return when(level) {
-            2->libertyEngine
-            3-> object: GoEngine {
-                override fun setKomi(komi: Float) {
-                    gnugo2Engine.setKomi(komi)
-                }
-
-                override fun clearBoard() {
-                    gnugo2Engine.clearBoard()
-                }
-
-                override fun setBoardSize(size: Int) {
-                    gnugo2Engine.setBoardSize(size)
-                }
-
-                override fun doMove(
-                    x: Int,
-                    y: Int,
-                    isBlack: Boolean
-                ): Boolean {
-                    return gnugo2Engine.doMove(x, y, isBlack)
-                }
-
-                override fun doPass(isBlack: Boolean) {
-                    gnugo2Engine.doPass(isBlack)
-                }
-
-                override fun genMoveInternal(isBlack: Boolean): Int {
-                    return gnugo2Engine.genMoveInternal(isBlack)
-                }
-
-                override fun debugInfo(): String? {
-                    return gnugo2Engine.debugInfo()
-                }
-            }
-            else -> object: GoEngine {
-                override fun setKomi(komi: Float) {
-                    rayEngine.setKomi(komi)
-                }
-
-                override fun clearBoard() {
-                    rayEngine.clearBoard()
-                }
-
-                override fun setBoardSize(size: Int) {
-                    rayEngine.setBoardSize(size)
-                }
-
-                override fun doMove(
-                    x: Int,
-                    y: Int,
-                    isBlack: Boolean
-                ): Boolean {
-                    return rayEngine.doMove(x, y, isBlack)
-                }
-
-                override fun doPass(isBlack: Boolean) {
-                    rayEngine.doPass(isBlack)
-                }
-
-                override fun genMoveInternal(isBlack: Boolean): Int {
-                    return rayEngine.genMoveInternal(isBlack)
-                }
-
-                override fun debugInfo(): String? {
-                    return null
-                }
-            }
+            2-> libertyEngine
+            3-> gnugo2Engine
+            else -> rayEngine
         }
     }
 }

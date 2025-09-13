@@ -1,10 +1,9 @@
 package io.github.karino2.paoogo.goengine.ray
 
 import android.content.res.AssetManager
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
+import io.github.karino2.paoogo.goengine.GoEngine
 
-class RayNative {
+class RayNative : GoEngine {
     companion object {
         init{
             System.loadLibrary("ray")
@@ -23,12 +22,16 @@ class RayNative {
 
     // gtp like
     external fun initGame()
-    external fun setKomi(komi: Float)
-    external fun clearBoard()
-    external fun setBoardSize(komi: Int)
-    external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
-    external fun genMoveInternal(isBlack: Boolean) : Int
-    external fun doPass(isBlack: Boolean)
+    override external fun setKomi(komi: Float)
+    override external fun clearBoard()
+    override external fun setBoardSize(komi: Int)
+    override external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
+    override external fun genMoveInternal(isBlack: Boolean) : Int
+    override fun debugInfo(): String? {
+        return null
+    }
+
+    override external fun doPass(isBlack: Boolean)
 
     fun setupAssetParams(assetManager: AssetManager)
     {
