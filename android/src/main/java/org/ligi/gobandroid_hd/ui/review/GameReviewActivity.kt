@@ -38,8 +38,7 @@ class GameReviewActivity : GoActivity() {
                 }
 
                 KeyEvent.KEYCODE_MEDIA_PLAY -> {
-                    SwitchModeHelper.startGame(this, InteractionScope.Mode.TELEVIZE)
-                    return true
+                    return false
                 }
 
 

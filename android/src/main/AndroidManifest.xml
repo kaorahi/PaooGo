@@ -52,22 +52,6 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".ui.GobanDroidTVActivity"
-            android:exported="true"
-            android:icon="@drawable/gobandroid_tv"
-            android:label="Gobandroid TV"
-            android:launchMode="singleTask">
-        </activity>
-        <activity
-            android:name=".ui.GobanDroidTVActivityNOIF"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="org.ligi.gobandroid.NOIF" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".ui.go_terminology.GoTerminologyViewActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,7 +71,6 @@
         <activity android:name=".ui.gnugo.PlayAgainstGnuGoActivity" />
         <activity android:name=".ui.vs_engine.PlayAgainstEngineActivity" />
         <activity android:name=".ui.BaseProfileActivity" />
-        <activity android:name=".ui.review.GoGamePlayerActivity" />
         <activity android:name=".ui.editing.EditGameActivity" />
         <activity android:name=".ui.sgf_listing.SGFFileSystemListActivity" />
         <activity android:name=".ui.links.LinksActivity" />

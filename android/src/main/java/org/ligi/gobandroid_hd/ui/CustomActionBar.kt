@@ -23,7 +23,6 @@ import org.ligi.gobandroid_hd.InteractionScope.Mode.GNUGO2
 import org.ligi.gobandroid_hd.InteractionScope.Mode.RECORD
 import org.ligi.gobandroid_hd.InteractionScope.Mode.REVIEW
 import org.ligi.gobandroid_hd.InteractionScope.Mode.SETUP
-import org.ligi.gobandroid_hd.InteractionScope.Mode.TELEVIZE
 import org.ligi.gobandroid_hd.InteractionScope.Mode.TSUMEGO
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.databinding.DropdownItemBinding
@@ -135,7 +134,6 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
 
         if (actMove.hasNextMove()) {
             addModeItem(contentView, TSUMEGO, R.string.tsumego, R.drawable.ic_action_extension, pop)
-            addModeItem(contentView, TELEVIZE, R.string.televize, R.drawable.ic_notification_live_tv, pop)
         }
 
         if (isPlayStoreInstalled() || GnuGoHelper.isGnuGoAvail(activity)) {

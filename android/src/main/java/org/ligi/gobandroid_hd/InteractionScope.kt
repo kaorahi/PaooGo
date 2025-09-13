@@ -12,7 +12,6 @@ class InteractionScope {
         RECORD,
         GNUGO,
         GNUGO2,
-        TELEVIZE,
         EDIT,
         COUNT,
         SETUP;
@@ -23,7 +22,6 @@ class InteractionScope {
                 TSUMEGO -> R.string.tsumego
                 REVIEW -> R.string.review
                 RECORD -> R.string.play
-                TELEVIZE -> R.string.go_tv
                 COUNT -> R.string.count
                 GNUGO -> R.string.gnugo
                 GNUGO2 -> R.string.gnugo2

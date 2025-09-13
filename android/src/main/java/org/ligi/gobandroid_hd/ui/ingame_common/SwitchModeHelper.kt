@@ -10,7 +10,6 @@ import org.ligi.gobandroid_hd.ui.game_setup.GoSetupActivity
 import org.ligi.gobandroid_hd.ui.gnugo.PlayAgainstGnuGoActivity
 import org.ligi.gobandroid_hd.ui.recording.GameRecordActivity
 import org.ligi.gobandroid_hd.ui.review.GameReviewActivity
-import org.ligi.gobandroid_hd.ui.review.GoGamePlayerActivity
 import org.ligi.gobandroid_hd.ui.scoring.GameScoringActivity
 import org.ligi.gobandroid_hd.ui.tsumego.TsumegoActivity
 import org.ligi.gobandroid_hd.ui.vs_engine.PlayAgainstEngineActivity
@@ -27,8 +26,6 @@ object SwitchModeHelper {
             REVIEW -> return Intent(ctx, GameReviewActivity::class.java)
 
             TSUMEGO -> return Intent(ctx, TsumegoActivity::class.java)
-
-            TELEVIZE -> return Intent(ctx, GoGamePlayerActivity::class.java)
 
             COUNT -> return Intent(ctx, GameScoringActivity::class.java)
 
