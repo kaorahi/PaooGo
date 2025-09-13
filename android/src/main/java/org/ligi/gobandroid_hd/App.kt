@@ -10,7 +10,6 @@ import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.application.GoAndroidEnvironment
 import org.ligi.gobandroid_hd.ui.application.GobandroidSettingsTransition
-import org.ligi.gobandroid_hd.util.TsumegoCleaner
 import org.ligi.tracedroid.TraceDroid
 
 /**
@@ -30,8 +29,6 @@ open class App : Application() {
         }
 
         GobandroidSettingsTransition(this).transition()
-
-        TsumegoCleaner(env).clean()
 
         TraceDroid.init(this)
 
