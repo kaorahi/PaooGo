@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.accessibility.AccessibilityEvent.INVALID_POSITION
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
@@ -37,9 +38,16 @@ class GameStartActivity : AppCompatActivity() {
             insets
         }
 
+
+
         val levelAdapter = ArrayAdapter.createFromResource(this, R.array.level_array, android.R.layout.simple_spinner_item)
         levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         levelSpinner.adapter = levelAdapter
+
+        with(GoPrefs) {
+            if(lastBoardSize == 13) findViewById<RadioButton>(R.id.board_size_13).isChecked = true
+            if(engineLevel != 2) levelSpinner.setSelection(engineLevel - 2)
+        }
 
         findViewById<Button>(R.id.start_button).setOnClickListener {
             val boardSize = if(findViewById<RadioGroup>(R.id.board_size_group).checkedRadioButtonId == R.id.board_size_9) 9 else 13
