@@ -42,7 +42,7 @@ class EngineRepository(val assetManager: AssetManager) {
 
     fun getEngine(level: Int) : GoEngine {
         return when(level) {
-            1-> object: GoEngine {
+            3-> object: GoEngine {
                 override fun setKomi(komi: Float) {
                     gnugo2Engine.setKomi(komi)
                 }
