@@ -117,9 +117,6 @@ dependencies {
 
     implementation 'com.github.ligi.snackengage:snackengage-playrate:0.27'
     implementation 'com.github.ligi:ExtraCompats:1.0'
-    implementation 'jchardet:jchardet:1.1.0'
-    implementation 'com.squareup.okhttp3:okhttp:5.1.0'
-    implementation 'com.n3twork.druid:alphanum:1.0.3'
     implementation 'androidx.annotation:annotation:1.9.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
