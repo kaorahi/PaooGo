@@ -6,23 +6,16 @@ import org.ligi.gobandroid_hd.logic.Cell
 class InteractionScope {
 
     enum class Mode {
-        RECODRD,
-        TSUMEGO,
-        REVIEW,
         RECORD,
         EDIT,
-        COUNT,
-        SETUP;
+        COUNT;
 
         @StringRes
         fun getStringRes(): Int {
             return when (this) {
-                TSUMEGO -> R.string.tsumego
-                REVIEW -> R.string.review
                 RECORD -> R.string.play
                 COUNT -> R.string.count
                 EDIT -> R.string.edit
-                SETUP -> R.string.setup
                 else -> R.string.empty_str
             }
         }
@@ -30,8 +23,7 @@ class InteractionScope {
 
 
     var touchCell: Cell? = null
-    var mode = Mode.SETUP
-    var is_in_noif_mode = false
+    var mode = Mode.RECORD
 
     var ask_variant_session = true
 

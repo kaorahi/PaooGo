@@ -19,8 +19,6 @@ import org.ligi.gobandroid_hd.InteractionScope
 import org.ligi.gobandroid_hd.InteractionScope.Mode.COUNT
 import org.ligi.gobandroid_hd.InteractionScope.Mode.EDIT
 import org.ligi.gobandroid_hd.InteractionScope.Mode.RECORD
-import org.ligi.gobandroid_hd.InteractionScope.Mode.SETUP
-import org.ligi.gobandroid_hd.InteractionScope.Mode.TSUMEGO
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.databinding.DropdownItemBinding
 import org.ligi.gobandroid_hd.databinding.TopNavAndExtrasBinding
@@ -101,8 +99,6 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
         val background = BitmapDrawableNoMinimumSize(ctx.resources, R.drawable.wood_bg)
         contentView.background = background
 
-        addModeItem(contentView, SETUP, R.string.setup, R.drawable.ic_action_settings_overscan, pop)
-
         addModeItem(contentView, RECORD, R.string.play, R.drawable.ic_social_people, pop)
 
         addModeItem(contentView, EDIT, R.string.edit, R.drawable.ic_editor_mode_edit, pop)
@@ -117,10 +113,6 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
         if (actMove.movePos > 0) {
             // these modes only make sense if there is minimum one
             addModeItem(contentView, COUNT, R.string.count, R.drawable.ic_editor_pie_chart, pop)
-        }
-
-        if (actMove.hasNextMove()) {
-            addModeItem(contentView, TSUMEGO, R.string.tsumego, R.drawable.ic_action_extension, pop)
         }
 
         scrollView.addView(contentView)

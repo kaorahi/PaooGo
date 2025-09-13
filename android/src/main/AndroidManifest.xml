@@ -47,53 +47,10 @@
             android:name="com.sec.android.app.multiwindow"
             android:required="false" />
 
-        <activity
-            android:name=".ui.game_setup.GoSetupActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".ui.go_terminology.GoTerminologyViewActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:exported="true"
-            android:theme="@style/TransparentTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="org.ligi.gobandroid_hd.goterms"
-                    android:scheme="goterm" />
-            </intent-filter>
-        </activity>
         <activity android:name=".ui.gnugo.PlayAgainstGnuGoActivity" />
         <activity android:name=".ui.vs_engine.PlayAgainstEngineActivity" />
         <activity android:name=".ui.BaseProfileActivity" />
         <activity android:name=".ui.editing.EditGameActivity" />
-        <activity android:name=".ui.sgf_listing.SGFFileSystemListActivity" />
-        <activity android:name=".ui.links.LinksActivity" />
-        <activity
-            android:name=".ui.tsumego.TsumegoActivity"
-            android:exported="true"
-            android:launchMode="singleInstance" />
-        <activity android:name=".ui.SGFLoadActivity" />
-        <activity
-            android:name=".ui.GoLinkLoadActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="*"
-                    android:pathPattern=".*\\.golink"
-                    android:scheme="file" />
-            </intent-filter>
-        </activity>
         <activity android:name=".ui.recording.GameRecordActivity" />
         <activity android:name=".ui.scoring.GameScoringActivity" />
         <activity android:name=".ui.GoPrefsActivity" />
