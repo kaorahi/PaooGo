@@ -21,21 +21,18 @@ object NextTsumegoFileFinder {
         val file = File(fileName)
 
         if (!file.exists()) {
-            App.tracker.trackException("file given to calcNextTsumego is null", false)
             return null
         }
 
         val dir = file.parentFile
 
         if (dir == null || !dir.isDirectory) {
-            App.tracker.trackException("file given to calcNextTsumego has no valid parent", false)
             return null
         }
 
         val fileNames = dir.list(SGFFileNameFilter())
 
         if (fileNames == null || fileNames.size == 0) {
-            App.tracker.trackException("file given to calcNextTsumego has empty parent", false)
             return null
         }
 

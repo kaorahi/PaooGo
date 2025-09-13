@@ -49,7 +49,6 @@ class LinksActivity : GobandroidFragmentActivity() {
         }
 
         override fun getItem(i: Int): Fragment {
-            App.tracker.trackEvent("ui_action", "links", items[i].tag, null)
             return items[i].fragmentGetter()
         }
 

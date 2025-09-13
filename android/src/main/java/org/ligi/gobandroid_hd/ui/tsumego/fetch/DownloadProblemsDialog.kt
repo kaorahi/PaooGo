@@ -10,8 +10,6 @@ import org.ligi.gobandroid_hd.ui.alerts.ProgressDialog
 class DownloadProblemsDialog(context: Activity, refreshable: Refreshable?) : ProgressDialog(context) {
 
     init {
-        App.tracker.trackEvent("ui_action", "tsumego", "refresh", null);
-
         setIconResource(R.drawable.ic_navigation_refresh)
         setTitle(R.string.please_stay_patient)
         binding.progressBar.isIndeterminate = true

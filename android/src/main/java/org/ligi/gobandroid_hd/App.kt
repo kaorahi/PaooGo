@@ -8,8 +8,6 @@ import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.singleton
 import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
-import org.ligi.gobandroid_hd.ui.GobandroidTracker
-import org.ligi.gobandroid_hd.ui.GobandroidTrackerResolver
 import org.ligi.gobandroid_hd.ui.application.GoAndroidEnvironment
 import org.ligi.gobandroid_hd.ui.application.GobandroidSettingsTransition
 import org.ligi.gobandroid_hd.util.TsumegoCleaner
@@ -35,11 +33,7 @@ open class App : Application() {
 
         TsumegoCleaner(env).clean()
 
-        tracker.init(this)
-
         TraceDroid.init(this)
-
-        CloudHooks.onApplicationCreation(this)
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         AppCompatDelegate.setDefaultNightMode(GoPrefs.getThemeInt())
@@ -51,9 +45,5 @@ open class App : Application() {
 
         lateinit var kodein: Kodein
         lateinit var env: GoAndroidEnvironment
-
-        val tracker: GobandroidTracker
-            get() = GobandroidTrackerResolver.getTracker()
-
     }
 }

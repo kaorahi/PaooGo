@@ -22,28 +22,6 @@ repositories {
 
 android {
     namespace "org.ligi.gobandroid_hd"
-    flavorDimensions "analytics", "cloud", "autostart"
-
-    productFlavors {
-        withAnalytics {
-            dimension "analytics"
-        }
-        noAnalytics {
-            dimension "analytics"
-        }
-        withCloud {
-            dimension "cloud"
-        }
-        noCloud {
-            dimension "cloud"
-        }
-        withAutostart {
-            dimension "autostart"
-        }
-        noAutostart {
-            dimension "autostart"
-        }
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -54,16 +32,6 @@ android {
         kotlinOptions {
             jvmTarget = "1.8"
         }
-    }
-
-    android.variantFilter { variant ->
-        def analytics = variant.getFlavors().get(0).name
-        def cloud = variant.getFlavors().get(1).name
-
-        variant.setIgnore((project.hasProperty("singleFlavor") && (analytics != 'withAnalytics') && (cloud != 'withCloud')) ||
-                (analytics == 'withAnalytics' && cloud == 'noCloud') ||
-                (analytics == 'noAnalytics' && cloud == 'withCloud'))
-
     }
 
     externalNativeBuild {
@@ -104,6 +72,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            signingConfig signingConfigs.debug
         }
 
         debug {
@@ -155,13 +124,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
     implementation "com.chibatching.kotpref:initializer:$kotpref_version"
-    withAnalyticsImplementation "com.google.android.gms:play-services-analytics:18.1.1"
-    withCloudImplementation "com.google.android.gms:play-services-games:23.2.0"
-    withCloudImplementation "com.google.android.gms:play-services-plus:17.0.0"
-    withCloudImplementation "com.google.android.gms:play-services-gcm:17.0.0"
-    withCloudImplementation('com.google.apis:google-api-services-games:v1-rev20250320-2.0.0') {
-        exclude module: 'jsr305'
-    }
     androidTestImplementation 'androidx.test:runner:1.7.0'
     androidTestImplementation 'androidx.test:rules:1.7.0'
     androidTestImplementation 'org.hamcrest:hamcrest-library:3.0'

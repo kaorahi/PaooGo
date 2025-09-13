@@ -48,8 +48,6 @@ class PlayAgainstGnuGoActivity : GoActivity(), Runnable {
         // getBoard().requestFocus(); - but that was not working ..
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
-        App.tracker.trackEvent("ui_action", "gnugo", "play", null)
-
         dlg = GnuGoSetupDialog(this)
 
         dlg.setPositiveButton(R.string.ok) { dialog ->

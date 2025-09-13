@@ -31,8 +31,6 @@ open class GobanDroidTVActivity : GobandroidFragmentActivity() {
 
         supportActionBar!!.setLogo(R.drawable.gobandroid_tv)
 
-        App.tracker.init(this)
-
         checkStorageWithPermissionCheck()
     }
 
@@ -40,7 +38,6 @@ open class GobanDroidTVActivity : GobandroidFragmentActivity() {
     fun checkStorage(){
         if (path_to_play_from.listFiles() == null) {
             setContentView(R.layout.empty)
-            App.tracker.trackEvent("intern", "unzip", "gtv", null)
             UnzipSGFsDialog(this, intent2start, env).show()
         } else {
             startTV()
@@ -68,8 +65,6 @@ open class GobanDroidTVActivity : GobandroidFragmentActivity() {
         } else {
 
             val chosen = avail_file_list[(Math.random() * avail_file_list.size).toInt()]
-
-            App.tracker.trackEvent("gtv", "start_play_file", chosen.absolutePath, null)
 
             start_review_intent.data = Uri.parse("file://" + chosen)
 
