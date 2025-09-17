@@ -14,6 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import io.github.karino2.paoogo.goengine.EngineRepository
+import io.github.karino2.paoogo.goengine.GoAnalyzer
+import io.github.karino2.paoogo.goengine.GoConfig
 import io.github.karino2.paoogo.goengine.GoEngine
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.ui.GameStartActivity
@@ -22,9 +24,11 @@ import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.events.OptionsItemClickedEvent
 import org.ligi.gobandroid_hd.logic.Cell
+import org.ligi.gobandroid_hd.logic.CellImpl
 import org.ligi.gobandroid_hd.logic.GoDefinitions
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.logic.GoMove
+import org.ligi.gobandroid_hd.logic.Hint
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import timber.log.Timber
@@ -38,6 +42,13 @@ class PlayAgainstEngineActivity : GoActivity() {
     private lateinit var engine : GoEngine
 
     private val engineRepository by lazy { EngineRepository(assets) }
+    private val analyzer by lazy {
+        engineRepository.getAnalyzer().apply {
+            setKomi(game.komi)
+            setBoardSize(game.boardSize)
+            clearBoard()
+        }
+    }
 
     private var running = false
     private var syncing = false;
@@ -87,12 +98,18 @@ class PlayAgainstEngineActivity : GoActivity() {
         engine.clearBoard()
     }
 
+    private fun syncAnalyzer() : GoAnalyzer {
+        syncConfig(analyzer)
+        return analyzer
+    }
+
     public override fun doMoveWithUIFeedback(cell: Cell?): GoGame.MoveStatus {
         if (cell != null) {
             if (engineGoGame.aiIsThinking) {
                 Toast.makeText(this, R.string.ai_is_thinking, Toast.LENGTH_SHORT).show()
                 return GoGame.MoveStatus.VALID
             }
+            game.visualBoard.clearHint()
             manualMove(cell)
         }
 
@@ -108,6 +125,7 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     private fun genMove() {
         engineGoGame.aiIsThinking = true
+        game.visualBoard.clearHint()
         val move = engine.genMove(game.isBlackToMove)
         if (move.pass) {
             game.pass()
@@ -122,7 +140,14 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     fun syncFromScratch() {
         Timber.w("sync start")
-        engine.clearBoard()
+        val config : GoConfig = engine
+
+        syncConfig(config)
+        syncing = false
+    }
+
+    private fun syncConfig(config: GoConfig) {
+        config.clearBoard()
         val replay_moves = ArrayList<GoMove>()
         replay_moves.add(game.actMove)
         var tmp_move: GoMove
@@ -140,13 +165,12 @@ class PlayAgainstEngineActivity : GoActivity() {
 
             if (tmp_move.isPassMove) {
                 Timber.w("sync: pass")
-                engine.doPass(tmp_move.isBlack)
+                config.doPass(tmp_move.isBlack)
             } else {
                 Timber.w("sync: doMove (%d, %d, %d, %b)", tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.player, tmp_move.isBlack)
-                engine.doMove(tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.isBlack)
+                config.doMove(tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.isBlack)
             }
         }
-        syncing = false
     }
 
     override fun requestUndo() {
@@ -203,6 +227,14 @@ class PlayAgainstEngineActivity : GoActivity() {
                 gameProvider.set(GoGame(game.size))
                 Intent(this, GameStartActivity::class.java).apply{ flags = Intent.FLAG_ACTIVITY_CLEAR_TOP  }.let { startActivity(it) }
                 return true
+            }
+            R.id.menu_game_hint -> {
+                syncAnalyzer()
+                val move = analyzer.hint(game.isBlackToMove, game)
+                val color = if(engineGoGame.playingBlack) GoDefinitions.STONE_WHITE else GoDefinitions.STONE_BLACK
+                game.visualBoard.setHint(move.x, move.y, color)
+                bus.post(GameChangedEvent)
+                return true;
             }
         }
         return super.onOptionsItemSelected(item)

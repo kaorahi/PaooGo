@@ -18,6 +18,8 @@
 
 package org.ligi.gobandroid_hd.logic;
 
+import androidx.annotation.NonNull;
+
 import timber.log.Timber;
 
 /**
@@ -55,14 +57,7 @@ public class GTPHelper {
 
         try {
 
-            final byte y = (byte) (game.getBoardSize() - (Byte.parseByte(gtp_str.substring(1))));
-            byte x = (byte) (gtp_str.charAt(0) - 'A');
-
-            if (x > 8) {
-                x--; // the I is missing ^^ - took me some time to find that out
-            }
-
-            final Cell boardCell = game.getCalcBoard().getCell(x, y);
+            final Cell boardCell = strToCell(gtp_str, game);
 
             game.do_move(boardCell); // internal here?
             return true;
@@ -74,6 +69,18 @@ public class GTPHelper {
         Timber.w("could not make sense of the GTP command: " + gtp_str);
         return false;
 
+    }
+
+    @NonNull
+    public static Cell strToCell(String gtp_str, GoGame game) {
+        final byte y = (byte) (game.getBoardSize() - (Byte.parseByte(gtp_str.substring(1))));
+        byte x = (byte) (gtp_str.charAt(0) - 'A');
+
+        if (x > 8) {
+            x--; // the I is missing ^^ - took me some time to find that out
+        }
+
+        return game.getCalcBoard().getCell(x, y);
     }
 
     public static String coordinates2gtpstr(final Cell cell, final int gameSize) {

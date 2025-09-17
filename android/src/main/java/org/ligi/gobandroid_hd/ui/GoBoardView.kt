@@ -280,6 +280,10 @@ open class GoBoardView : View {
                 canvas.drawBitmap(white_stone_bitmap!!, cell.x * stone_size, cell.y * stone_size, getStonePaintForCell(cell))
             } else if (board.isCellBlack(cell)) {
                 canvas.drawBitmap(black_stone_bitmap!!, cell.x * stone_size, cell.y * stone_size, getStonePaintForCell(cell))
+            } else if (board.isCellHintWhite(cell)) {
+                canvas.drawBitmap(white_stone_bitmap!!, cell.x * stone_size, cell.y * stone_size, opaque_paint)
+            } else if (board.isCellHintBlack(cell)) {
+                canvas.drawBitmap(black_stone_bitmap!!, cell.x * stone_size, cell.y * stone_size, opaque_paint)
             }
 
         }

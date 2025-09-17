@@ -293,6 +293,7 @@
     <string name="computer_level">Computer level</string>
     <string name="game_start">Game Start</string>
     <string name="back_to_title">Back to Title</string>
+    <string name="game_hint">Hint</string>
     <string-array name="level_array">
         <item>Lv2 Paolibe</item>
         <item>Lv3 Paognu Jr.</item>

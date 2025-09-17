@@ -5,24 +5,32 @@ import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
 import io.github.karino2.paoogo.goengine.liberty.LibertyNative
 import io.github.karino2.paoogo.goengine.ray.RayNative
+import org.ligi.gobandroid_hd.logic.GoGame
 
-interface GoEngine {
+interface GoConfig {
     fun setKomi(komi: Float)
     fun clearBoard()
     fun setBoardSize(size: Int)
     fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
     fun doPass(isBlack: Boolean)
+}
+
+interface GoEngine : GoConfig {
 
     fun genMoveInternal(isBlack: Boolean) : Int
     fun genMove(isBlack: Boolean) : MovePos {
         val move = genMoveInternal(isBlack)
         if (move == -1) {
-            return MovePos( 0, 0, true)
+            return MovePos.PASS
         }
         return MovePos(move and 0xff, move shr 16)
     }
 
     fun debugInfo(): String?
+}
+
+interface GoAnalyzer : GoConfig {
+    fun hint(isBlack: Boolean, game: GoGame) : MovePos
 }
 
 class EngineRepository(val assetManager: AssetManager) {
@@ -46,6 +54,8 @@ class EngineRepository(val assetManager: AssetManager) {
             initGame()
         }
     }
+
+    fun getAnalyzer() : GoAnalyzer { return rayEngine }
 
     fun getEngine(level: Int) : GoEngine {
         return when(level) {
