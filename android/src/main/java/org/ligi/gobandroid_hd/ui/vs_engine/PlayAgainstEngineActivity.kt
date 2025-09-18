@@ -231,9 +231,16 @@ class PlayAgainstEngineActivity : GoActivity() {
             R.id.menu_game_hint -> {
                 syncAnalyzer()
                 val move = analyzer.hint(game.isBlackToMove, game)
-                val color = if(engineGoGame.playingBlack) GoDefinitions.STONE_WHITE else GoDefinitions.STONE_BLACK
-                game.visualBoard.setHint(move.x, move.y, color)
-                bus.post(GameChangedEvent)
+                if (move.pass)
+                {
+                    bus.post(Message(getString(R.string.suggestion_pass)))
+                }
+                else
+                {
+                    val color = if(engineGoGame.playingBlack) GoDefinitions.STONE_WHITE else GoDefinitions.STONE_BLACK
+                    game.visualBoard.setHint(move.x, move.y, color)
+                    bus.post(GameChangedEvent)
+                }
                 return true;
             }
         }

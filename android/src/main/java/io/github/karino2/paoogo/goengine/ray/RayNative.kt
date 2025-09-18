@@ -53,13 +53,18 @@ class RayNative : GoEngine, GoAnalyzer {
     external fun analyze(msec: Int, isBlack: Boolean) : String
 
     override fun hint(isBlack: Boolean, game: GoGame): MovePos {
-        val res = analyze(2000, isBlack)
+        val res = analyze(3000, isBlack)
         // D6,5800,C6,D5,C5,C4,B4,C3,B3 E6,5569,D6,D5,C5,E5 D3,5482,C4,C3,B3 E5,5466,D5 G7,5446,G8,D6,C6 B4,5425,C5,C4 D5,5200,C4,C5 E4,5000 B3,4931,C4 C2,4705 F7,4382 E7,4264 D2,3548
-        // println(res)
+        println(res)
         if (res.isEmpty())
             return MovePos.PASS
-        val arr = res.split(",")
+        val arr = res.split("\n")
+            .filterNot { it.isEmpty() }
+            .last()
+            .split(",")
         if (arr.size <= 2)
+            return MovePos.PASS
+        if (arr[0].uppercase() == "PASS")
             return MovePos.PASS
 
         return MovePos.fromString(arr[0], game)

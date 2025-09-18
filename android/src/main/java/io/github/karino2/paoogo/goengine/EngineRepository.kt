@@ -49,7 +49,7 @@ class EngineRepository(val assetManager: AssetManager) {
 
     val rayEngine by lazy {
         RayNative().apply {
-            initNative(Runtime.getRuntime().availableProcessors(), 1.0)
+            initNative(Runtime.getRuntime().availableProcessors(), 3.0)
             setupAssetParams(assetManager)
             initGame()
         }
