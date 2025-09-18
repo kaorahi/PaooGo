@@ -195,24 +195,16 @@ class RayParamSetup(val assetManager: AssetManager, val rayNative: RayNative) {
 
 
     fun setupUctPat3() {
-        val TYPE_PAT3 = 0
-        // val TYPE_MD2 = 1
         val PAT3_MAX = 65536
 
-        val path = "ray_params/uct_params/Pat3.txt"
+        val path = "ray_params/uct_params/Pat3.bin"
 
-        val dBuffer = getPat3Buf()
-
-        val fmreader = paramReader.openFMPReader(path)
-
-        var count = 0
-        fmreader.readParamsSeq()
-            .forEach { fmp->
-                dBuffer.put( fmp.fparams)
-                count += 1
-            }
-
-        assert( count == PAT3_MAX )
+        val istream = BufferedInputStream(assetManager.open(path))
+        val buf = ByteArray(PAT3_MAX*FMParam.PARAM_DOUBLE_NUM*8)
+        val readLen = istream.read(buf, 0, buf.size)
+        istream.close()
+        assert(readLen == buf.size )
+        rayNative.initUctPat3(readLen, buf)
     }
 
     fun setupUctMD2Bin() {
@@ -247,12 +239,6 @@ class RayParamSetup(val assetManager: AssetManager, val rayNative: RayNative) {
                 rayNative.initUctMD2(cindex*BUCKET_SIZE, iarr, darr)
             }
         istream.close()
-    }
-
-    private fun getPat3Buf(): DoubleBuffer {
-        val patBuffer = rayNative.getPat3Ptr() as ByteBuffer
-        patBuffer.order(ByteOrder.nativeOrder())
-        return patBuffer.asDoubleBuffer()
     }
 
     fun setupUctLargePatterns() {

@@ -18,7 +18,7 @@ class RayNative : GoEngine, GoAnalyzer {
     external fun initUctParams(src: DoubleArray)
     external fun initUctMD2(firstLineNum: Int, indices: IntArray, src: DoubleArray)
     external fun initUctLargePatternBlock(htype: Int, firstLineNum: Int, blockSize: Int, block: ByteArray)
-    external fun getPat3Ptr() : Any
+    external fun initUctPat3(blockSize: Int, block: ByteArray)
     external fun initSimFeatureParameters(src: FloatArray)
     external fun initSimMD2(firstLineNum: Int, indices: IntArray, src: FloatArray)
     external fun initSimPat3(firstLineNum: Int, src: FloatArray)
