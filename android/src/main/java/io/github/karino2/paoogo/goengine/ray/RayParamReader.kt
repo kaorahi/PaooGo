@@ -274,43 +274,12 @@ class RayParamSetup(val assetManager: AssetManager, val rayNative: RayNative) {
 
     private fun setupLargePatternBin(path: String, htype: Int) {
         val BUCKET_SIZE = 64 * 1024
-        val iarr = IntArray(BUCKET_SIZE)
-        val barr = ByteArray(8*BUCKET_SIZE)
-        val darr = DoubleArray(FMParam.PARAM_DOUBLE_NUM * BUCKET_SIZE)
-
-        barr.fill(0)
 
         val istream = BufferedInputStream(assetManager.open(path))
         val oneElemSize = 4+8+8*FMParam.PARAM_DOUBLE_NUM
-        istream.readChunks(oneElemSize)
-            .map { (len, buf) ->
-                assert(len == oneElemSize)
-                val bb = ByteBuffer.wrap(buf).order(ByteOrder.LITTLE_ENDIAN)
-
-                val index = bb.int
-
-                val padArr = ByteArray(8) { 0 }
-                bb.get(padArr)
-
-                val dparams = (0..<FMParam.PARAM_DOUBLE_NUM).map {
-                    bb.double
-                }.toDoubleArray()
-
-                Triple(index, padArr, dparams)
-            }
-            .chunked(BUCKET_SIZE)
-            .forEachIndexed { cindex, chunk ->
-                chunk.forEachIndexed { index, pair ->
-                    iarr[index] = pair.first
-                    pair.second.copyInto(barr, index*8)
-                    /*
-                    pair.third.forEachIndexed { i, v ->
-                        darr[index*FMParam.PARAM_DOUBLE_NUM+i] = v
-                    }
-                     */
-                    pair.third.copyInto(darr, index * FMParam.PARAM_DOUBLE_NUM)
-                }
-                rayNative.initUctLargePattern(htype, cindex * BUCKET_SIZE, iarr, barr, darr)
+        istream.readChunks(oneElemSize*BUCKET_SIZE)
+            .forEachIndexed { cindex, (len, buf) ->
+                rayNative.initUctLargePatternBlock(htype, cindex * BUCKET_SIZE, len,buf)
             }
         istream.close()
     }
