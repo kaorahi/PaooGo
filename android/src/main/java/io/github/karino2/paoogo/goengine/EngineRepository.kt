@@ -1,8 +1,11 @@
 package io.github.karino2.paoogo.goengine
 
+import android.content.Context
 import android.content.res.AssetManager
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
+import io.github.karino2.paoogo.goengine.katago.KataGoNative
+import io.github.karino2.paoogo.goengine.katago.KataGoSetup
 import io.github.karino2.paoogo.goengine.liberty.LibertyNative
 import io.github.karino2.paoogo.goengine.ray.RayNative
 import org.ligi.gobandroid_hd.logic.GoGame
@@ -33,7 +36,7 @@ interface GoAnalyzer : GoConfig {
     fun hint(isBlack: Boolean, game: GoGame) : MovePos
 }
 
-class EngineRepository(val assetManager: AssetManager) {
+class EngineRepository(val context: Context, val assetManager: AssetManager) {
     val gnugo2Engine by lazy {
         GnuGo2Native().apply {
             initNative()
@@ -49,13 +52,25 @@ class EngineRepository(val assetManager: AssetManager) {
 
     val rayEngine by lazy {
         RayNative().apply {
-            initNative(Runtime.getRuntime().availableProcessors(), 3.0)
+            initNative(Runtime.getRuntime().availableProcessors(), 1.0)
             setupAssetParams(assetManager)
             initGame()
         }
     }
 
-    fun getAnalyzer() : GoAnalyzer { return rayEngine }
+    val katagoEngine by lazy {
+        val setup = KataGoSetup(context, assetManager)
+        setup.extractFiles()
+        KataGoNative().apply {
+            initNative(
+                Runtime.getRuntime().availableProcessors(),
+                setup.configFile.absolutePath,
+                setup.modelFile.absolutePath
+            )
+        }
+    }
+
+    fun getAnalyzer() : GoAnalyzer { return katagoEngine }
 
     fun getEngine(level: Int) : GoEngine {
         return when(level) {

@@ -15,6 +15,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.chibatching.kotpref.bulk
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.lazy
+import io.github.karino2.paoogo.goengine.EngineRepository
+import io.github.karino2.paoogo.goengine.katago.KataGoNative
+import io.github.karino2.paoogo.goengine.katago.KataGoSetup
+import io.github.karino2.paoogo.goengine.ray.RayNative
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.R
@@ -30,6 +34,19 @@ class GameStartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /*
+        val katago = KataGoNative()
+        val setup = KataGoSetup(this, assets)
+        setup.extractFiles()
+        katago.initNative(Runtime.getRuntime().availableProcessors(), setup.configFile.absolutePath, setup.modelFile.absolutePath)
+        */
+        /*
+        val ray = RayNative()
+        ray.initNative(Runtime.getRuntime().availableProcessors(), 1.0)
+        ray.setupAssetParams(assets)
+         */
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_game_start)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

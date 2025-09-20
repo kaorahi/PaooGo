@@ -64,7 +64,7 @@ android {
         unitTests.returnDefaultValues = true
     }
     aaptOptions {
-        noCompress 'bin'
+        noCompress 'bin', 'txt_gz'
     }
 
     buildTypes {
