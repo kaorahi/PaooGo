@@ -2,14 +2,13 @@ package org.ligi.gobandroid_hd.ui.ingame_common
 
 import android.content.Context
 import android.content.Intent
+import io.github.karino2.paoogo.ui.ReviewActivity
 import org.ligi.gobandroid_hd.InteractionScope.Mode
 import org.ligi.gobandroid_hd.InteractionScope.Mode.*
 import org.ligi.gobandroid_hd.ui.application.GobandroidFragmentActivity
 import org.ligi.gobandroid_hd.ui.editing.EditGameActivity
-import org.ligi.gobandroid_hd.ui.gnugo.PlayAgainstGnuGoActivity
 import org.ligi.gobandroid_hd.ui.recording.GameRecordActivity
 import org.ligi.gobandroid_hd.ui.scoring.GameScoringActivity
-import org.ligi.gobandroid_hd.ui.vs_engine.PlayAgainstEngineActivity
 
 object SwitchModeHelper {
 
@@ -21,6 +20,7 @@ object SwitchModeHelper {
             RECORD -> return Intent(ctx, GameRecordActivity::class.java)
 
             COUNT -> return Intent(ctx, GameScoringActivity::class.java)
+            REVIEW -> return Intent(ctx, ReviewActivity::class.java)
 
 
             else -> return null

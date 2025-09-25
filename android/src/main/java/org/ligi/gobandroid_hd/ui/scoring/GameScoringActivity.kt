@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.WindowManager
 import io.github.karino2.paoogo.ui.GameStartActivity
+import io.github.karino2.paoogo.ui.ReviewActivity
+import org.ligi.gobandroid_hd.InteractionScope
 
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
@@ -20,8 +22,6 @@ import org.ligi.gobandroid_hd.logic.cell_gatherer.MustBeConnectedCellGatherer
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.gnugo.PlayAgainstGnuGoActivity
 import org.ligi.gobandroid_hd.ui.recording.GameRecordActivity
-import org.ligi.gobandroid_hd.ui.vs_engine.PlayAgainstEngineActivity
-import org.ligi.kaxt.startActivityFromClass
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -111,6 +111,12 @@ class GameScoringActivity : GoActivity() {
                 gameProvider.set(GoGame(game.size))
                 Intent(this, GameStartActivity::class.java).apply{ flags = Intent.FLAG_ACTIVITY_CLEAR_TOP  }.let { startActivity(it) }
                 return true
+            }
+            R.id.menu_goto_review -> {
+                interactionScope.mode = InteractionScope.Mode.REVIEW
+                startActivity(Intent(this, ReviewActivity::class.java))
+                finish()
+
             }
         }
         return super.onOptionsItemSelected(item)

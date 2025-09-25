@@ -113,6 +113,8 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
         if (actMove.movePos > 0) {
             // these modes only make sense if there is minimum one
             addModeItem(contentView, COUNT, R.string.count, R.drawable.ic_editor_pie_chart, pop)
+            addModeItem(contentView,
+                InteractionScope.Mode.REVIEW, R.string.review, R.drawable.ic_editor_mode_edit, pop)
         }
 
         scrollView.addView(contentView)

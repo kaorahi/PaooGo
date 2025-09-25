@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:yourapp="http://schemas.android.com/apk/res-auto">
     <item
+        android:title="@string/review"
+        android:id="@+id/menu_goto_review"
+        yourapp:showAsAction="withText"/>
+    <item
             android:title="@string/save_as_sgf"
             android:id="@+id/menu_write_sgf"
         android:icon="@drawable/ic_content_save"

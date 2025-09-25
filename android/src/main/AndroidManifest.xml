@@ -16,8 +16,6 @@
         android:smallScreens="true" /> <!-- Permission to keep the screen awake -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -49,6 +47,7 @@
 
         <activity android:name=".ui.gnugo.PlayAgainstGnuGoActivity" />
         <activity android:name="io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity" />
+        <activity android:name="io.github.karino2.paoogo.ui.ReviewActivity" />
         <activity android:name=".ui.BaseProfileActivity" />
         <activity android:name=".ui.editing.EditGameActivity" />
         <activity android:name=".ui.recording.GameRecordActivity" />

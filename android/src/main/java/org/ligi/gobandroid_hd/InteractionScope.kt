@@ -8,7 +8,8 @@ class InteractionScope {
     enum class Mode {
         RECORD,
         EDIT,
-        COUNT;
+        COUNT,
+        REVIEW;
 
         @StringRes
         fun getStringRes(): Int {
@@ -16,6 +17,7 @@ class InteractionScope {
                 RECORD -> R.string.play
                 COUNT -> R.string.count
                 EDIT -> R.string.edit
+                REVIEW -> R.string.review
                 else -> R.string.empty_str
             }
         }

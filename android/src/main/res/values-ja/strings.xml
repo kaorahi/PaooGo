@@ -128,7 +128,7 @@
   <string name="white_won_with_">白番勝ち </string>
   <string name="bookmark_to_write_into">ブックマークの書き込み </string>
   <string name="loading_sgf">SGF読み込み</string>
-  <string name="review">鑑賞</string>
+  <string name="review">検討</string>
   <string name="record">記録</string>
   <string name="autoplay_off">自動再生オフ</string>
   <string name="autoplay_on">自動再生オン</string>
