@@ -41,6 +41,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import io.github.karino2.paoogo.ui.ReviewActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.BuildConfig
@@ -292,6 +293,12 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
     fun switchToCounting() {
         interactionScope.mode = InteractionScope.Mode.COUNT
         startActivity(Intent(this, GameScoringActivity::class.java))
+        finish()
+    }
+
+    fun switchToReview() {
+        interactionScope.mode = InteractionScope.Mode.REVIEW
+        startActivity(Intent(this, ReviewActivity::class.java))
         finish()
     }
 

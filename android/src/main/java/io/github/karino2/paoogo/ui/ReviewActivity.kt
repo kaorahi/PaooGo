@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import org.ligi.gobandroid_hd.ui.GoActivity
-import org.ligi.gobandroid_hd.ui.fragments.NavigationFragment
 
 class ReviewActivity: GoActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,6 +12,6 @@ class ReviewActivity: GoActivity() {
     }
 
     override val gameExtraFragment: Fragment
-        get() = NavigationFragment()
+        get() = ReviewFragment()
 
 }

@@ -113,9 +113,7 @@ class GameScoringActivity : GoActivity() {
                 return true
             }
             R.id.menu_goto_review -> {
-                interactionScope.mode = InteractionScope.Mode.REVIEW
-                startActivity(Intent(this, ReviewActivity::class.java))
-                finish()
+                switchToReview()
 
             }
         }

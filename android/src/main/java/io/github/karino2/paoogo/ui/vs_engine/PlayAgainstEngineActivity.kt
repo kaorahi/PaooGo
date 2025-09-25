@@ -239,6 +239,10 @@ class PlayAgainstEngineActivity : GoActivity() {
                 }
                 return true;
             }
+            R.id.menu_goto_review -> {
+                switchToReview()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
