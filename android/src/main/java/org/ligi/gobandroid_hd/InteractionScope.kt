@@ -7,7 +7,6 @@ class InteractionScope {
 
     enum class Mode {
         RECORD,
-        EDIT,
         COUNT,
         REVIEW;
 
@@ -16,7 +15,6 @@ class InteractionScope {
             return when (this) {
                 RECORD -> R.string.play
                 COUNT -> R.string.count
-                EDIT -> R.string.edit
                 REVIEW -> R.string.review
                 else -> R.string.empty_str
             }

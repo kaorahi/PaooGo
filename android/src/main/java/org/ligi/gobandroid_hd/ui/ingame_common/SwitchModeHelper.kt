@@ -6,7 +6,6 @@ import io.github.karino2.paoogo.ui.ReviewActivity
 import org.ligi.gobandroid_hd.InteractionScope.Mode
 import org.ligi.gobandroid_hd.InteractionScope.Mode.*
 import org.ligi.gobandroid_hd.ui.application.GobandroidFragmentActivity
-import org.ligi.gobandroid_hd.ui.editing.EditGameActivity
 import org.ligi.gobandroid_hd.ui.recording.GameRecordActivity
 import org.ligi.gobandroid_hd.ui.scoring.GameScoringActivity
 
@@ -14,9 +13,6 @@ object SwitchModeHelper {
 
     fun getIntentByMode(ctx: Context, mode: Mode): Intent? {
         when (mode) {
-
-            EDIT -> return Intent(ctx, EditGameActivity::class.java)
-
             RECORD -> return Intent(ctx, GameRecordActivity::class.java)
 
             COUNT -> return Intent(ctx, GameScoringActivity::class.java)

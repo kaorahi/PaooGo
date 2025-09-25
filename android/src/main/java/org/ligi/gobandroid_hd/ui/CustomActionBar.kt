@@ -17,7 +17,6 @@ import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.InteractionScope
 import org.ligi.gobandroid_hd.InteractionScope.Mode.COUNT
-import org.ligi.gobandroid_hd.InteractionScope.Mode.EDIT
 import org.ligi.gobandroid_hd.InteractionScope.Mode.RECORD
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.databinding.DropdownItemBinding
@@ -100,8 +99,6 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
         contentView.background = background
 
         addModeItem(contentView, RECORD, R.string.play, R.drawable.ic_social_people, pop)
-
-        addModeItem(contentView, EDIT, R.string.edit, R.drawable.ic_editor_mode_edit, pop)
 
         val actMove = gameProvider.get().actMove
         /*

@@ -49,7 +49,6 @@
         <activity android:name="io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity" />
         <activity android:name="io.github.karino2.paoogo.ui.ReviewActivity" />
         <activity android:name=".ui.BaseProfileActivity" />
-        <activity android:name=".ui.editing.EditGameActivity" />
         <activity android:name=".ui.recording.GameRecordActivity" />
         <activity android:name=".ui.scoring.GameScoringActivity" />
         <activity android:name=".ui.GoPrefsActivity" />
