@@ -49,6 +49,7 @@ class GoMove(val parent: GoMove?) {
     val nextMoveVariations: MutableList<GoMove> = ArrayList()
     val markers = ArrayList<GoMarker>()
     val captures = ArrayList<Cell>()
+    var variationMarker: GoMarker? = null
 
     init {
         if (parent != null) {

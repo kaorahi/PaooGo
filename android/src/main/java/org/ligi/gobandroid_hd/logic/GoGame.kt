@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.GoDefinitions.*
 import org.ligi.gobandroid_hd.logic.cell_gatherer.MustBeConnectedCellGatherer
+import org.ligi.gobandroid_hd.logic.markers.GoMarker
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,6 +50,30 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
 
     lateinit var visualBoard: StatefulGoBoard
     lateinit var handicapBoard: StatefulGoBoard
+
+    var reviewVariation: ReviewVariation? = null
+    val variationMarkers: List<GoMarker>
+        get() = reviewVariation?.markers ?: emptyList()
+
+    fun ensureStartReviewVariation() {
+        if (reviewVariation == null) {
+            reviewVariation = ReviewVariation(actMove)
+        }
+    }
+
+    val isInReviewVariation: Boolean
+        get() = reviewVariation != null
+
+    fun revertToMainLine() {
+        reviewVariation?.let {
+            while(actMove != it.mainLine && !actMove.isFirstMove) {
+                undo()
+            }
+            actMove.nextMoveVariations.clear()
+            actMove.nextMoveVariations.addAll(it.orgMainlineVariation)
+        }
+        reviewVariation = null
+    }
 
     private var groups: Array<IntArray>? = null // array to build groups
 
@@ -169,13 +194,24 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
             return errorStatus
         }
 
-        // check if the "new" move is in the variations - to not have 2 equal
-        // move as different variations
-        // if there is one matching use this move and we are done
-        val matching_move = actMove.getNextMoveOnCell(cell)
-        if (matching_move != null) {
-            redo(matching_move)
-            return MoveStatus.VALID
+        // in review variation, current branch is always temporal and only one.
+        // Don't care other variation.
+        val isInReview = reviewVariation?.let {
+            nextMove.variationMarker = it.addMarker(cell)
+            // already clone for mainLine, so always clear before adding to keep branch unique.
+            actMove.nextMoveVariations.clear()
+            true
+        } ?: false
+
+        if (!isInReview) {
+            // check if the "new" move is in the variations - to not have 2 equal
+            // move as different variations
+            // if there is one matching use this move and we are done
+            val matching_move = actMove.getNextMoveOnCell(cell)
+            if (matching_move != null) {
+                redo(matching_move)
+                return MoveStatus.VALID
+            }
         }
 
         // if we reach this point it is a valid move
@@ -212,12 +248,29 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
         }
 
     fun canUndo(): Boolean {
-        return !actMove.isFirstMove// &&(!getGoMover().isMoversMove());
+        return reviewVariation?.let {
+            actMove != it.mainLine
+        } ?: !actMove.isFirstMove
+    // &&(!getGoMover().isMoversMove());
+    }
+
+    fun variationMarkersIsEmpty() : Boolean {
+        return reviewVariation?.markers?.isEmpty() ?: true
+    }
+
+    fun addVariationMarker(marker: GoMarker) {
+        reviewVariation?.addMarker(marker)
+    }
+
+    fun removeLastVariationMarker() {
+        if (!variationMarkersIsEmpty())
+            reviewVariation?.markers?.removeAt(variationMarkers.size - 1)
     }
 
     @JvmOverloads
     fun undo(keep_move: Boolean = true) {
         undoCaptures()
+        removeLastVariationMarker()
         actMove = actMove.undo(calcBoard, keep_move)
         refreshBoards()
     }
@@ -230,6 +283,9 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
 
     fun redo(move: GoMove) {
         actMove = actMove.redo(calcBoard, move)
+        actMove.variationMarker?.let {
+            addVariationMarker(it)
+        }
         applyCaptures()
         refreshBoards()
     }

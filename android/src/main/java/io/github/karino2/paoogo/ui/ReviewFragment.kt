@@ -32,8 +32,10 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         updateButtonStates()
 
         binding.btnNext.setOnClickListener {
-            if (GoPrefs.isShowForwardAlertWanted) {
-                GameForwardAlert.showIfNeeded(requireActivity(), game)
+            if (game.isInReviewVariation && game.possibleVariationCount > 1) {
+                game.redo(1)
+            } else if (GoPrefs.isShowForwardAlertWanted) {
+                    GameForwardAlert.showIfNeeded(requireActivity(), game)
             } else {
                 game.redo(0)
             }
@@ -74,6 +76,10 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             game.jump(game.findLastMove())
             true
         }
+
+        binding.btnMainline.setOnClickListener {
+            game.revertToMainLine()
+        }
     }
 
     override fun onGoGameChanged(gameChangedEvent: GameChangedEvent?) {
@@ -84,10 +90,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
     private fun updateButtonStates() {
         setImageViewState(game.canUndo(), binding.btnFirst, binding.btnPrev)
         setImageViewState(game.canRedo(), binding.btnNext, binding.btnLast)
-        /*
-        bindButtonToMove(game.nextVariationWithOffset(-1), binding.btnPreviousVar)
-        bindButtonToMove(game.nextVariationWithOffset(1), binding.btnNextVar)
-         */
+        binding.btnMainline.isEnabled = game.isInReviewVariation
     }
 
     private fun setImageViewState(state: Boolean, vararg views: ImageView) {

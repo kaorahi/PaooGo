@@ -34,6 +34,7 @@ import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.logic.CellImpl
 import org.ligi.gobandroid_hd.logic.GoDefinitions
 import org.ligi.gobandroid_hd.logic.GoGame
+import org.ligi.gobandroid_hd.logic.markers.GoMarker
 import org.ligi.gobandroid_hd.model.GameProvider
 import timber.log.Timber
 import java.io.File
@@ -298,13 +299,23 @@ open class GoBoardView : View {
 
         // paint the markers
         for (marker in game.actMove.markers) {
-            val markerPaint = getTextPaintForCell(marker)
-            val x = marker.x * stone_size + stone_size / 2.0f
-            val y = marker.y * stone_size + stone_size / 2.0f
-            marker.draw(canvas, stone_size, x, y, markerPaint)
+            drawMarker(canvas, marker)
+        }
+        for (marker in game.variationMarkers) {
+            drawMarker(canvas, marker)
         }
 
         canvas.restore()
+    }
+
+    private fun drawMarker(
+        canvas: Canvas,
+        marker: GoMarker
+    ) {
+        val markerPaint = getTextPaintForCell(marker)
+        val x = marker.x * stone_size + stone_size / 2.0f
+        val y = marker.y * stone_size + stone_size / 2.0f
+        marker.draw(canvas, stone_size, x, y, markerPaint)
     }
 
     /**
