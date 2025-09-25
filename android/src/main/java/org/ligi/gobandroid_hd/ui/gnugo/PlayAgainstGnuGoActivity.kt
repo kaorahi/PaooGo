@@ -12,14 +12,13 @@ import android.view.MotionEvent
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.*
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.recording.RecordingGameExtrasFragment
-import org.ligi.gobandroid_hd.ui.vs_engine.EngineGoGame
+import io.github.karino2.paoogo.ui.vs_engine.EngineGoGame
 import org.ligi.gobandroid_hd.util.SimpleStopwatch
 import org.ligi.gobandroidhd.ai.gnugo.IGnuGoService
 import org.ligi.kaxt.makeExplicit

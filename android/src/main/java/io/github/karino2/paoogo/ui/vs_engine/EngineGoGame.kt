@@ -1,4 +1,4 @@
-package org.ligi.gobandroid_hd.ui.vs_engine
+package io.github.karino2.paoogo.ui.vs_engine
 
 import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.logic.GoGame

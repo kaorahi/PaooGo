@@ -15,10 +15,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.chibatching.kotpref.bulk
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.lazy
-import io.github.karino2.paoogo.goengine.EngineRepository
-import io.github.karino2.paoogo.goengine.katago.KataGoNative
-import io.github.karino2.paoogo.goengine.katago.KataGoSetup
-import io.github.karino2.paoogo.goengine.ray.RayNative
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.R
@@ -26,7 +22,7 @@ import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
-import org.ligi.gobandroid_hd.ui.vs_engine.PlayAgainstEngineActivity
+import io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity
 import kotlin.getValue
 
 class GameStartActivity : AppCompatActivity() {

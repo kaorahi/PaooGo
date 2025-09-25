@@ -48,7 +48,7 @@
             android:required="false" />
 
         <activity android:name=".ui.gnugo.PlayAgainstGnuGoActivity" />
-        <activity android:name=".ui.vs_engine.PlayAgainstEngineActivity" />
+        <activity android:name="io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity" />
         <activity android:name=".ui.BaseProfileActivity" />
         <activity android:name=".ui.editing.EditGameActivity" />
         <activity android:name=".ui.recording.GameRecordActivity" />

@@ -1,4 +1,4 @@
-package org.ligi.gobandroid_hd.ui.vs_engine
+package io.github.karino2.paoogo.ui.vs_engine
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,18 +17,14 @@ import io.github.karino2.paoogo.goengine.EngineRepository
 import io.github.karino2.paoogo.goengine.GoAnalyzer
 import io.github.karino2.paoogo.goengine.GoConfig
 import io.github.karino2.paoogo.goengine.GoEngine
-import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.ui.GameStartActivity
 import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
-import org.ligi.gobandroid_hd.events.OptionsItemClickedEvent
 import org.ligi.gobandroid_hd.logic.Cell
-import org.ligi.gobandroid_hd.logic.CellImpl
 import org.ligi.gobandroid_hd.logic.GoDefinitions
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.logic.GoMove
-import org.ligi.gobandroid_hd.logic.Hint
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import timber.log.Timber
