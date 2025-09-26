@@ -6,6 +6,7 @@ import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.singleton
+import io.github.karino2.paoogo.goengine.EngineRepository
 import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.application.GoAndroidEnvironment
@@ -37,6 +38,10 @@ open class App : Application() {
     }
 
     open val isTesting = false
+
+    val engineRepository by lazy {
+        EngineRepository(this, assets)
+    }
 
     companion object {
 

@@ -37,7 +37,9 @@ class PlayAgainstEngineActivity : GoActivity() {
     private val engineGoGame by lazy { EngineGoGame(false, true, game, getString(R.string.gnugo2)) }
     private lateinit var engine : GoEngine
 
-    private val engineRepository by lazy { EngineRepository(this, assets) }
+    private val engineRepository : EngineRepository
+        get() = app.engineRepository
+
     private val analyzer by lazy {
         engineRepository.getAnalyzer().apply {
             setKomi(game.komi)
