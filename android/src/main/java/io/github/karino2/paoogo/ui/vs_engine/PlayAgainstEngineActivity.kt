@@ -147,12 +147,12 @@ class PlayAgainstEngineActivity : GoActivity() {
         try {
             if (game.canUndo()) {
                 syncing = true
-                game.undo(GoPrefs.isKeepVariantWanted)
+                game.undo(false)
             }
 
             if (game.canUndo()) {
                 syncing = true
-                game.undo(GoPrefs.isKeepVariantWanted)
+                game.undo(false)
             }
 
             if(syncing) {
