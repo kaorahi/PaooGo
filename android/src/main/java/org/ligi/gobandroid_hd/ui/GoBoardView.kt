@@ -85,6 +85,15 @@ open class GoBoardView : View {
         }
     }
 
+    private val analyzePaint = Paint()
+    private val analyzeTextPaint by lazy {
+        Paint(whiteTextPaint).apply {
+            color = Color.BLACK
+            typeface = Typeface.DEFAULT_BOLD
+            setShadowLayer(2f, 1f, 1f, Color.WHITE)
+        }
+    }
+
     private var stone_size: Float = 0.toFloat()
 
     private var white_stone_bitmap: Bitmap? = null
@@ -306,6 +315,17 @@ open class GoBoardView : View {
             canvas.drawBitmap(bitmap, it.cell.x * stone_size, it.cell.y * stone_size, opaque_paint)
         }
 
+        game.analyzeInfo.forEach {
+            val x = it.cell.x * stone_size
+            val y = it.cell.y * stone_size
+            val half_ssize = stone_size/2.0f
+            val tx = x + half_ssize
+            val ty = y + half_ssize*1.4F
+            analyzePaint.color = it.rateColor.toArgb()
+            canvas.drawCircle(x+half_ssize, y+half_ssize, half_ssize, analyzePaint)
+            canvas.drawText(it.rateString, tx, ty, analyzeTextPaint)
+        }
+
         canvas.restore()
     }
 
@@ -369,6 +389,7 @@ open class GoBoardView : View {
 
         whiteTextPaint.textSize = stone_size
         blackTextPaint.textSize = stone_size
+        analyzeTextPaint.textSize = stone_size/2.2F
 
     }
 

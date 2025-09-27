@@ -45,7 +45,7 @@ android {
     defaultConfig {
         versionCode 1
         versionName "0.1"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 36
         applicationId "io.github.karino2.paoogo"
         testInstrumentationRunner "io.github.karino2.paoogo.AppReplacingRunner"

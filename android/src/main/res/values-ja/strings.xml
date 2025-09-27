@@ -202,6 +202,7 @@
   <string name="game_hint">ヒント</string>
   <string name="suggestion_pass">パスをおすすめします</string>
   <string name="main_line">本手順</string>
+  <string name="analyze">解析</string>
   <string-array name="level_array">
     <item>Lv2 ぱおりば</item>
     <item>Lv3 ぱおぬージュニア</item>

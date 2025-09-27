@@ -296,6 +296,7 @@
     <string name="game_hint">Hint</string>
     <string name="suggestion_pass">Suggestion: PASS</string>
     <string name="main_line">Main line</string>
+    <string name="analyze">Analyze</string>
     <string-array name="level_array">
         <item>Lv2 Paolibe</item>
         <item>Lv3 Paognu Jr.</item>

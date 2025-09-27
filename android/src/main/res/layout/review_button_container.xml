@@ -27,6 +27,13 @@
             style="@style/navButton"/>
 
     <Button
+        android:id="@+id/btn_analyze"
+        android:text="@string/analyze"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <Button
         android:id="@+id/btn_mainline"
         android:text="@string/main_line"
         android:layout_width="wrap_content"

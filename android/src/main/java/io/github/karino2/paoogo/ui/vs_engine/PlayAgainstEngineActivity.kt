@@ -24,7 +24,6 @@ import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.logic.GoDefinitions
 import org.ligi.gobandroid_hd.logic.GoGame
-import org.ligi.gobandroid_hd.logic.GoMove
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import timber.log.Timber
@@ -97,7 +96,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     }
 
     private fun syncAnalyzer() : GoAnalyzer {
-        syncConfig(analyzer)
+        analyzer.sync(game)
         return analyzer
     }
 
@@ -138,37 +137,10 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     fun syncFromScratch() {
         Timber.w("sync start")
-        val config : GoConfig = engine
+        val config: GoConfig = engine
 
-        syncConfig(config)
+        config.sync(game)
         syncing = false
-    }
-
-    private fun syncConfig(config: GoConfig) {
-        config.clearBoard()
-        val replay_moves = ArrayList<GoMove>()
-        replay_moves.add(game.actMove)
-        var tmp_move: GoMove
-        while (true) {
-            tmp_move = replay_moves.last()
-            if (tmp_move.isFirstMove || tmp_move.parent == null) break
-            replay_moves.add(tmp_move.parent)
-        }
-        for (step in replay_moves.indices.reversed()) {
-            tmp_move = replay_moves[step]
-
-            // どうもisFirstMoveがtrueの時は何も無いらしい。
-            if (tmp_move.isFirstMove)
-                continue
-
-            if (tmp_move.isPassMove) {
-                Timber.w("sync: pass")
-                config.doPass(tmp_move.isBlack)
-            } else {
-                Timber.w("sync: doMove (%d, %d, %d, %b)", tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.player, tmp_move.isBlack)
-                config.doMove(tmp_move.cell!!.x, tmp_move.cell!!.y, tmp_move.isBlack)
-            }
-        }
     }
 
     override fun requestUndo() {

@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.google.android.material.snackbar.Snackbar
+import org.greenrobot.eventbus.EventBus
+import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.databinding.ReviewButtonContainerBinding
 import org.ligi.gobandroid_hd.events.GameChangedEvent
@@ -32,6 +34,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         updateButtonStates()
 
         binding.btnNext.setOnClickListener {
+            game.clearAnalyzerInfo()
             if (game.isInReviewVariation && game.possibleVariationCount > 1) {
                 game.redo(1)
             } else if (GoPrefs.isShowForwardAlertWanted) {
@@ -42,12 +45,14 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnPrev.setOnClickListener {
+            game.clearAnalyzerInfo()
             if (game.canUndo()) {
                 game.undo()
             }
         }
 
         binding.btnFirst.setOnClickListener {
+            game.clearAnalyzerInfo()
             val nextJunction = game.findPrevJunction()
             if (nextJunction!!.isFirstMove) {
                 game.jump(nextJunction)
@@ -58,11 +63,13 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnFirst.setOnLongClickListener {
+            game.clearAnalyzerInfo()
             game.jump(game.findFirstMove())
             true
         }
 
         binding.btnLast.setOnClickListener {
+            game.clearAnalyzerInfo()
             val nextJunction = game.findNextJunction()
             if (nextJunction!!.hasNextMove()) {
                 showJunctionInfoSnack(R.string.found_junction_snack_for_last)
@@ -73,12 +80,32 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnLast.setOnLongClickListener {
+            game.clearAnalyzerInfo()
             game.jump(game.findLastMove())
             true
         }
 
         binding.btnMainline.setOnClickListener {
+            game.clearAnalyzerInfo()
             game.revertToMainLine()
+        }
+
+        binding.btnAnalyze.setOnClickListener {
+            analyzer.sync(game)
+            val info = analyzer.analyzeSituation(game.isBlackToMove, game)
+            game.setAnalyzeInfo(info)
+            EventBus.getDefault().post(GameChangedEvent)
+        }
+    }
+
+    private val app : App
+        get() = requireActivity().applicationContext as App
+
+    private val analyzer by lazy {
+        app.engineRepository.getAnalyzer().apply {
+            setKomi(game.komi)
+            setBoardSize(game.boardSize)
+            clearBoard()
         }
     }
 

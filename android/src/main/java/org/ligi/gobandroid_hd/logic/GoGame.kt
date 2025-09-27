@@ -21,6 +21,7 @@
 
 package org.ligi.gobandroid_hd.logic
 
+import io.github.karino2.paoogo.goengine.AnalyzeInfo
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.GoDefinitions.*
@@ -32,7 +33,6 @@ import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
 data class Hint(val cell: Cell, val color: Byte)
-
 /**
  * Class to represent a Go Game with its rules
  */
@@ -86,6 +86,17 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
     }
 
     fun clearHint() { hint = null }
+
+    val analyzeInfo = mutableListOf<AnalyzeInfo>()
+
+    fun setAnalyzeInfo(info: List<AnalyzeInfo>) {
+        analyzeInfo.clear()
+        analyzeInfo.addAll(info)
+    }
+
+    fun clearAnalyzerInfo() {
+        analyzeInfo.clear()
+    }
 
     private var groups: Array<IntArray>? = null // array to build groups
 

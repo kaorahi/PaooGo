@@ -14,6 +14,7 @@ class ReviewActivity: GoActivity() {
     }
 
     override fun doMoveWithUIFeedback(cell: Cell?): GoGame.MoveStatus {
+        game.clearAnalyzerInfo()
         game.ensureStartReviewVariation()
         return super.doMoveWithUIFeedback(cell)
     }

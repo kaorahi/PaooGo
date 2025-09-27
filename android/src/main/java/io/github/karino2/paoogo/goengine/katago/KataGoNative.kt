@@ -1,8 +1,10 @@
 package io.github.karino2.paoogo.goengine.katago
 
+import io.github.karino2.paoogo.goengine.AnalyzeInfo
 import io.github.karino2.paoogo.goengine.GoAnalyzer
 import io.github.karino2.paoogo.goengine.GoEngine
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
+import org.ligi.gobandroid_hd.logic.GTPHelper
 import org.ligi.gobandroid_hd.logic.GoGame
 
 class KataGoNative : GoEngine, GoAnalyzer {
@@ -23,11 +25,42 @@ class KataGoNative : GoEngine, GoAnalyzer {
     }
 
     override external fun doPass(isBlack: Boolean)
+
+    // based on lz-analyze.
+    // [KataGo/docs/GTP_Extensions.md at master · lightvector/KataGo](https://github.com/lightvector/KataGo/blob/master/docs/GTP_Extensions.md)
+    // winrate: [0, 10000]
+    // F4 5506 is the candidate and winrate. After it, pv is followed.
+    // each info is separate by ",".
+    // example is following.
+    // F4 5506 F4 E2 G4 E7 F7 H3,D6 5546 D6 D7 C7 E6 D5 E7 E5 C8 B7 B8 B6,D7 5341 D7 D6 E6 C7 D8 B4,G5 5099 G5 D2 D7 C7 C3,C5 5092 C5 D7 F4 H5,E3 4829 E3 H5 H6 G5 G6 D7,E7 4955 E7 D7 F4 E2,E5 4706 E5 B4 H4,B5 4847 B5 E5,G4 4320 G4,F3 4450 F3,E2 4238 E2,C7 4212 C7,H5 4164 H5
     external fun analyze(msec: Int, isBlack: Boolean) : String
+
+    override fun analyzeSituation(isBlack: Boolean, game: GoGame): List<AnalyzeInfo> {
+        val res = analyze(2000, isBlack)
+        println(res)
+        if (res.isEmpty())
+            return emptyList()
+        return res.split("\n")
+            .filterNot { it.isEmpty() }
+            .last()
+            .split(",")
+            .mapNotNull {
+                val arr = it.split(" ")
+                if (arr.size <= 2)
+                    return@mapNotNull null
+                if (arr[0].uppercase() == "PASS")
+                    return@mapNotNull null
+                val pos = MovePos.fromString(arr[0], game)
+                val rate = arr[1].toDouble()/(10000.0)
+                val pv = arr.subList(2, arr.size).mapNotNull {
+                    if (it.uppercase() == "PASS") null else GTPHelper.strToCell(it, game)
+                }
+                AnalyzeInfo(game.visualBoard.getCell(pos.x, pos.y), rate, pv)
+            }
+    }
 
     override fun hint(isBlack: Boolean, game: GoGame): MovePos {
         val res = analyze(2000, isBlack)
-        // D6,5800 C6,D5,C5,C4,B4,C3,B3 E6,5569,D6,D5,C5,E5 D3,5482,C4,C3,B3 E5,5466,D5 G7,5446,G8,D6,C6 B4,5425,C5,C4 D5,5200,C4,C5 E4,5000 B3,4931,C4 C2,4705 F7,4382 E7,4264 D2,3548
         println(res)
         if (res.isEmpty())
             return MovePos.PASS
@@ -35,6 +68,8 @@ class KataGoNative : GoEngine, GoAnalyzer {
             .filterNot { it.isEmpty() }
             .last()
             .split(",")
+            .first()
+            .split(" ")
         if (arr.size <= 2)
             return MovePos.PASS
         if (arr[0].uppercase() == "PASS")
