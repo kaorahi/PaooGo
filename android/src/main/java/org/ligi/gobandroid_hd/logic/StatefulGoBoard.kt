@@ -14,8 +14,6 @@
 
 package org.ligi.gobandroid_hd.logic
 
-import org.ligi.gobandroid_hd.logic.GoDefinitions.CellStatus
-
 import org.ligi.gobandroid_hd.logic.GoDefinitions.getStringFromCellStatus
 import org.ligi.gobandroid_hd.logic.cell_gatherer.MustBeConnectedCellGatherer
 
@@ -24,13 +22,9 @@ import org.ligi.gobandroid_hd.logic.cell_gatherer.MustBeConnectedCellGatherer
 
  */
 
-data class Hint(val cell: Cell, val color: Byte)
-
 class StatefulGoBoard(val statelessGoBoard: StatelessGoBoard) : GoBoard by statelessGoBoard {
 
     val board: Array<ByteArray> = Array(size) { ByteArray(size) }
-
-    var hint : Hint? = null
 
     constructor(statelessGoBoard: StatelessGoBoard, predefined_board: Array<ByteArray>) : this(statelessGoBoard) {
         applyBoardState(predefined_board)
@@ -101,19 +95,6 @@ class StatefulGoBoard(val statelessGoBoard: StatelessGoBoard) : GoBoard by state
     fun isCellWhite(cell: Cell): Boolean {
         return board[cell.x][cell.y] == GoDefinitions.STONE_WHITE
     }
-
-    fun isCellHintBlack(cell: Cell): Boolean {
-        return hint?.let { it.cell.isEqual(cell) && it.color == GoDefinitions.STONE_BLACK } ?: false
-    }
-
-    fun isCellHintWhite(cell: Cell): Boolean {
-        return hint?.let { it.cell.isEqual(cell) && it.color == GoDefinitions.STONE_WHITE } ?: false
-    }
-
-    fun setHint(x: Int, y:Int, color: Byte) {
-        hint = Hint(getCell(x, y), color)
-    }
-    fun clearHint() { hint = null }
 
     fun isCellDeadBlack(cell: Cell): Boolean {
         return -board[cell.x][cell.y] == GoDefinitions.STONE_BLACK.toInt()

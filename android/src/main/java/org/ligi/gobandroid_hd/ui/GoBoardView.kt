@@ -281,10 +281,6 @@ open class GoBoardView : View {
                 canvas.drawBitmap(white_stone_bitmap!!, cell.x * stone_size, cell.y * stone_size, getStonePaintForCell(cell))
             } else if (board.isCellBlack(cell)) {
                 canvas.drawBitmap(black_stone_bitmap!!, cell.x * stone_size, cell.y * stone_size, getStonePaintForCell(cell))
-            } else if (board.isCellHintWhite(cell)) {
-                canvas.drawBitmap(white_stone_bitmap!!, cell.x * stone_size, cell.y * stone_size, opaque_paint)
-            } else if (board.isCellHintBlack(cell)) {
-                canvas.drawBitmap(black_stone_bitmap!!, cell.x * stone_size, cell.y * stone_size, opaque_paint)
             }
 
         }
@@ -303,6 +299,11 @@ open class GoBoardView : View {
         }
         for (marker in game.variationMarkers) {
             drawMarker(canvas, marker)
+        }
+
+        game.hint?.let {
+            val bitmap = if(it.color == GoDefinitions.STONE_BLACK) black_stone_bitmap!! else white_stone_bitmap!!
+            canvas.drawBitmap(bitmap, it.cell.x * stone_size, it.cell.y * stone_size, opaque_paint)
         }
 
         canvas.restore()

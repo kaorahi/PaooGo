@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
+data class Hint(val cell: Cell, val color: Byte)
+
 /**
  * Class to represent a Go Game with its rules
  */
@@ -55,6 +57,8 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
     val variationMarkers: List<GoMarker>
         get() = reviewVariation?.markers ?: emptyList()
 
+
+
     fun ensureStartReviewVariation() {
         if (reviewVariation == null) {
             reviewVariation = ReviewVariation(actMove)
@@ -74,6 +78,14 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
         }
         reviewVariation = null
     }
+
+    var hint : Hint? = null
+
+    fun setHint(x: Int, y:Int, color: Byte) {
+        hint = Hint(visualBoard.getCell(x, y), color)
+    }
+
+    fun clearHint() { hint = null }
 
     private var groups: Array<IntArray>? = null // array to build groups
 

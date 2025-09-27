@@ -107,7 +107,7 @@ class PlayAgainstEngineActivity : GoActivity() {
                 Toast.makeText(this, R.string.ai_is_thinking, Toast.LENGTH_SHORT).show()
                 return GoGame.MoveStatus.VALID
             }
-            game.visualBoard.clearHint()
+            game.clearHint()
             manualMove(cell)
         }
 
@@ -123,7 +123,7 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     private fun genMove() {
         engineGoGame.aiIsThinking = true
-        game.visualBoard.clearHint()
+        game.clearHint()
         val move = engine.genMove(game.isBlackToMove)
         if (move.pass) {
             game.pass()
@@ -236,7 +236,7 @@ class PlayAgainstEngineActivity : GoActivity() {
                 else
                 {
                     val color = if(engineGoGame.playingBlack) GoDefinitions.STONE_WHITE else GoDefinitions.STONE_BLACK
-                    game.visualBoard.setHint(move.x, move.y, color)
+                    game.setHint(move.x, move.y, color)
                     bus.post(GameChangedEvent)
                 }
                 return true;
