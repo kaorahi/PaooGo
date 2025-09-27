@@ -88,14 +88,19 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         binding.btnMainline.setOnClickListener {
             game.clearAnalyzerInfo()
             game.revertToMainLine()
+            postGameChangeEvent()
         }
 
         binding.btnAnalyze.setOnClickListener {
             analyzer.sync(game)
             val info = analyzer.analyzeSituation(game.isBlackToMove, game)
             game.setAnalyzeInfo(info)
-            EventBus.getDefault().post(GameChangedEvent)
+            postGameChangeEvent()
         }
+    }
+
+    private fun postGameChangeEvent() {
+        EventBus.getDefault().post(GameChangedEvent)
     }
 
     private val app : App
