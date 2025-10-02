@@ -299,8 +299,10 @@
     <string name="analyze">Analyze</string>
     <string name="resume_from_here">Resume from here</string>
     <string-array name="level_array">
-        <item>Lv2 Paolibe</item>
-        <item>Lv3 Paognu Jr.</item>
-        <item>Lv4 Paoray</item>
+        <item>Lv1 Paomigo Jr.</item>
+        <item>Lv2 Paomigo</item>
+        <item>Lv3 Paolibe</item>
+        <item>Lv4 Paognu Jr.</item>
+        <item>Lv5 Paoray</item>
     </string-array>
 </resources>

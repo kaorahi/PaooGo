@@ -3,6 +3,7 @@ package io.github.karino2.paoogo.goengine
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.Color
+import io.github.karino2.paoogo.goengine.amigo.AmiGoNative
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
 import io.github.karino2.paoogo.goengine.katago.KataGoNative
@@ -48,12 +49,20 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
         }
     }
 
+    val amigoEngine by lazy {
+        AmiGoNative().apply {
+            initNative()
+        }
+    }
+
     fun getAnalyzer() : GoAnalyzer { return katagoEngine }
 
     fun getEngine(level: Int) : GoEngine {
         return when(level) {
-            2-> libertyEngine
-            3-> gnugo2Engine
+            1-> amigoEngine.apply { setLevel(0) }
+            2-> amigoEngine.apply { setLevel(7)}
+            3-> libertyEngine
+            4-> gnugo2Engine
             else -> rayEngine
         }
     }

@@ -59,12 +59,12 @@ class GameStartActivity : AppCompatActivity() {
 
         with(GoPrefs) {
             if(lastBoardSize == 13) findViewById<RadioButton>(R.id.board_size_13).isChecked = true
-            if(engineLevel != 2) levelSpinner.setSelection(engineLevel - 2)
+            if(engineLevel != 1) levelSpinner.setSelection(engineLevel - 1)
         }
 
         findViewById<Button>(R.id.start_button).setOnClickListener {
             val boardSize = if(findViewById<RadioGroup>(R.id.board_size_group).checkedRadioButtonId == R.id.board_size_9) 9 else 13
-            val comLevel = levelSpinner.selectedItemPosition.let { if(it == INVALID_POSITION) 2 else it+2 }
+            val comLevel = levelSpinner.selectedItemPosition.let { if(it == INVALID_POSITION) 1 else it+1 }
             GoPrefs.bulk {
                 lastBoardSize = boardSize
                 engineLevel = comLevel
