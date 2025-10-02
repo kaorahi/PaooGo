@@ -15,7 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import io.github.karino2.paoogo.goengine.EngineRepository
 import io.github.karino2.paoogo.goengine.GoAnalyzer
-import io.github.karino2.paoogo.goengine.GoConfig
+import io.github.karino2.paoogo.goengine.EngineConfig
 import io.github.karino2.paoogo.goengine.GoEngine
 import io.github.karino2.paoogo.ui.GameStartActivity
 import org.greenrobot.eventbus.Subscribe
@@ -138,7 +138,7 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     fun syncFromScratch() {
         Timber.w("sync start")
-        val engineConfig: GoConfig = engine
+        val engineConfig: EngineConfig = engine
 
         engineConfig.sync(game)
         syncing = false

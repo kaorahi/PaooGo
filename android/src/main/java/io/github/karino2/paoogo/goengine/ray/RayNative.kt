@@ -1,11 +1,7 @@
 package io.github.karino2.paoogo.goengine.ray
 
 import android.content.res.AssetManager
-import io.github.karino2.paoogo.goengine.GoAnalyzer
 import io.github.karino2.paoogo.goengine.GoEngine
-import io.github.karino2.paoogo.goengine.gnugo2.MovePos
-import org.ligi.gobandroid_hd.logic.GTPHelper
-import org.ligi.gobandroid_hd.logic.GoGame
 
 class RayNative : GoEngine {
     companion object {
