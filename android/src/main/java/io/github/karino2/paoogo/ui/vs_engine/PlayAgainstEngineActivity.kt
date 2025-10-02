@@ -70,6 +70,7 @@ class PlayAgainstEngineActivity : GoActivity() {
         // Timber.plant(Timber.DebugTree())
         running = true
         setupEngine()
+        syncFromScratch()
 
         Thread( {
             while(running) {
@@ -137,9 +138,9 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     fun syncFromScratch() {
         Timber.w("sync start")
-        val config: GoConfig = engine
+        val engineConfig: GoConfig = engine
 
-        config.sync(game)
+        engineConfig.sync(game)
         syncing = false
     }
 

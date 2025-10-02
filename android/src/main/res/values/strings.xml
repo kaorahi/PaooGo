@@ -297,6 +297,7 @@
     <string name="suggestion_pass">Suggestion: PASS</string>
     <string name="main_line">Main line</string>
     <string name="analyze">Analyze</string>
+    <string name="resume_from_here">Resume from here</string>
     <string-array name="level_array">
         <item>Lv2 Paolibe</item>
         <item>Lv3 Paognu Jr.</item>

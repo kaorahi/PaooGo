@@ -98,6 +98,47 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
         analyzeInfo.clear()
     }
 
+    fun dropTwoPass(moves: List<GoMove>) : List<GoMove> {
+        if (moves.size < 2)
+            return moves
+        if (moves.last().isPassMove && moves[moves.size - 2].isPassMove)
+            return moves.dropLast(2)
+        return moves
+    }
+
+    private fun currentVariationMoves(): List<GoMove> {
+        // 逆さに遡る事で現在に至るvariationだけを保持する。
+        val mainlineCand = ArrayList<GoMove>()
+        mainlineCand.add(actMove)
+        var tmp_move: GoMove
+        while (true) {
+            tmp_move = mainlineCand.last()
+            if (tmp_move.isFirstMove || tmp_move.parent == null) break
+            mainlineCand.add(tmp_move.parent)
+        }
+        return dropTwoPass(mainlineCand)
+    }
+
+    fun becomeMainline() : GoGame {
+        val mainline = currentVariationMoves()
+
+        val newGame = GoGame(size, handicap)
+
+        for (step in mainline.indices.reversed()) {
+            val move = mainline[step]
+            // どうもisFirstMoveがtrueの時は何も無いらしい。
+            if (move.isFirstMove)
+                continue
+
+            if (move.isPassMove)
+                newGame.pass()
+            else
+                newGame.do_move(move.cell!!)
+        }
+        return newGame
+    }
+
+
     private var groups: Array<IntArray>? = null // array to build groups
 
     var capturesWhite: Int = 0

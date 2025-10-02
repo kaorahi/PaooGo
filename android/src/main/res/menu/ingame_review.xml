@@ -2,16 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:yourapp="http://schemas.android.com/apk/res-auto">
     <item
-            android:title="@string/share"
-            android:icon="@drawable/ic_social_share"
-            android:id="@+id/menu_game_share"
-            yourapp:showAsAction="ifRoom"/>
-
+        android:title="@string/resume_from_here"
+        android:id="@+id/menu_resume_from_here"
+        yourapp:showAsAction="withText"/>
     <item
-            android:title="@string/print"
-            android:icon="@drawable/ic_action_print"
-            android:id="@+id/menu_game_print"
-            yourapp:showAsAction="ifRoom"/>
-
+        android:title="@string/back_to_title"
+        android:id="@+id/menu_back_to_title"
+        yourapp:showAsAction="withText"/>
 
 </menu>
