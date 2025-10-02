@@ -35,12 +35,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnKeyListener
 import android.view.View.OnTouchListener
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import io.github.karino2.paoogo.ui.GameStartActivity
 import io.github.karino2.paoogo.ui.ReviewActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -302,14 +302,18 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         finish()
     }
 
+    fun goToTitle() {
+        gameProvider.set(GoGame(game.size))
+        Intent(this, GameStartActivity::class.java).apply{ flags = Intent.FLAG_ACTIVITY_CLEAR_TOP  }.let { startActivity(it) }
+    }
 
-    open fun quit(toHome: Boolean) {
+    open fun doBack() {
         if (!isAsk4QuitEnabled()) {
-            finish()
+            goToTitle();
         } else {
             AlertDialog.Builder(this).setTitle(R.string.end_game_quesstion_title)
                 .setMessage(R.string.quit_confirm)
-                .setPositiveButton(R.string.yes) { _, _ -> finish() }
+                .setPositiveButton(R.string.yes) { _, _ -> goToTitle() }
                 .setCancelable(true)
                 .setNegativeButton(R.string.no, null)
                 .show()
@@ -319,7 +323,7 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
-                quit(false)
+                doBack()
                 return true
             }
         }

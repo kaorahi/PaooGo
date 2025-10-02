@@ -35,10 +35,7 @@ class ReviewActivity: GoActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_back_to_title -> {
-                gameProvider.set(GoGame(game.size))
-                Intent(this, GameStartActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                }.let { startActivity(it) }
+                goToTitle()
                 return true
             }
             R.id.menu_resume_from_here -> {
