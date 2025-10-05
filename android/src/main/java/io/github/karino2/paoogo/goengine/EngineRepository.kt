@@ -6,6 +6,7 @@ import android.graphics.Color
 import io.github.karino2.paoogo.goengine.amigo.AmiGoNative
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
+import io.github.karino2.paoogo.goengine.gnugo3.GnuGo3Native
 import io.github.karino2.paoogo.goengine.katago.KataGoNative
 import io.github.karino2.paoogo.goengine.katago.KataGoSetup
 import io.github.karino2.paoogo.goengine.liberty.LibertyNative
@@ -25,6 +26,12 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
 
     val libertyEngine by lazy {
         LibertyNative().apply {
+            initNative()
+        }
+    }
+
+    val gnugo3Engine by lazy {
+        GnuGo3Native().apply {
             initNative()
         }
     }
@@ -63,6 +70,7 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
             2-> amigoEngine.apply { setLevel(7)}
             3-> libertyEngine
             4-> gnugo2Engine
+            5-> gnugo3Engine
             else -> rayEngine
         }
     }

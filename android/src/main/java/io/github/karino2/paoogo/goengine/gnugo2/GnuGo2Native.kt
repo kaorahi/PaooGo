@@ -33,7 +33,4 @@ public class GnuGo2Native : GoEngine {
     override external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
     override external fun genMoveInternal(isBlack: Boolean) : Int
     override external fun doPass(isBlack: Boolean)
-
-
-    // external fun runCommand(pInput: String?): String?
 }
