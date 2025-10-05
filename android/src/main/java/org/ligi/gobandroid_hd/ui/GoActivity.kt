@@ -146,7 +146,12 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         }
 
         if (sound_man == null) {
-            sound_man = GoSoundManager(this, env)
+            sound_man = GoSoundManager(this, env).apply{
+                ensureSound(PICKUP1)
+                ensureSound(PICKUP2)
+                ensureSound(PLACE1)
+                ensureSound(PLACE2)
+            }
         }
 
         val customNav = CustomActionBar(this)

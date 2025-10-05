@@ -43,12 +43,16 @@ class GoSoundManager(private val context: GobandroidFragmentActivity, private va
 
     fun playSound(sound: Sound) {
         if (GoPrefs.isSoundWanted) {
-            if (soundMap[sound] == null) {
-                soundMap[sound] = mSoundPool.load(context, sound.resID, 1)
-            }
+            ensureSound(sound)
             var streamVolume = mAudioManager.getStreamVolume(streamNotification).toFloat()
             streamVolume /= mAudioManager.getStreamMaxVolume(streamNotification)
             mSoundPool.play(soundMap[sound]!!, streamVolume, streamVolume, 1, 0, 1f)
+        }
+    }
+
+    fun ensureSound(sound: Sound) {
+        if (soundMap[sound] == null) {
+            soundMap[sound] = mSoundPool.load(context, sound.resID, 1)
         }
     }
 
