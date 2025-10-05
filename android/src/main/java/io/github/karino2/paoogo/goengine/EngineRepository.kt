@@ -70,8 +70,7 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
             2-> amigoEngine.apply { setLevel(7)}
             3-> libertyEngine
             4-> gnugo2Engine
-            5-> gnugo3Engine
-            else -> rayEngine
+            else-> gnugo3Engine
         }
     }
 }
