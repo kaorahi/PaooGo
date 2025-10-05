@@ -22,3 +22,4 @@ proguard_logs/
 
 android/.cxx
 android/noAnalyticsNoCloudNoAutostart/release
+android/release

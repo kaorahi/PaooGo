@@ -1,6 +1,5 @@
 package io.github.karino2.paoogo.ui.vs_engine
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,11 +12,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import io.github.karino2.paoogo.goengine.EngineConfig
 import io.github.karino2.paoogo.goengine.EngineRepository
 import io.github.karino2.paoogo.goengine.GoAnalyzer
-import io.github.karino2.paoogo.goengine.EngineConfig
 import io.github.karino2.paoogo.goengine.GoEngine
-import io.github.karino2.paoogo.ui.GameStartActivity
 import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
@@ -27,7 +25,26 @@ import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import timber.log.Timber
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
+class Waiter(private val minMillis: Long) {
+
+    private val startTime = System.currentTimeMillis()
+
+    suspend fun mayWait() {
+        val endTime = System.currentTimeMillis()
+        val elapsedTime = endTime - startTime
+        val requiredDelay = minMillis - elapsedTime
+
+        if (requiredDelay > 0) {
+            delay(requiredDelay)
+        }
+    }
+}
 
 /*
     Similar to PlayAgainstGnuGoActivity, but use local engine instead.
@@ -124,16 +141,22 @@ class PlayAgainstEngineActivity : GoActivity() {
     private fun genMove() {
         engineGoGame.aiIsThinking = true
         game.clearHint()
-        val move = engine.genMove(game.isBlackToMove)
-        if (move.pass) {
-            game.pass()
-            Toast.makeText(this, R.string.pass, Toast.LENGTH_SHORT).show()
-            bus.post(Message(getString(R.string.pass)))
-        } else {
-            val boardCell = game.calcBoard.getCell(move.x, move.y)
-            game.do_move(boardCell)
+        val waiter = Waiter(200)
+        lifecycleScope.launch {
+            val move = engine.genMove(game.isBlackToMove)
+            waiter.mayWait()
+            withContext(Dispatchers.Main) {
+                if (move.pass) {
+                    game.pass()
+                    Toast.makeText(this@PlayAgainstEngineActivity, R.string.pass, Toast.LENGTH_SHORT).show()
+                    bus.post(Message(getString(R.string.pass)))
+                } else {
+                    val boardCell = game.calcBoard.getCell(move.x, move.y)
+                    game.do_move(boardCell)
+                }
+                engineGoGame.aiIsThinking = false
+            }
         }
-        engineGoGame.aiIsThinking = false
     }
 
     fun syncFromScratch() {
