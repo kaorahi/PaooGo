@@ -125,14 +125,21 @@ class PlayAgainstEngineActivity : GoActivity() {
                 return GoGame.MoveStatus.VALID
             }
             game.clearHint()
-            manualMove(cell)
+            // use value before doMoveWithUIFeedback.
+            val isBlack = game.isBlackToMove
+            val ret = super.doMoveWithUIFeedback(cell)
+            if (ret != GoGame.MoveStatus.VALID)
+                return ret
+
+            manualMove(cell, isBlack)
+            return ret;
         }
 
         return super.doMoveWithUIFeedback(cell)
     }
 
-    private fun manualMove(cell: Cell) {
-        if(!engine.doMove(cell.x, cell.y, game.isBlackToMove))
+    private fun manualMove(cell: Cell, isBlack: Boolean) {
+        if(!engine.doMove(cell.x, cell.y, isBlack))
         {
             Timber.w("problem processing move to (%d, %d)", cell.x, cell.y)
         }
