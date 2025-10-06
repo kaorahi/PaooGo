@@ -58,6 +58,9 @@ android {
         }
     }
 
+    // 16K page support require ndk r28 or later.
+    ndkVersion "28.2.13676358"
+
 
     testOptions {
         animationsDisabled = true
@@ -77,6 +80,7 @@ android {
 
         debug {
             debuggable true
+            jniDebuggable true
             // to avoid MultiDex http://stackoverflow.com/questions/38329248/dexindexoverflowexception-when-running-androidtests
             minifyEnabled false
             applicationIdSuffix ".debug"
