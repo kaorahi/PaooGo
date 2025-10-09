@@ -23,7 +23,6 @@ import org.ligi.gobandroid_hd.databinding.DropdownItemBinding
 import org.ligi.gobandroid_hd.databinding.TopNavAndExtrasBinding
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.model.GameProvider
-import org.ligi.gobandroid_hd.ui.ingame_common.SwitchModeHelper
 import timber.log.Timber
 
 class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {

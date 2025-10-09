@@ -56,12 +56,10 @@ import org.ligi.gobandroid_hd.logic.GoGame.MoveStatus.INVALID_CELL_NO_LIBERTIES
 import org.ligi.gobandroid_hd.logic.GoGame.MoveStatus.INVALID_IS_KO
 import org.ligi.gobandroid_hd.logic.GoGame.MoveStatus.INVALID_NOT_ON_BOARD
 import org.ligi.gobandroid_hd.logic.sgf.SGFWriter
-import org.ligi.gobandroid_hd.print.GoGamePrintDocumentAdapter
 import org.ligi.gobandroid_hd.ui.GoSoundManager.Sound.PICKUP1
 import org.ligi.gobandroid_hd.ui.GoSoundManager.Sound.PICKUP2
 import org.ligi.gobandroid_hd.ui.GoSoundManager.Sound.PLACE1
 import org.ligi.gobandroid_hd.ui.GoSoundManager.Sound.PLACE2
-import org.ligi.gobandroid_hd.ui.alerts.GameInfoDialog
 import org.ligi.gobandroid_hd.ui.application.GobandroidFragmentActivity
 import org.ligi.gobandroid_hd.ui.fragments.DefaultGameExtrasFragment
 import org.ligi.gobandroid_hd.ui.recording.SaveSGFDialog
@@ -88,7 +86,6 @@ import java.util.Locale
 /**
  * Activity for a Go Game
  */
-@RuntimePermissions
 open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyListener {
     var sound_man: GoSoundManager? = null
 
@@ -117,31 +114,6 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game)
         binding = GameBinding.bind(pbinding.contentFrame.getChildAt(0))
-
-        if (!BuildConfig.DEBUG) {
-            // if there where stacktraces collected -> give the user the option to send them
-            if (!sendTraceDroidStackTracesIfExist("ligi@ligi.de", this)) {
-                SnackEngage.from(binding.goBoard)
-                    .withSnack(
-                        RateSnack().withConditions(
-                            NeverAgainWhenClickedOnce(),
-                            AfterNumberOfOpportunities(42)
-                        )
-                    )
-                    .withSnack(
-                        TranslateSnack("https://www.transifex.com/ligi/gobandroid/").withConditions(
-                            AfterNumberOfOpportunities(4),
-                            IsOneOfTheseLocales(
-                                Locale.KOREA,
-                                Locale.KOREAN
-                            ),
-                            NeverAgainWhenClickedOnce()
-                        )
-                    )
-                    .build()
-                    .engageWhenAppropriate()
-            }
-        }
 
         supportActionBar!!.setHomeButtonEnabled(true)
 
@@ -230,11 +202,10 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
 
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val item = menu.findItem(R.id.menu_game_print)
-
-        if (item != null) {
-            item.isVisible = Build.VERSION.SDK_INT >= 19
-        }
+        // NYI
+        menu.findItem(R.id.menu_game_info)?.let{ it.isVisible = false }
+        menu.findItem(R.id.menu_game_share)?.let{ it.isVisible = false }
+        menu.findItem(R.id.menu_write_sgf)?.let{ it.isVisible = false }
 
         return super.onPrepareOptionsMenu(menu)
     }
@@ -251,16 +222,6 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         bus.post(OptionsItemClickedEvent(item.itemId))
         when (item.itemId) {
 
-            R.id.menu_game_print -> {
-                doPrint()
-                return true
-            }
-
-            R.id.menu_game_info -> {
-                GameInfoDialog(this, game).show()
-                return true
-            }
-
             R.id.menu_game_undo -> {
                 if (game.canUndo()) {
                     requestUndo()
@@ -272,6 +233,8 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
                 return doPass()
             }
 
+            /*
+            NYI
             R.id.menu_write_sgf -> {
                 prepareSaveWithPermissionCheck()
                 return true
@@ -282,25 +245,18 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
                 ShareSGFDialog(this).show()
                 return true
             }
+             */
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    @NeedsPermission(
-        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+    /*
+    NYI
     fun prepareSave() {
         SaveSGFDialog(this).show()
     }
-
-    @TargetApi(19)
-    fun doPrint() {
-        val printManager = getSystemService(Context.PRINT_SERVICE) as PrintManager
-        val jobName = getString(R.string.app_name)
-        printManager.print(jobName, GoGamePrintDocumentAdapter(this, jobName), null)
-    }
+     */
 
     fun switchToCounting() {
         interactionScope.mode = InteractionScope.Mode.COUNT
@@ -426,29 +382,9 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
 
         binding.goBoard.move_stone_mode = false
 
-        if (doAutoSave()) {
-            try {
-                val f = File(env.SGFSavePath.toString() + "/autosave.sgf")
-                f.createNewFile()
-
-                val sgf_writer = FileWriter(f)
-
-                val out = BufferedWriter(sgf_writer)
-
-                out.write(SGFWriter.game2sgf(game))
-                out.close()
-                sgf_writer.close()
-
-            } catch (e: IOException) {
-                Timber.i("" + e)
-            }
-
-        }
         bus.unregister(this)
         super.onPause()
     }
-
-    open fun doAutoSave() = false
 
     open fun doTouch(event: MotionEvent) {
 

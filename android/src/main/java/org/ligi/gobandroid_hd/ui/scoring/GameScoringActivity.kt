@@ -20,8 +20,6 @@ import org.ligi.gobandroid_hd.logic.StatelessBoardCell
 import org.ligi.gobandroid_hd.logic.cell_gatherer.LooseConnectedCellGatherer
 import org.ligi.gobandroid_hd.logic.cell_gatherer.MustBeConnectedCellGatherer
 import org.ligi.gobandroid_hd.ui.GoActivity
-import org.ligi.gobandroid_hd.ui.gnugo.PlayAgainstGnuGoActivity
-import org.ligi.gobandroid_hd.ui.recording.GameRecordActivity
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -118,12 +116,6 @@ class GameScoringActivity : GoActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun getClassForRestart(metaData: GoGameMetadata): KClass<out Activity> {
-        val wasGnugoGame = metaData.blackName.equals("gnugo", ignoreCase = true)
-                || metaData.whiteName.equals("gnugo", ignoreCase = true)
-        return if (wasGnugoGame) PlayAgainstGnuGoActivity::class else GameRecordActivity::class
     }
 
     override fun onPause() {

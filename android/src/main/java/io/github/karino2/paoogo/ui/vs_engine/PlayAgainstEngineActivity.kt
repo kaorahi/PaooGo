@@ -206,10 +206,6 @@ class PlayAgainstEngineActivity : GoActivity() {
         return true
     }
 
-    override fun doAutoSave(): Boolean {
-        return true
-    }
-
     override fun initializeStoneMove() {
         // we do not want this behaviour so we override and do nothing
     }

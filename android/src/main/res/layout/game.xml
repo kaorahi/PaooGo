@@ -25,10 +25,13 @@
         android:layout_height="wrap_content"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
+        android:paddingBottom="4dp"
         android:lines="1"
         android:fontFamily="sans-serif"
         tools:text="text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <include layout="@layout/horizontal_divider" />
 
     <FrameLayout
         android:layout_width="fill_parent"
