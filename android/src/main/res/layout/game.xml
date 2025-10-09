@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/default_activity_main"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/white_player_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:fontFamily="sans-serif"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <org.ligi.gobandroid_hd.ui.GoBoardView
             android:id="@+id/go_board"
             android:layout_margin="1dp"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"/>
+    <TextView
+        android:id="@+id/black_player_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:lines="1"
+        android:fontFamily="sans-serif"
+        tools:text="text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <FrameLayout
         android:layout_width="fill_parent"

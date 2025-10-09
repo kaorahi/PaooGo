@@ -11,6 +11,7 @@ import io.github.karino2.paoogo.goengine.katago.KataGoNative
 import io.github.karino2.paoogo.goengine.katago.KataGoSetup
 import io.github.karino2.paoogo.goengine.liberty.LibertyNative
 import io.github.karino2.paoogo.goengine.ray.RayNative
+import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.logic.GoGame
 
@@ -64,13 +65,14 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
 
     fun getAnalyzer() : GoAnalyzer { return katagoEngine }
 
-    fun getEngine(level: Int) : GoEngine {
+
+    fun getEngine(level: Int) : Pair<GoEngine, Int> {
         return when(level) {
-            1-> amigoEngine.apply { setLevel(0) }
-            2-> amigoEngine.apply { setLevel(7)}
-            3-> libertyEngine
-            4-> gnugo2Engine
-            else-> gnugo3Engine
+            1-> Pair(amigoEngine.apply { setLevel(0) }, R.string.paomigojr)
+            2-> Pair(amigoEngine.apply { setLevel(7)}, R.string.paomigo)
+            3-> Pair(libertyEngine, R.string.paolibe)
+            4-> Pair(gnugo2Engine, R.string.paognujr)
+            else-> Pair(gnugo3Engine, R.string.paognu)
         }
     }
 }

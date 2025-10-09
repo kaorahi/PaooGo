@@ -87,6 +87,7 @@ class PlayAgainstEngineActivity : GoActivity() {
         // Timber.plant(Timber.DebugTree())
         running = true
         setupEngine()
+        updatePlayerName()
         syncFromScratch()
 
         Thread( {
@@ -107,7 +108,9 @@ class PlayAgainstEngineActivity : GoActivity() {
     }
 
     private fun setupEngine() {
-        engine = engineRepository.getEngine(GoPrefs.engineLevel)
+        val epair = engineRepository.getEngine(GoPrefs.engineLevel)
+        engine = epair.first
+        game.whitePlayerName = epair.second
         engine.setKomi(game.komi)
         engine.setBoardSize(game.boardSize)
         engine.clearBoard()

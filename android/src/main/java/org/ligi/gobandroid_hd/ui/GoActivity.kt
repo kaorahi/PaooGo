@@ -106,6 +106,12 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
      */
     open fun isAsk4QuitEnabled() = true
 
+    fun updatePlayerName()
+    {
+        binding.whitePlayerNameTv!!.text = getString(game.whitePlayerName)
+        binding.blackPlayerNameTv!!.text = getString(game.blackPlayerName)
+    }
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,6 +176,7 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         setupBoard()
 
         game2ui()
+        updatePlayerName()
     }
 
     @SuppressLint("ShowToast")

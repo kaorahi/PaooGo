@@ -298,6 +298,12 @@
     <string name="main_line">Main line</string>
     <string name="analyze">Analyze</string>
     <string name="resume_from_here">Resume from here</string>
+    <string name="you">You</string>
+    <string name="paomigojr">Paomigo Jr.</string>
+    <string name="paomigo">Paomigo</string>
+    <string name="paolibe">Paolibe</string>
+    <string name="paognujr">Paognu Jr.</string>
+    <string name="paognu">Paognu</string>
     <string-array name="level_array">
         <item>Lv1 Paomigo Jr.</item>
         <item>Lv2 Paomigo</item>

@@ -23,6 +23,7 @@ package org.ligi.gobandroid_hd.logic
 
 import io.github.karino2.paoogo.goengine.AnalyzeInfo
 import org.greenrobot.eventbus.EventBus
+import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.GoDefinitions.*
 import org.ligi.gobandroid_hd.logic.cell_gatherer.MustBeConnectedCellGatherer
@@ -151,6 +152,9 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
     lateinit var actMove: GoMove
 
     lateinit var metaData: GoGameMetadata
+
+    var blackPlayerName = R.string.you
+    var whitePlayerName = R.string.you
 
     private lateinit var all_handicap_positions: Array<BooleanArray>
 
