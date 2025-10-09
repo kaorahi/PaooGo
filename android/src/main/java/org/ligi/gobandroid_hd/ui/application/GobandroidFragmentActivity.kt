@@ -33,7 +33,6 @@ open class GobandroidFragmentActivity : AppCompatActivity() {
         pbinding = BaseContainerBinding.inflate(layoutInflater)
         setContentView(pbinding.root)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // a little hack because I strongly disagree with the style guide here
         // ;-)
         // not having the Actionbar overflow menu also with devices with hardware

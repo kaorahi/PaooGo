@@ -53,6 +53,7 @@
         <activity android:name=".ui.scoring.GameScoringActivity" />
         <activity android:name=".ui.GoPrefsActivity" />
         <activity android:name=".ui.GoActivity" />
+        <activity android:name="io.github.karino2.paoogo.ui.AboutActivity" />
     </application>
 
 </manifest>

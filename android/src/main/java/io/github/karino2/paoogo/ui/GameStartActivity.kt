@@ -2,6 +2,8 @@ package io.github.karino2.paoogo.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.accessibility.AccessibilityEvent.INVALID_POSITION
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -23,6 +25,7 @@ import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity
+import io.github.karino2.paoogo.ui.AboutActivity
 import kotlin.getValue
 
 class GameStartActivity : AppCompatActivity() {
@@ -72,6 +75,17 @@ class GameStartActivity : AppCompatActivity() {
             clearGame(boardSize)
             Intent(this@GameStartActivity, PlayAgainstEngineActivity::class.java).let { startActivity(it) }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?) =  super.onCreateOptionsMenu(menu.apply {
+            menuInflater.inflate(R.menu.game_start, this)
+        })
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menu_about -> Intent(this, AboutActivity::class.java).let { startActivity(it) }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     val gameProvider: GameProvider by App.kodein.lazy.instance()
