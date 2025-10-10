@@ -2,6 +2,14 @@
 
 Android igo app for primer, forked from [gobandroid](https://github.com/ligi/gobandroid).
 
+## Screenshot
+
+![analyze](promo/screenshot_en/analyze.png)
+
+![play](promo/screenshot_en/play.png)
+
+![start](promo/screenshot_en/start.png)
+
 ## Used engine
 
 - [karino2/GnuGo2Fork](https://github.com/karino2/GnuGo2Fork)
