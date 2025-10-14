@@ -211,12 +211,69 @@
   <string name="paognujr">ぱおぬージュニア</string>
   <string name="paognu">ぱおぬージュニア</string>
   <string name="paokata">ぱおかた</string>
+  <string name="paokata20k">ぱおかた 20級</string>
+  <string name="paokata19k">ぱおかた 19級</string>
+  <string name="paokata18k">ぱおかた 18級</string>
+  <string name="paokata17k">ぱおかた 17級</string>
+  <string name="paokata16k">ぱおかた 16級</string>
+  <string name="paokata15k">ぱおかた 15級</string>
+  <string name="paokata14k">ぱおかた 14級</string>
+  <string name="paokata13k">ぱおかた 13級</string>
+  <string name="paokata12k">ぱおかた 12級</string>
+  <string name="paokata11k">ぱおかた 11級</string>
+  <string name="paokata10k">ぱおかた 10級</string>
+  <string name="paokata9k">ぱおかた 9級</string>
+  <string name="paokata8k">ぱおかた 8級</string>
+  <string name="paokata7k">ぱおかた 7級</string>
+  <string name="paokata6k">ぱおかた 6級</string>
+  <string name="paokata5k">ぱおかた 5級</string>
+  <string name="paokata4k">ぱおかた 4級</string>
+  <string name="paokata3k">ぱおかた 3級</string>
+  <string name="paokata2k">ぱおかた 2級</string>
+  <string name="paokata1k">ぱおかた 1級</string>
+  <string name="paokata1d">ぱおかた 初段</string>
+  <string name="paokata2d">ぱおかた 2段</string>
+  <string name="paokata3d">ぱおかた 3段</string>
+  <string name="paokata4d">ぱおかた 4段</string>
+  <string name="paokata5d">ぱおかた 5段</string>
+  <string name="paokata6d">ぱおかた 6段</string>
+  <string name="paokata7d">ぱおかた 7段</string>
+  <string name="paokata8d">ぱおかた 8段</string>
+  <string name="paokata9d">ぱおかた 9段</string>
   <string-array name="level_array">
     <item>Lv1 ぱおみーごジュニア</item>
     <item>Lv2 ぱおみーご</item>
     <item>Lv3 ぱおりば</item>
     <item>Lv4 ぱおぬージュニア</item>
     <item>Lv5 ぱおぬー</item>
-    <item>Lv6 ぱおかた</item>
+    <item>ぱおかた 20級</item>
+    <item>ぱおかた 19級</item>
+    <item>ぱおかた 18級</item>
+    <item>ぱおかた 17級</item>
+    <item>ぱおかた 16級</item>
+    <item>ぱおかた 15級</item>
+    <item>ぱおかた 14級</item>
+    <item>ぱおかた 13級</item>
+    <item>ぱおかた 12級</item>
+    <item>ぱおかた 11級</item>
+    <item>ぱおかた 10級</item>
+    <item>ぱおかた 9級</item>
+    <item>ぱおかた 8級</item>
+    <item>ぱおかた 7級</item>
+    <item>ぱおかた 6級</item>
+    <item>ぱおかた 5級</item>
+    <item>ぱおかた 4級</item>
+    <item>ぱおかた 3級</item>
+    <item>ぱおかた 2級</item>
+    <item>ぱおかた 1級</item>
+    <item>ぱおかた 初段</item>
+    <item>ぱおかた 2段</item>
+    <item>ぱおかた 3段</item>
+    <item>ぱおかた 4段</item>
+    <item>ぱおかた 5段</item>
+    <item>ぱおかた 6段</item>
+    <item>ぱおかた 7段</item>
+    <item>ぱおかた 8段</item>
+    <item>ぱおかた 9段</item>
  </string-array>
 </resources>

@@ -18,6 +18,7 @@ class KataGoNative : GoEngine, GoAnalyzer {
     override external fun setKomi(komi: Float)
     override external fun clearBoard()
     override external fun setBoardSize(size: Int)
+    external fun setGenmoveProfile(profile: String)
     override external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
     override external fun genMoveInternal(isBlack: Boolean) : Int
     override fun debugInfo(): String? {

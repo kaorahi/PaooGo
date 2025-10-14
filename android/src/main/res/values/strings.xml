@@ -304,14 +304,70 @@
     <string name="paolibe">Paolibe</string>
     <string name="paognujr">Paognu Jr.</string>
     <string name="paognu">Paognu</string>
-    <string name="paokata">Paokata</string>
+    <string name="paokata20k">Paokata 20k</string>
+    <string name="paokata19k">Paokata 19k</string>
+    <string name="paokata18k">Paokata 18k</string>
+    <string name="paokata17k">Paokata 17k</string>
+    <string name="paokata16k">Paokata 16k</string>
+    <string name="paokata15k">Paokata 15k</string>
+    <string name="paokata14k">Paokata 14k</string>
+    <string name="paokata13k">Paokata 13k</string>
+    <string name="paokata12k">Paokata 12k</string>
+    <string name="paokata11k">Paokata 11k</string>
+    <string name="paokata10k">Paokata 10k</string>
+    <string name="paokata9k">Paokata 9k</string>
+    <string name="paokata8k">Paokata 8k</string>
+    <string name="paokata7k">Paokata 7k</string>
+    <string name="paokata6k">Paokata 6k</string>
+    <string name="paokata5k">Paokata 5k</string>
+    <string name="paokata4k">Paokata 4k</string>
+    <string name="paokata3k">Paokata 3k</string>
+    <string name="paokata2k">Paokata 2k</string>
+    <string name="paokata1k">Paokata 1k</string>
+    <string name="paokata1d">Paokata 1d</string>
+    <string name="paokata2d">Paokata 2d</string>
+    <string name="paokata3d">Paokata 3d</string>
+    <string name="paokata4d">Paokata 4d</string>
+    <string name="paokata5d">Paokata 5d</string>
+    <string name="paokata6d">Paokata 6d</string>
+    <string name="paokata7d">Paokata 7d</string>
+    <string name="paokata8d">Paokata 8d</string>
+    <string name="paokata9d">Paokata 9d</string>
     <string-array name="level_array">
         <item>Lv1 Paomigo Jr.</item>
         <item>Lv2 Paomigo</item>
         <item>Lv3 Paolibe</item>
         <item>Lv4 Paognu Jr.</item>
         <item>Lv5 Paognu</item>
-        <item>Lv6 Paokata</item>
+        <item>Paokata 20k</item>
+        <item>Paokata 19k</item>
+        <item>Paokata 18k</item>
+        <item>Paokata 17k</item>
+        <item>Paokata 16k</item>
+        <item>Paokata 15k</item>
+        <item>Paokata 14k</item>
+        <item>Paokata 13k</item>
+        <item>Paokata 12k</item>
+        <item>Paokata 11k</item>
+        <item>Paokata 10k</item>
+        <item>Paokata 9k</item>
+        <item>Paokata 8k</item>
+        <item>Paokata 7k</item>
+        <item>Paokata 6k</item>
+        <item>Paokata 5k</item>
+        <item>Paokata 4k</item>
+        <item>Paokata 3k</item>
+        <item>Paokata 2k</item>
+        <item>Paokata 1k</item>
+        <item>Paokata 1d</item>
+        <item>Paokata 2d</item>
+        <item>Paokata 3d</item>
+        <item>Paokata 4d</item>
+        <item>Paokata 5d</item>
+        <item>Paokata 6d</item>
+        <item>Paokata 7d</item>
+        <item>Paokata 8d</item>
+        <item>Paokata 9d</item>
     </string-array>
     <string name="about">About</string>
 </resources>
