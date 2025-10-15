@@ -88,11 +88,14 @@ class PlayAgainstEngineActivity : GoActivity() {
 
         // Timber.plant(Timber.DebugTree())
         running = true
+        val spinner = findViewById<ProgressBar>(R.id.ai_thinking_spinner)
+        spinner.visibility = View.VISIBLE
 
         Thread {
             setupEngine()
             handler.post {
                 afterEngineSetup()
+                spinner.visibility = View.GONE
             }
         }.start()
     }
