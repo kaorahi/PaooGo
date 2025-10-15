@@ -86,7 +86,16 @@ class PlayAgainstEngineActivity : GoActivity() {
 
         // Timber.plant(Timber.DebugTree())
         running = true
-        setupEngine()
+
+        Thread {
+            setupEngine()
+            handler.post {
+                afterEngineSetup()
+            }
+        }.start()
+    }
+
+    private fun afterEngineSetup() {
         updatePlayerName()
         syncFromScratch()
 
