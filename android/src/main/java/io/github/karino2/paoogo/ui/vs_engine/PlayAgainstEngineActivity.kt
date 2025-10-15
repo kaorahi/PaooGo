@@ -269,7 +269,7 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     override val gameExtraFragment: Fragment
         get() = ConsoleGameExtrasFragment().apply {
-            askNewInfo = { engine.debugInfo()!! }
+            askNewInfo = { if (::engine.isInitialized) engine.debugInfo() ?: "" else ""}
             bus.register(this)
         }
 }
