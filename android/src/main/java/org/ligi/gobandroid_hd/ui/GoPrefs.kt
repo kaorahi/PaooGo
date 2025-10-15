@@ -53,7 +53,7 @@ object GoPrefs : KotprefModel() {
 
     var engineLevel: Int by intPref(default=3)
 
-    var boardLineWidth: Int by intPref(default = 1, key = R.string.prefs_linewidth)
+    var boardLineWidth: Int by intPref(default = 5, key = R.string.prefs_linewidth)
 
     var username: String by stringPref()
     var rank: String by stringPref()
