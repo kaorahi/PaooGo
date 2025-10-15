@@ -151,9 +151,17 @@ class PlayAgainstEngineActivity : GoActivity() {
     private fun genMove() {
         engineGoGame.aiIsThinking = true
         game.clearHint()
+        android.view.Choreographer.getInstance().postFrameCallback {
+            runGenMove()
+        }
+    }
+
+    private fun runGenMove() {
         val waiter = Waiter(200)
         lifecycleScope.launch {
-            val move = engine.genMove(game.isBlackToMove)
+            val move = withContext(kotlinx.coroutines.Dispatchers.Default) {
+                engine.genMove(game.isBlackToMove)
+            }
             waiter.mayWait()
             withContext(Dispatchers.Main) {
                 if (move.pass) {
