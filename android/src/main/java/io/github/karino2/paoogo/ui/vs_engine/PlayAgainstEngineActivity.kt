@@ -68,6 +68,8 @@ class PlayAgainstEngineActivity : GoActivity() {
     private var syncing = false;
 
     override fun doTouch(event: MotionEvent) {
+        if (!::engine.isInitialized)
+            return
         if (engineGoGame.engineNowBlack() or engineGoGame.engineNowWhite()) {
             showInfoToast(R.string.not_your_turn)
         } else {
