@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -160,12 +162,14 @@ class PlayAgainstEngineActivity : GoActivity() {
     private fun genMove() {
         engineGoGame.aiIsThinking = true
         game.clearHint()
+        val spinner = findViewById<ProgressBar>(R.id.ai_thinking_spinner)
+        spinner.visibility = View.VISIBLE
         android.view.Choreographer.getInstance().postFrameCallback {
-            runGenMove()
+            runGenMove(spinner)
         }
     }
 
-    private fun runGenMove() {
+    private fun runGenMove(spinner: ProgressBar) {
         val waiter = Waiter(200)
         lifecycleScope.launch {
             val move = withContext(kotlinx.coroutines.Dispatchers.Default) {
@@ -182,6 +186,7 @@ class PlayAgainstEngineActivity : GoActivity() {
                     game.do_move(boardCell)
                 }
                 engineGoGame.aiIsThinking = false
+                spinner.visibility = View.GONE
             }
         }
     }
