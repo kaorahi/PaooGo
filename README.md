@@ -1,4 +1,4 @@
-This is a modified version of [PaooGo](https://github.com/karino2/PaooGo) for KataGo's human-like model.
+This is a modified version of [PaooGo](https://github.com/karino2/PaooGo) for KataGo's human-like model ([discussion](https://github.com/karino2/PaooGo/issues/4)).
 
 To build it, you need the following:
 
@@ -13,7 +13,6 @@ CMakeLists.txt  KataGo  Ray  amigogtp-1.8  gnugo-2.6  gnugo-3.8  liberty
 
 See also:
 
-- https://github.com/karino2/PaooGo/issues/5
 - https://github.com/karino2/GnuGo2Fork/issues/1
 
 ### Additional build notes for this modified version
