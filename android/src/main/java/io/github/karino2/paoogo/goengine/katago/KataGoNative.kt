@@ -14,10 +14,12 @@ class KataGoNative : GoEngine, GoAnalyzer {
         }
 
     }
+    external fun initNativeHum(threadNum: Int, cfgPath: String, modelPath: String, humanModelPath: String)
     external fun initNative(threadNum: Int, cfgPath: String, modelPath: String)
     override external fun setKomi(komi: Float)
     override external fun clearBoard()
     override external fun setBoardSize(size: Int)
+    external fun setGenmoveProfile(profile: String)
     override external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
     override external fun genMoveInternal(isBlack: Boolean) : Int
     override fun debugInfo(): String? {

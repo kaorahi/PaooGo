@@ -7,7 +7,11 @@ import java.io.File
 class KataGoSetup(val context: Context, val assetManager: AssetManager) {
     companion object {
         val MODEL_NAME="kata1-b6c96-s175395328-d26788732.txt.gz"
+        val HUMAN_MODEL_NAME=null
         val CFG_NAME="gtp_jp.cfg"
+        // val MODEL_NAME="g170e-b10c128-s1141046784-d204142634.bin.gz"
+        // val HUMAN_MODEL_NAME="b18c384nbt-humanv0.bin.gz"
+        // val CFG_NAME="gtp_human.cfg"
     }
 
     fun ensureDir(relative: String) {
@@ -23,7 +27,7 @@ class KataGoSetup(val context: Context, val assetManager: AssetManager) {
         // txt.gz is automatically modified to txt.
         // noCompress is not working for txt.gz.
         // https://stackoverflow.com/questions/4666098/why-does-android-aapt-remove-gz-file-extension-of-assets
-        val assetName = fname.replace("txt.gz", "txt_gz")
+        val assetName = fname.replace("txt.gz", "txt_gz").replace("bin.gz", "bin_gz")
         val dest = getFile("katago/${fname}")
         if (dest.exists())
             return
@@ -44,6 +48,7 @@ class KataGoSetup(val context: Context, val assetManager: AssetManager) {
 
     fun extractFiles() {
         ensureFileCopy(MODEL_NAME)
+        HUMAN_MODEL_NAME?.let { ensureFileCopy(it) }
         // update config often for a while.
         ensureDelete(CFG_NAME)
         ensureFileCopy(CFG_NAME)
@@ -54,5 +59,8 @@ class KataGoSetup(val context: Context, val assetManager: AssetManager) {
 
     val modelFile: File
         get() = getFile("katago/${MODEL_NAME}")
+
+    val humanModelFile: File?
+        get() = HUMAN_MODEL_NAME?.let { getFile("katago/$it") }
 
 }
