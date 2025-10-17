@@ -49,10 +49,11 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
         val setup = KataGoSetup(context, assetManager)
         setup.extractFiles()
         KataGoNative().apply {
-            initNative(
+            initNativeHum(
                 Runtime.getRuntime().availableProcessors(),
                 setup.configFile.absolutePath,
-                setup.modelFile.absolutePath
+                setup.modelFile.absolutePath,
+                setup.humanModelFile?.absolutePath ?: "",
             )
         }
     }
