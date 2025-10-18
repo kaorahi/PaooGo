@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import com.google.android.material.snackbar.Snackbar
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.App
@@ -96,11 +97,14 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnAnalyze.setOnClickListener {
+            val busyIndicator = requireActivity().findViewById<ProgressBar>(R.id.busy_indicator)
+            busyIndicator.visibility = View.VISIBLE
             viewLifecycleOwner.lifecycleScope.launch {
                 analyzer.sync(game)
                 val info = withContext(Dispatchers.IO) {
                     analyzer.analyzeSituation(game.isBlackToMove, game)
                 }
+                busyIndicator.visibility = View.GONE
                 game.setAnalyzeInfo(info)
                 postGameChangeEvent()
             }
