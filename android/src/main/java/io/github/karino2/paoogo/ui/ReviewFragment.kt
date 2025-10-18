@@ -14,6 +14,10 @@ import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.alerts.GameForwardAlert
 import org.ligi.gobandroid_hd.ui.fragments.GobandroidGameAwareFragment
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ReviewFragment : GobandroidGameAwareFragment() {
     private var _binding: ReviewButtonContainerBinding? = null
@@ -92,10 +96,14 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnAnalyze.setOnClickListener {
-            analyzer.sync(game)
-            val info = analyzer.analyzeSituation(game.isBlackToMove, game)
-            game.setAnalyzeInfo(info)
-            postGameChangeEvent()
+            viewLifecycleOwner.lifecycleScope.launch {
+                analyzer.sync(game)
+                val info = withContext(Dispatchers.IO) {
+                    analyzer.analyzeSituation(game.isBlackToMove, game)
+                }
+                game.setAnalyzeInfo(info)
+                postGameChangeEvent()
+            }
         }
     }
 
