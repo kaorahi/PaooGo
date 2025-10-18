@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -64,6 +66,10 @@ class PlayAgainstEngineActivity : GoActivity() {
         }
     }
 
+    private val busyIndicator: ProgressBar by lazy {
+        findViewById(R.id.busy_indicator)
+    }
+
     private var running = false
     private var syncing = false;
 
@@ -88,6 +94,7 @@ class PlayAgainstEngineActivity : GoActivity() {
 
         // Timber.plant(Timber.DebugTree())
         running = true
+        busyIndicator.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -95,6 +102,7 @@ class PlayAgainstEngineActivity : GoActivity() {
             }
             updatePlayerName()
             syncFromScratch()
+            busyIndicator.visibility = View.GONE
 
             Thread( {
                         while(running) {
@@ -158,6 +166,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     private fun genMove() {
         engineGoGame.aiIsThinking = true
         game.clearHint()
+        busyIndicator.visibility = View.VISIBLE
         val waiter = Waiter(200)
         lifecycleScope.launch {
             val move = withContext(Dispatchers.IO) {
@@ -174,6 +183,7 @@ class PlayAgainstEngineActivity : GoActivity() {
                     game.do_move(boardCell)
                 }
                 engineGoGame.aiIsThinking = false
+                busyIndicator.visibility = View.GONE
             }
         }
     }
@@ -237,11 +247,13 @@ class PlayAgainstEngineActivity : GoActivity() {
                 return true
             }
             R.id.menu_game_hint -> {
+                busyIndicator.visibility = View.VISIBLE
                 syncAnalyzer()
                 lifecycleScope.launch {
                     val move = withContext(Dispatchers.IO) {
                         analyzer.hint(game.isBlackToMove, game)
                     }
+                    busyIndicator.visibility = View.GONE
                     if (move.pass)
                     {
                         bus.post(Message(getString(R.string.suggestion_pass)))
