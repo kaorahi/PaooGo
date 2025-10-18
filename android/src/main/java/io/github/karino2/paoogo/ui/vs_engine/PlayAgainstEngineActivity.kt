@@ -166,6 +166,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     private fun genMove() {
         engineGoGame.aiIsThinking = true
         game.clearHint()
+        busyIndicator.visibility = View.VISIBLE
         val waiter = Waiter(200)
         lifecycleScope.launch {
             val move = withContext(Dispatchers.IO) {
@@ -182,6 +183,7 @@ class PlayAgainstEngineActivity : GoActivity() {
                     game.do_move(boardCell)
                 }
                 engineGoGame.aiIsThinking = false
+                busyIndicator.visibility = View.GONE
             }
         }
     }
