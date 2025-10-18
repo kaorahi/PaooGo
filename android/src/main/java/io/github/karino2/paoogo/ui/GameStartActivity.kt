@@ -61,6 +61,7 @@ class GameStartActivity : AppCompatActivity() {
         levelSpinner.adapter = levelAdapter
 
         with(GoPrefs) {
+            engineLevel = engineLevel.coerceIn(1, levelAdapter.count)
             if(lastBoardSize == 13) findViewById<RadioButton>(R.id.board_size_13).isChecked = true
             if(engineLevel != 1) levelSpinner.setSelection(engineLevel - 1)
         }
