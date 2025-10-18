@@ -88,16 +88,21 @@ class PlayAgainstEngineActivity : GoActivity() {
 
         // Timber.plant(Timber.DebugTree())
         running = true
-        setupEngine()
-        updatePlayerName()
-        syncFromScratch()
 
-        Thread( {
-            while(running) {
-                SystemClock.sleep(100)
-                handler.post { engineTick() }
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                setupEngine()
             }
-        }).start()
+            updatePlayerName()
+            syncFromScratch()
+
+            Thread( {
+                        while(running) {
+                            SystemClock.sleep(100)
+                            handler.post { engineTick() }
+                        }
+            }).start()
+        }
     }
 
     private fun engineTick()
@@ -233,16 +238,20 @@ class PlayAgainstEngineActivity : GoActivity() {
             }
             R.id.menu_game_hint -> {
                 syncAnalyzer()
-                val move = analyzer.hint(game.isBlackToMove, game)
-                if (move.pass)
-                {
-                    bus.post(Message(getString(R.string.suggestion_pass)))
-                }
-                else
-                {
-                    val color = if(engineGoGame.playingBlack) GoDefinitions.STONE_WHITE else GoDefinitions.STONE_BLACK
-                    game.setHint(move.x, move.y, color)
-                    bus.post(GameChangedEvent)
+                lifecycleScope.launch {
+                    val move = withContext(Dispatchers.IO) {
+                        analyzer.hint(game.isBlackToMove, game)
+                    }
+                    if (move.pass)
+                    {
+                        bus.post(Message(getString(R.string.suggestion_pass)))
+                    }
+                    else
+                    {
+                        val color = if(engineGoGame.playingBlack) GoDefinitions.STONE_WHITE else GoDefinitions.STONE_BLACK
+                        game.setHint(move.x, move.y, color)
+                        bus.post(GameChangedEvent)
+                    }
                 }
                 return true;
             }
