@@ -155,7 +155,9 @@ class PlayAgainstEngineActivity : GoActivity() {
         game.clearHint()
         val waiter = Waiter(200)
         lifecycleScope.launch {
-            val move = engine.genMove(game.isBlackToMove)
+            val move = withContext(Dispatchers.IO) {
+                engine.genMove(game.isBlackToMove)
+            }
             waiter.mayWait()
             withContext(Dispatchers.Main) {
                 if (move.pass) {
