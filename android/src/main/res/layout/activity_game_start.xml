@@ -46,6 +46,7 @@
     <Spinner
         android:id="@+id/level_spinner"
         android:layout_below="@id/level_label"
+        android:saveEnabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </Spinner>
