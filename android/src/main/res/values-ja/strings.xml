@@ -208,13 +208,15 @@
   <string name="paomigojr">ぱおみーごジュニア</string>
   <string name="paomigo">ぱおみーご</string>
   <string name="paolibe">ぱおりば</string>
+  <string name="paognuli">ぱおぬり</string>
   <string name="paognujr">ぱおぬージュニア</string>
   <string name="paognu">ぱおぬー</string>
   <string-array name="level_array">
     <item>Lv1 ぱおみーごジュニア</item>
     <item>Lv2 ぱおみーご</item>
     <item>Lv3 ぱおりば</item>
-    <item>Lv4 ぱおぬージュニア</item>
-    <item>Lv5 ぱおぬー</item>
+    <item>Lv4 ぱおぬり</item>
+    <item>Lv5 ぱおぬージュニア</item>
+    <item>Lv6 ぱおぬー</item>
  </string-array>
 </resources>

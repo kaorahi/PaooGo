@@ -72,7 +72,11 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
             1-> Pair(amigoEngine.apply { setLevel(0) }, R.string.paomigojr)
             2-> Pair(amigoEngine.apply { setLevel(7)}, R.string.paomigo)
             3-> Pair(libertyEngine, R.string.paolibe)
-            4-> Pair(gnugo2Engine, R.string.paognujr)
+            4-> {
+                val hybrid = HybridEngine(gnugo2Engine, libertyEngine, Policy(14))
+                Pair(hybrid, R.string.paognuli)
+            }
+            5-> Pair(gnugo2Engine, R.string.paognujr)
             else-> Pair(gnugo3Engine, R.string.paognu)
         }
     }

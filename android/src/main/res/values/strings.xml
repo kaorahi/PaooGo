@@ -302,14 +302,16 @@
     <string name="paomigojr">Paomigo Jr.</string>
     <string name="paomigo">Paomigo</string>
     <string name="paolibe">Paolibe</string>
+    <string name="paognuli">Paognuli</string>
     <string name="paognujr">Paognu Jr.</string>
     <string name="paognu">Paognu</string>
     <string-array name="level_array">
         <item>Lv1 Paomigo Jr.</item>
         <item>Lv2 Paomigo</item>
         <item>Lv3 Paolibe</item>
-        <item>Lv4 Paognu Jr.</item>
-        <item>Lv5 Paognu</item>
+        <item>Lv4 Paognuli</item>
+        <item>Lv5 Paognu Jr.</item>
+        <item>Lv6 Paognu</item>
     </string-array>
     <string name="about">About</string>
 </resources>
