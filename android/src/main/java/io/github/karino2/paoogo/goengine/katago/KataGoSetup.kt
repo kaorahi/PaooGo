@@ -6,12 +6,12 @@ import java.io.File
 
 class KataGoSetup(val context: Context, val assetManager: AssetManager) {
     companion object {
-        val MODEL_NAME="kata1-b6c96-s175395328-d26788732.txt.gz"
-        val HUMAN_MODEL_NAME=null
-        val CFG_NAME="gtp_jp.cfg"
-        // val MODEL_NAME="g170e-b10c128-s1141046784-d204142634.bin.gz"
-        // val HUMAN_MODEL_NAME="b18c384nbt-humanv0.bin.gz"
-        // val CFG_NAME="gtp_human.cfg"
+        // val MODEL_NAME="kata1-b6c96-s175395328-d26788732.txt.gz"
+        // val HUMAN_MODEL_NAME=null
+        // val CFG_NAME="gtp_jp.cfg"
+        val MODEL_NAME="g170e-b10c128-s1141046784-d204142634.bin.gz"
+        val HUMAN_MODEL_NAME="b18c384nbt-humanv0.bin.gz"
+        val CFG_NAME="gtp_human.cfg"
     }
 
     fun ensureDir(relative: String) {
