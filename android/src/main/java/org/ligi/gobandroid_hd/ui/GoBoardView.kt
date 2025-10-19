@@ -40,6 +40,18 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 
+data class BoardPos(val x: Int, val y :Int)
+
+class MarkerTracker {
+    val written = mutableSetOf<BoardPos>()
+
+    fun doWrite(pos: BoardPos) {
+        written.add(pos)
+    }
+
+    fun isWritten(pos: BoardPos) = written.contains(pos)
+}
+
 /**
  * Class to visually represent a Go Board in Android
  */
@@ -306,8 +318,13 @@ open class GoBoardView : View {
         for (marker in game.actMove.markers) {
             drawMarker(canvas, marker)
         }
-        for (marker in game.variationMarkers) {
-            drawMarker(canvas, marker)
+        val tracker = MarkerTracker()
+        for (marker in game.variationMarkers.reversed()) {
+            val bpos = BoardPos(marker.x, marker.y)
+            if (!tracker.isWritten(bpos)) {
+                drawMarker(canvas, marker)
+                tracker.doWrite(bpos)
+            }
         }
 
         game.hint?.let {
