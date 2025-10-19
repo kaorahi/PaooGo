@@ -66,9 +66,6 @@ android {
         animationsDisabled = true
         unitTests.returnDefaultValues = true
     }
-    aaptOptions {
-        noCompress 'bin', 'txt_gz'
-    }
 
     buildTypes {
         release {
@@ -93,6 +90,9 @@ android {
     }
     lint {
         warning 'MissingTranslation', 'ResourceType', 'InvalidPackage'
+    }
+    androidResources {
+        noCompress 'bin', 'txt_gz'
     }
 } // android
 
