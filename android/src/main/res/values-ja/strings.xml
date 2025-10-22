@@ -219,4 +219,5 @@
     <item>Lv5 ぱおぬージュニア</item>
     <item>Lv6 ぱおぬー</item>
  </string-array>
+ <string name="engine_starting">起動中… %d</string>
 </resources>
