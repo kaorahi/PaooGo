@@ -4,6 +4,12 @@ import io.github.karino2.paoogo.goengine.AnalyzeInfo
 import io.github.karino2.paoogo.goengine.GoAnalyzer
 import io.github.karino2.paoogo.goengine.GoEngine
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
+import java.util.LinkedHashMap
+import kotlin.math.ln
+import kotlin.math.pow
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
+import kotlin.random.Random
 import org.ligi.gobandroid_hd.logic.GTPHelper
 import org.ligi.gobandroid_hd.logic.GoGame
 
@@ -21,7 +27,8 @@ class KataGoNative : GoEngine, GoAnalyzer {
     override external fun setBoardSize(size: Int)
     external fun setGenmoveProfile(profile: String)
     override external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
-    override external fun genMoveInternal(isBlack: Boolean) : Int
+    // override external fun genMoveInternal(isBlack: Boolean) : Int
+    override fun genMoveInternal(isBlack: Boolean) = genMoveInternalUsingRawNN(isBlack)
     override fun debugInfo(): String? {
         return null
     }
@@ -78,6 +85,51 @@ class KataGoNative : GoEngine, GoAnalyzer {
             return MovePos.PASS
 
         return MovePos.fromString(arr[0], game)
+    }
+
+    private fun genMoveInternalUsingRawNN(isBlack: Boolean) : Int {
+        val temperature = 0.8
+        val whichSymmetry = Random.nextInt(8)
+        val nnOutput = parseRawNN(rawNN(whichSymmetry, 0.0, true));
+        val policyList = nnOutput["policy"].orEmpty()
+        val policyPassList = nnOutput["policyPass"].orEmpty()  // size = 1
+        val weightList = (policyPassList + policyList).map { it.pow(1.0 / temperature) }
+        val policyIndex = (weightedRandomIndex(weightList) ?: 0) - 1
+        if (policyIndex < 0) {
+            doPass(isBlack)
+            return -1
+        }
+        val boardSize = sqrt(policyList.size.toDouble()).roundToInt()
+        val x = policyIndex % boardSize
+        val y = policyIndex / boardSize
+        doMove(x, y, isBlack)
+        return x or (y shl 16)
+    }
+
+    external fun rawNN(whichSymmetry: Int, policyOptimism: Double, useHumanModel: Boolean) : String
+
+    private fun parseRawNN(text: String): Map<String, List<Double>> {
+        val out = LinkedHashMap<String, MutableList<Double>>()
+        var key: String = ""
+        Regex("\\S+").findAll(text).forEach { m ->
+            val t = m.value
+            val v = if (t.equals("NAN")) 0.0 else t.toDoubleOrNull()
+            if (v != null) {
+                out.getOrPut(key) { mutableListOf() }.add(v)
+            } else {
+                key = t
+                out.putIfAbsent(key, mutableListOf())
+            }
+        }
+        return out.mapValues { it.value.toList() }
+    }
+
+    private fun weightedRandomIndex(weightList: List<Double>): Int? {
+        return weightList.indices.minByOrNull { i ->
+            val w = weightList[i]
+            if (w > 0.0) - ln(Random.nextDouble()) / w
+            else Double.POSITIVE_INFINITY
+        }
     }
 
 }
