@@ -1,4 +1,4 @@
-This is a modified version of [PaooGo](https://github.com/karino2/PaooGo) for KataGo's human-like model ([discussion](https://github.com/karino2/PaooGo/issues/4)).
+This is a modified version of [PaooGo](https://github.com/karino2/PaooGo) for KataGo's human-like model ([discussion](https://github.com/karino2/PaooGo/issues/4)). On my phone, it plays at 2 sec/move on 9x9 and 3 sec/move on 13x13. Fast enough for me.
 
 To build it, you need the following:
 
@@ -22,6 +22,7 @@ $ make
 
 ### Additional build notes for this modified version
 
+- Replace KataGo with [kaorahi/KataGo: paoo_251022a](https://github.com/kaorahi/KataGo/tree/paoo_251022a).
 - From KataGo's [Extra Networks](https://katagotraining.org/extra_networks/), download "Human SL Network (July 2024)" [Network file](https://media.katagotraining.org/uploaded/networks/models_extra/b18c384nbt-humanv0.bin.gz). Copy `b18c384nbt-humanv0.bin.gz` to `android/src/main/assets/katago/`, then rename `bin.gz` to `bin_gz`.
 - Similarly, from KataGo's [Networks](https://katagotraining.org/networks/), download any "Network File" (e.g., [the last b10 model](https://media.katagotraining.org/uploaded/networks/models/kata1/kata1-b10c128-s1141046784-d204142634.txt.gz) for older phones). Copy it also to `android/src/main/assets/katago/`, then rename `bin.gz` to `bin_gz`, or `txt.gz` to `txt_gz`.
 - Open `android/src/main/java/io/github/karino2/paoogo/goengine/katago/KataGoSetup.kt` and edit the line `MODEL_NAME="...bin.gz"` accordingly. Use `bin.gz` or `txt.gz` here (not `bin_gz` or `txt_gz).
