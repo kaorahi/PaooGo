@@ -30,6 +30,7 @@ import timber.log.Timber
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -95,14 +96,33 @@ class PlayAgainstEngineActivity : GoActivity() {
         // Timber.plant(Timber.DebugTree())
         running = true
         busyIndicator.visibility = View.VISIBLE
+        var startupSec = 0
 
         lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                setupEngine()
+            val toastJob = launch {
+                while (isActive) {
+                    delay(1000)
+                    startupSec += 1
+                    Toast.makeText(this@PlayAgainstEngineActivity,
+                                   getString(R.string.engine_starting, startupSec),
+                                   Toast.LENGTH_SHORT).show()
+                }
+            }
+            try {
+                withContext(Dispatchers.IO) {
+                    setupEngine()
+                }
+            } finally {
+                toastJob.cancel()
+                if (startupSec > 0) {
+                    Toast.makeText(this@PlayAgainstEngineActivity,
+                                   getString(R.string.engine_ready),
+                                   Toast.LENGTH_SHORT).show()
+                }
+                busyIndicator.visibility = View.GONE
             }
             updatePlayerName()
             syncFromScratch()
-            busyIndicator.visibility = View.GONE
 
             Thread( {
                         while(running) {

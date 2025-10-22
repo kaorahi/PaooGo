@@ -277,4 +277,5 @@
     <item>ぱおかた 八段</item>
     <item>ぱおかた 九段</item>
  </string-array>
+ <string name="engine_starting">起動中… %d</string>
 </resources>
