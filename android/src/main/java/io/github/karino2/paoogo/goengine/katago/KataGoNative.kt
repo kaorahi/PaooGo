@@ -27,8 +27,8 @@ class KataGoNative : GoEngine, GoAnalyzer {
     override external fun setBoardSize(size: Int)
     external fun setGenmoveProfile(profile: String)
     override external fun doMove(x: Int, y: Int, isBlack: Boolean) : Boolean
-    override external fun genMoveInternal(isBlack: Boolean) : Int
-    // override fun genMoveInternal(isBlack: Boolean) = genMoveInternalUsingRawNN(isBlack)
+    // override external fun genMoveInternal(isBlack: Boolean) : Int
+    override fun genMoveInternal(isBlack: Boolean) = genMoveInternalUsingRawNN(isBlack)
     override fun debugInfo(): String? {
         return null
     }
