@@ -21,6 +21,17 @@ repositories {
     maven { url 'https://linkedin.jfrog.io/artifactory/open-source/' }
 }
 
+tasks.named("preBuild") {
+    doFirst {
+        def f = file("src/main/assets/katago/b18c384nbt-humanv0.bin_gz")
+        if (!f.exists()) {
+            throw new GradleException(
+                "Manual step needed: Copy KataGo HumanSL model to ${f.parent} and rename it to '${f.name}' (not '.bin.gz')."
+            )
+        }
+    }
+}
+
 android {
     namespace "org.ligi.gobandroid_hd"
 
