@@ -86,7 +86,7 @@ class KataGoNative : GoEngine, GoAnalyzer {
                 val score = if (isBlack) it.scoreLead else - it.scoreLead
                 AnalyzeInfo(game.visualBoard.getCell(pos.x, pos.y), rate, pv, score,
                             it.order, it.visits,
-                            maxVisits)
+                            maxVisits, game.komi)
             }
     }
 

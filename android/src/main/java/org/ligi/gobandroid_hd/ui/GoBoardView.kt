@@ -35,6 +35,7 @@ import org.ligi.gobandroid_hd.logic.CellImpl
 import org.ligi.gobandroid_hd.logic.GoDefinitions
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.logic.markers.GoMarker
+import org.ligi.gobandroid_hd.logic.markers.TextMarker
 import org.ligi.gobandroid_hd.model.GameProvider
 import timber.log.Timber
 import java.io.File
@@ -101,8 +102,9 @@ open class GoBoardView : View {
     private val analyzeTextPaint by lazy {
         Paint(whiteTextPaint).apply {
             color = Color.BLACK
+            alpha = 96
             typeface = Typeface.DEFAULT_BOLD
-            setShadowLayer(2f, 1f, 1f, Color.WHITE)
+            setShadowLayer(2f, 1f, 1f, Color.argb(alpha, 255, 255, 255))
         }
     }
 
@@ -328,10 +330,12 @@ open class GoBoardView : View {
             val y = it.cell.y * stone_size
             val half_ssize = stone_size/2.0f
             val tx = x + half_ssize
-            val ty = y + half_ssize*1.4F
+            val ty = y + half_ssize
+            val tsize = half_ssize * 2.2f
+            val tm = TextMarker(it.cell, it.scoreString)
             analyzePaint.color = it.visitsColor.toArgb()
             canvas.drawCircle(x+half_ssize, y+half_ssize, half_ssize, analyzePaint)
-            canvas.drawText(it.scoreString, tx, ty, analyzeTextPaint)
+            tm.draw(canvas, tsize, tx, ty, analyzeTextPaint)
         }
 
         game.actMove.nextMoveVariations.forEachIndexed { i, move ->
@@ -415,7 +419,6 @@ open class GoBoardView : View {
 
         whiteTextPaint.textSize = stone_size
         blackTextPaint.textSize = stone_size
-        analyzeTextPaint.textSize = stone_size/2.2F
 
     }
 

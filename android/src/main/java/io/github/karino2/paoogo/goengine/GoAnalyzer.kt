@@ -56,6 +56,7 @@ data class AnalyzeInfo(
     val order: Int,
     val visits: Int,
     val maxVisits: Int,
+    val komi: Float,
 ) {
     val visitsColor: Color
         get() {
@@ -80,7 +81,18 @@ data class AnalyzeInfo(
         }
 
     val scoreString : String
-        get() = if (abs(score) < 10.0) "%+.1f".format(score) else "%+d".format(score.roundToInt())
+        get() {
+            val isHalfKomi = abs(komi - komi.roundToInt()) > 0.25
+            val sign = if (score > 0) "+" else "-"
+            val a = abs(score)
+            val smallZero = " 0 "
+            if (isHalfKomi) {
+                // 0 ==> "0", 0.5 ==> "+0", 1.5 ==> "+1", 2.5 ==> "+2"
+                return if (a < 0.25) smallZero else sign + (a - 0.5).roundToInt()
+            } else {
+                return if (a < 0.5) smallZero else "%+d".format(score.roundToInt())
+            }
+        }
 }
 
 interface GoAnalyzer : EngineConfig {
