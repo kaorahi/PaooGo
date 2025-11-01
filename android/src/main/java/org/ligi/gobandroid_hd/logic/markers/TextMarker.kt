@@ -21,6 +21,7 @@ package org.ligi.gobandroid_hd.logic.markers
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import kotlin.math.min
 
 import org.ligi.gobandroid_hd.logic.Cell
 
@@ -34,7 +35,11 @@ class TextMarker(cell: Cell, val text: String) : GoMarker(cell) {
 
     override fun draw(c: Canvas, size: Float, x: Float, y: Float, paint: Paint) {
         val fm = paint.fontMetrics
-        c.drawText(text, x, y - (fm.ascent + fm.descent) / 2, paint)
+        val scale = min(0.8F * size / paint.measureText(text), 0.9F)
+        val origTextSize = paint.textSize
+        paint.textSize = origTextSize * scale
+        c.drawText(text, x, y - (fm.ascent + fm.descent) / 2 * scale, paint)
+        paint.textSize = origTextSize
     }
 
     override fun hashCode(): Int {
