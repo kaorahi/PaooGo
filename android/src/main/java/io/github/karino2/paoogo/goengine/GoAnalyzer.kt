@@ -85,5 +85,5 @@ data class AnalyzeInfo(
 
 interface GoAnalyzer : EngineConfig {
     fun hint(isBlack: Boolean, game: GoGame) : MovePos
-    fun analyzeSituation(isBlack: Boolean, game: GoGame) : List<AnalyzeInfo>
+    fun analyzeSituation(msec: Int, isBlack: Boolean, game: GoGame) : List<AnalyzeInfo>
 }

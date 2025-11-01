@@ -67,8 +67,8 @@ class KataGoNative : GoEngine, GoAnalyzer {
         // return json.decodeFromString(serializer<AnalysisResponse>(), res)
     }
 
-    override fun analyzeSituation(isBlack: Boolean, game: GoGame): List<AnalyzeInfo> {
-        val res = analyze(2000, isBlack)
+    override fun analyzeSituation(msec: Int, isBlack: Boolean, game: GoGame): List<AnalyzeInfo> {
+        val res = analyze(msec, isBlack)
         println(res)
         if (res.isEmpty())
             return emptyList()
