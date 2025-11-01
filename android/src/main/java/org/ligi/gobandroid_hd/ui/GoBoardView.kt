@@ -144,7 +144,7 @@ open class GoBoardView : View {
         // for marking the last stone
         whiteLastStoneCirclePaint.color = Color.WHITE
         whiteLastStoneCirclePaint.style = Paint.Style.STROKE
-        whiteLastStoneCirclePaint.strokeWidth = 2.0f
+        whiteLastStoneCirclePaint.strokeWidth = 5.0f
         whiteLastStoneCirclePaint.isAntiAlias = true
 
         // for the star or hoshi points
