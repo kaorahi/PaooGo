@@ -267,27 +267,6 @@ class PlayAgainstEngineActivity : GoActivity() {
                 goToTitle()
                 return true
             }
-            R.id.menu_game_hint -> {
-                busyIndicator.visibility = View.VISIBLE
-                syncAnalyzer()
-                lifecycleScope.launch {
-                    val move = withContext(Dispatchers.IO) {
-                        analyzer.hint(game.isBlackToMove, game)
-                    }
-                    busyIndicator.visibility = View.GONE
-                    if (move.pass)
-                    {
-                        bus.post(Message(getString(R.string.suggestion_pass)))
-                    }
-                    else
-                    {
-                        val color = if(engineGoGame.playingBlack) GoDefinitions.STONE_WHITE else GoDefinitions.STONE_BLACK
-                        game.setHint(move.x, move.y, color)
-                        bus.post(GameChangedEvent)
-                    }
-                }
-                return true;
-            }
             R.id.menu_goto_review -> {
                 switchToReview()
                 return true
