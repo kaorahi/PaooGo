@@ -355,6 +355,28 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
         refreshBoards()
     }
 
+    fun undoableCount() : Int {
+        var move = actMove
+        var count = 0
+        while (reviewVariation?.let { move != it.mainLine } ?: !move.isFirstMove) {
+            move = move.parent ?: break
+            count += 1
+        }
+        return count
+    }
+
+    fun redoableCount() : Int {
+        var move = actMove
+        var count = 0
+        val isVariation = isInReviewVariation && possibleVariationCount > 1
+        while (move.hasNextMove()) {
+            var pos = if (isVariation && count == 0) 1 else 0
+            move = move.getnextMove(pos) ?: break
+            count += 1
+        }
+        return count
+    }
+
     fun applyCaptures() {
         val local_captures = actMove.captures.size
         if (local_captures > 0) {

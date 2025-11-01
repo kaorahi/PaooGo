@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.SeekBar
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatSeekBar
 import com.google.android.material.snackbar.Snackbar
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.App
@@ -39,6 +41,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
     override fun onStart() {
         super.onStart()
         updateButtonStates()
+        updateMovenumBar(true)
 
         binding.btnNext.setOnClickListener {
             doNext(1)
@@ -159,6 +162,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
     override fun onGoGameChanged(gameChangedEvent: GameChangedEvent?) {
         super.onGoGameChanged(gameChangedEvent)
         updateButtonStates()
+        updateMovenumBar()
         requireActivity().findViewById<TextView>(R.id.statusText).text = ""
     }
 
@@ -166,6 +170,33 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         setImageViewState(game.canUndo(), binding.btnFirst, binding.btnPrev)
         setImageViewState(game.canRedo(), binding.btnNext, binding.btnLast)
         binding.btnMainline.isEnabled = game.isInReviewVariation
+    }
+
+    private var touchingMovenumBar = false
+
+    private fun updateMovenumBar(isInit: Boolean = false) {
+        if (touchingMovenumBar) return
+        val seek = requireActivity().findViewById<AppCompatSeekBar>(R.id.seek_movenum)
+        seek.min = - game.undoableCount()
+        seek.max = game.redoableCount()
+        seek.progress = 0
+        seek.isEnabled = seek.min < seek.max
+        if (!isInit) return
+        seek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (!fromUser || sb == null) return
+                var delta = progress - sb.min - game.undoableCount()
+                if (delta < 0) doPrev(- delta)
+                if (delta > 0) doNext(delta)
+            }
+            override fun onStartTrackingTouch(sb: SeekBar?) {
+                touchingMovenumBar = true
+            }
+            override fun onStopTrackingTouch(sb: SeekBar?) {
+                touchingMovenumBar = false
+                updateMovenumBar()
+            }
+        })
     }
 
     private fun setImageViewState(state: Boolean, vararg views: ImageView) {
