@@ -281,4 +281,5 @@
  </string-array>
  <string name="engine_starting">起動中… %d</string>
  <string name="visits_count">（探索数）青 %d／計 %d</string>
+ <string name="play_best">推奨手</string>
 </resources>

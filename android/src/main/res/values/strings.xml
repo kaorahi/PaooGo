@@ -377,4 +377,5 @@
     <string name="engine_starting">Starting... %d</string>
     <string name="engine_ready">OK</string>
     <string name="visits_count">(Visits) blue %d / total %d</string>
+    <string name="play_best">Best move</string>
 </resources>

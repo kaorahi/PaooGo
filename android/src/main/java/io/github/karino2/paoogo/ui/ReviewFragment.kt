@@ -13,6 +13,7 @@ import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.databinding.ReviewButtonContainerBinding
 import org.ligi.gobandroid_hd.events.GameChangedEvent
+import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.alerts.GameForwardAlert
 import org.ligi.gobandroid_hd.ui.fragments.GobandroidGameAwareFragment
@@ -79,6 +80,10 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             doAnalyze(3000)
             true
         }
+
+        binding.btnPlayBest.setOnClickListener {
+            doPlayBest()
+        }
     }
 
     private fun doPrev(n: Int) {
@@ -103,7 +108,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
     }
 
-    private fun doAnalyze(msec: Int) {
+    private fun doAnalyze(msec: Int, onCompleted: () -> Unit = {}) {
         val activity = requireActivity()
         val busyIndicator = activity.findViewById<ProgressBar>(R.id.busy_indicator)
         val statusText = activity.findViewById<TextView>(R.id.statusText)
@@ -116,11 +121,24 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             busyIndicator.visibility = View.GONE
             game.setAnalyzeInfo(info)
             postGameChangeEvent()
-            val blueVisits = info.firstOrNull { it.order == 0 }?.visits ?: 0
+            val blueInfo = info.firstOrNull { it.order == 0 }
+            val blueVisits = blueInfo?.visits ?: 0
             // val maxVisits = info.maxOfOrNull { it.visits } ?: 0
             val totalVisits = info.sumOf { it.visits }
             statusText.text = getString(R.string.visits_count, blueVisits, totalVisits)
+            onCompleted()
         }
+    }
+
+    private fun doPlayBest(canRetry: Boolean = true) {
+        val blueCell = game.analyzeInfo.firstOrNull { it.order == 0 }?.cell
+        if (blueCell == null) {
+            if (canRetry)
+                doAnalyze(1000) { doPlayBest(false) }
+            return
+        }
+        (requireActivity() as ReviewActivity).moveWithFeedback(blueCell)
+        doAnalyze(1000)
     }
 
     private fun postGameChangeEvent() {

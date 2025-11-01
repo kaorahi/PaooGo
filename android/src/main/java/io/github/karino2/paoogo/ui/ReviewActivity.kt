@@ -49,4 +49,8 @@ class ReviewActivity: GoActivity() {
                 return super.onOptionsItemSelected(item)
         }
     }
+
+    fun moveWithFeedback(cell: Cell?): GoGame.MoveStatus {
+        return doMoveWithUIFeedback(cell)
+    }
 }
