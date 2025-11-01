@@ -1,31 +1,22 @@
-This is a modified version of [PaooGo](https://github.com/karino2/PaooGo) for KataGo's human-like model ([discussion](https://github.com/karino2/PaooGo/issues/4)). On my phone, it plays at 2 sec/move on 9x9 and 3 sec/move on 13x13. Fast enough for me.
+This is a modified version of [PaooGo](https://github.com/karino2/PaooGo), adapted for KataGo's human-like model ([discussion](https://github.com/karino2/PaooGo/issues/4)). On my phone, it plays at 2 sec/move on 9x9 and 3 sec/move on 13x13. Fast enough for me.
 
-To build it, you need the following:
+### Try it
 
-### Common build notes with the original PaooGo
+1. Click "Fork".
+2. In your fork, run "Actions > Build Debug APK".
+3. Wait about 10 minutes (ignore the many warnings during KataGo compilation).
+4. Download the generated debug APK from the workflow artifacts.
 
-Download the engines listed in the bottom of this README and place them in `android/src/main/cpp` as follows.
+The APK is over 100 MB because it includes KataGo's model files ([b18-human](https://katagotraining.org/extra_networks/) + [b10](https://katagoarchive.org/g170/neuralnets/index.html)). On older phones, KataGo may take more than 20 seconds to start, but it runs fine once launched.
 
-```
-$ ls android/src/main/cpp
-CMakeLists.txt  KataGo  Ray  amigogtp-1.8  gnugo-2.6  gnugo-3.8  liberty
-```
+### Changes
 
-You might also need to do the following steps.
+- New AI player: Paokata (20k-9d)
+- UI updates: Lizzie-compatible color scheme, long press for longer analysis or to skip 10 moves, etc.
 
-```
-$ cd gnugo-2.6
-$ touch doc/*.info
-$ ac_cv_prog_gcc=no ./configure --without-curses CFLAGS="-O2"
-$ make
-```
+### Acknowledgements
 
-### Additional build notes for this modified version
-
-- Replace KataGo with [kaorahi/KataGo: paoo_251022a](https://github.com/kaorahi/KataGo/tree/paoo_251022a).
-- From KataGo's [Extra Networks](https://katagotraining.org/extra_networks/), download "Human SL Network (July 2024)" [Network file](https://media.katagotraining.org/uploaded/networks/models_extra/b18c384nbt-humanv0.bin.gz). Copy `b18c384nbt-humanv0.bin.gz` to `android/src/main/assets/katago/`, then rename `bin.gz` to `bin_gz`.
-- Similarly, from KataGo's [Networks](https://katagotraining.org/networks/), download any "Network File" (e.g., [the last b10 model](https://media.katagotraining.org/uploaded/networks/models/kata1/kata1-b10c128-s1141046784-d204142634.txt.gz) for older phones). Copy it also to `android/src/main/assets/katago/`, then rename `bin.gz` to `bin_gz`, or `txt.gz` to `txt_gz`.
-- Open `android/src/main/java/io/github/karino2/paoogo/goengine/katago/KataGoSetup.kt` and edit the line `MODEL_NAME="...bin.gz"` accordingly. Use `bin.gz` or `txt.gz` here (not `bin_gz` or `txt_gz).
+Thanks to the original authors and contributors of [PaooGo](https://github.com/karino2/PaooGo) and [Gobandroid](https://github.com/ligi/gobandroid) for making their source code available.
 
 # PaooGo
 

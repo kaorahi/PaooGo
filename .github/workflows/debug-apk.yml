@@ -1,0 +1,61 @@
+name: Build Debug APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+            distribution: temurin
+            java-version: "17"
+
+      - name: Clone external sources
+        run: |
+          set -eux
+          cd android/src/main/cpp
+          git clone --single-branch --branch main --depth 1 https://github.com/karino2/GnuGo2Fork.git gnugo-2.6
+          git clone --single-branch --branch android_fork --depth 1 https://github.com/karino2/Ray.git Ray
+          git clone --single-branch --branch main --depth 1 https://github.com/karino2/LibertyFork liberty
+          git clone --single-branch --branch paoo_251025a --depth 1 https://github.com/kaorahi/KataGo.git KataGo
+          git clone --single-branch --branch main --depth 1 https://github.com/karino2/AmigoGtpFork.git amigogtp-1.8
+          git clone --single-branch --branch android_fork --depth 1 https://github.com/karino2/gnugo_fork.git gnugo-3.8
+
+      - name: Download KataGo models
+        run: |
+          set -eux
+          mkdir -p android/src/main/assets/katago
+          cd android/src/main/assets/katago
+          curl -L https://media.katagotraining.org/uploaded/networks/models_extra/b18c384nbt-humanv0.bin.gz -o b18c384nbt-humanv0.bin_gz
+          curl -L https://katagoarchive.org/g170/neuralnets/g170e-b10c128-s1141046784-d204142634.bin.gz -o g170e-b10c128-s1141046784-d204142634.bin_gz
+
+      - name: Workaround for missing sources error
+        run: |
+          set -eux
+          cd android/src/main/cpp/gnugo-2.6
+          touch doc/*.info
+          ac_cv_prog_gcc=no ./configure --without-curses CFLAGS="-O2"
+          make
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk
+          path: android/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
