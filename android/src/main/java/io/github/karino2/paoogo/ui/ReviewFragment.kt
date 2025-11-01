@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.App
@@ -97,7 +98,9 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnAnalyze.setOnClickListener {
-            val busyIndicator = requireActivity().findViewById<ProgressBar>(R.id.busy_indicator)
+            val activity = requireActivity()
+            val busyIndicator = activity.findViewById<ProgressBar>(R.id.busy_indicator)
+            val statusText = activity.findViewById<TextView>(R.id.statusText)
             busyIndicator.visibility = View.VISIBLE
             viewLifecycleOwner.lifecycleScope.launch {
                 analyzer.sync(game)
@@ -107,6 +110,10 @@ class ReviewFragment : GobandroidGameAwareFragment() {
                 busyIndicator.visibility = View.GONE
                 game.setAnalyzeInfo(info)
                 postGameChangeEvent()
+                val blueVisits = info.firstOrNull { it.order == 0 }?.visits ?: 0
+                // val maxVisits = info.maxOfOrNull { it.visits } ?: 0
+                val totalVisits = info.sumOf { it.visits }
+                statusText.text = getString(R.string.visits_count, blueVisits, totalVisits)
             }
         }
     }
@@ -129,6 +136,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
     override fun onGoGameChanged(gameChangedEvent: GameChangedEvent?) {
         super.onGoGameChanged(gameChangedEvent)
         updateButtonStates()
+        requireActivity().findViewById<TextView>(R.id.statusText).text = ""
     }
 
     private fun updateButtonStates() {
