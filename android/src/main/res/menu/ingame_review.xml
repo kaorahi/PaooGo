@@ -6,6 +6,10 @@
         android:id="@+id/menu_resume_from_here"
         yourapp:showAsAction="withText"/>
     <item
+        android:title="@string/save_as_sgf"
+        android:id="@+id/menu_save_as_sgf"
+        yourapp:showAsAction="withText"/>
+    <item
         android:title="@string/back_to_title"
         android:id="@+id/menu_back_to_title"
         yourapp:showAsAction="withText"/>

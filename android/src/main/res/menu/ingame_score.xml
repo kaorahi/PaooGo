@@ -12,6 +12,11 @@
             yourapp:showAsAction="ifRoom|withText"/>
 
     <item
+        android:title="@string/save_as_sgf"
+        android:id="@+id/menu_save_as_sgf"
+        yourapp:showAsAction="withText"/>
+
+    <item
             android:title="@string/share"
             android:id="@+id/menu_game_share"
             yourapp:showAsAction="withText"/>

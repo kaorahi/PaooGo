@@ -15,6 +15,10 @@ xmlns:yourapp="http://schemas.android.com/apk/res-auto">
         android:id="@+id/menu_goto_review"
         yourapp:showAsAction="always|withText"/>
     <item
+        android:title="@string/save_as_sgf"
+        android:id="@+id/menu_save_as_sgf"
+        yourapp:showAsAction="withText"/>
+    <item
         android:title="@string/end_game"
         android:id="@+id/menu_end_game"
         yourapp:showAsAction="withText"/>

@@ -42,6 +42,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import io.github.karino2.paoogo.ui.GameStartActivity
 import io.github.karino2.paoogo.ui.ReviewActivity
+import io.github.karino2.paoogo.ui.saveTextToDefaultStorage
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.BuildConfig
@@ -231,6 +232,11 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
 
             R.id.menu_game_pass -> {
                 return doPass()
+            }
+
+            R.id.menu_save_as_sgf -> {
+                saveAsSGF()
+                return true
             }
 
             /*
@@ -491,6 +497,12 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         binding.goBoard.move_stone_mode = false
 
         UndoWithVariationDialog.userInvokedUndo(this, interactionScope, game)
+    }
+
+    protected open fun saveAsSGF(): String? {
+        val path = saveTextToDefaultStorage(this, SGFWriter.game2sgf(game))
+        Toast.makeText(this, path ?: "Save failed!", Toast.LENGTH_LONG).show()
+        return path
     }
 
     @Subscribe

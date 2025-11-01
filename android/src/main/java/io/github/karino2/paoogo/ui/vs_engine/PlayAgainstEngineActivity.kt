@@ -24,6 +24,7 @@ import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.logic.GoDefinitions
 import org.ligi.gobandroid_hd.logic.GoGame
+import org.ligi.gobandroid_hd.logic.sgf.SGFWriter
 import org.ligi.gobandroid_hd.ui.GoActivity
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import timber.log.Timber
@@ -248,6 +249,12 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     override fun initializeStoneMove() {
         // we do not want this behaviour so we override and do nothing
+    }
+
+    override fun saveAsSGF(): String? {
+        val path = super.saveAsSGF()
+        bus.post(Message(path ?: ""))
+        return path
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
