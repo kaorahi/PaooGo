@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 
 class ReviewFragment : GobandroidGameAwareFragment() {
     private var _binding: ReviewButtonContainerBinding? = null
@@ -127,8 +128,12 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             val blueInfo = info.firstOrNull { it.order == 0 }
             val blueVisits = blueInfo?.visits ?: 0
             // val maxVisits = info.maxOfOrNull { it.visits } ?: 0
-            val totalVisits = info.sumOf { it.visits }
-            statusText.text = getString(R.string.visits_count, blueVisits, totalVisits)
+            val rootInfo = info.getOrNull(0)?.rootInfo
+            val totalVisits = rootInfo?.visits ?: 0
+            val playerSign = if (rootInfo?.currentPlayer == "B") +1.0 else -1.0
+            val score = (rootInfo?.scoreLead ?: 0.0) * playerSign
+            val leadingColor = getString(if (score > 0.0) R.string.leading_black else R.string.leading_white)
+            statusText.text = getString(R.string.analysis_summary, leadingColor, abs(score), blueVisits, totalVisits)
             onCompleted()
         }
     }

@@ -49,6 +49,7 @@
 
     <TextView
         android:id="@+id/statusText"
+        android:paddingStart="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end" />

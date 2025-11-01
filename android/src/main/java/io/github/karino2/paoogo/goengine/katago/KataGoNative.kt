@@ -31,8 +31,17 @@ data class MoveInfo(
 )
 
 @Serializable
+data class RootInfo(
+    val winrate: Double,
+    val scoreLead: Double,
+    val visits: Int,
+    val currentPlayer: String,
+)
+
+@Serializable
 data class AnalysisResponse(
     val moveInfos: List<MoveInfo>,
+    val rootInfo: RootInfo,
 )
 
 class KataGoNative : GoEngine, GoAnalyzer {
@@ -72,7 +81,9 @@ class KataGoNative : GoEngine, GoAnalyzer {
         println(res)
         if (res.isEmpty())
             return emptyList()
-        val moveInfos = parseAnalysisResponse(res).moveInfos
+        val analysisResponse = parseAnalysisResponse(res)
+        val moveInfos = analysisResponse.moveInfos
+        val rootInfo = analysisResponse.rootInfo
         val maxVisits = moveInfos.maxOfOrNull { it.visits }?.coerceAtLeast(1) ?: 1
         return moveInfos.mapNotNull {
                 val move = it.move
@@ -86,7 +97,7 @@ class KataGoNative : GoEngine, GoAnalyzer {
                 val score = if (isBlack) it.scoreLead else - it.scoreLead
                 AnalyzeInfo(game.visualBoard.getCell(pos.x, pos.y), rate, pv, score,
                             it.order, it.visits,
-                            maxVisits, game.komi)
+                            maxVisits, rootInfo, game.komi)
             }
     }
 

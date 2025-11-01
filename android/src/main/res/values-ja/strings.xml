@@ -280,6 +280,8 @@
     <item>ぱおかた 九段</item>
  </string-array>
  <string name="engine_starting">起動中… %d</string>
- <string name="visits_count">（探索数）青 %d／計 %d</string>
+ <string name="leading_black">黒</string>
+ <string name="leading_white">白</string>
+ <string name="analysis_summary">%s%.1f目 （探索数）青 %d／計 %d</string>
  <string name="play_best">推奨手</string>
 </resources>

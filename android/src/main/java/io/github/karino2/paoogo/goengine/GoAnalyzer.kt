@@ -2,6 +2,7 @@ package io.github.karino2.paoogo.goengine
 
 import android.graphics.Color
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
+import io.github.karino2.paoogo.goengine.katago.RootInfo
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlin.math.ln
@@ -56,6 +57,7 @@ data class AnalyzeInfo(
     val order: Int,
     val visits: Int,
     val maxVisits: Int,
+    val rootInfo: RootInfo,
     val komi: Float,
 ) {
     val visitsColor: Color
