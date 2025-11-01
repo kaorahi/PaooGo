@@ -338,7 +338,7 @@ open class GoBoardView : View {
             val half_ssize = stone_size/2.0f
             val tx = x + half_ssize
             val ty = y + half_ssize*1.4F
-            analyzePaint.color = it.rateColor.toArgb()
+            analyzePaint.color = it.visitsColor.toArgb()
             canvas.drawCircle(x+half_ssize, y+half_ssize, half_ssize, analyzePaint)
             canvas.drawText(it.scoreString, tx, ty, analyzeTextPaint)
         }

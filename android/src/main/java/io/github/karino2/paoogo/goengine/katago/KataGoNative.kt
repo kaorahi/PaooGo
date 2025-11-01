@@ -73,6 +73,7 @@ class KataGoNative : GoEngine, GoAnalyzer {
         if (res.isEmpty())
             return emptyList()
         val moveInfos = parseAnalysisResponse(res).moveInfos
+        val maxVisits = moveInfos.maxOfOrNull { it.visits }?.coerceAtLeast(1) ?: 1
         return moveInfos.mapNotNull {
                 val move = it.move
                 if (move.uppercase() == "PASS")
@@ -84,7 +85,8 @@ class KataGoNative : GoEngine, GoAnalyzer {
                 }
                 val score = if (isBlack) it.scoreLead else - it.scoreLead
                 AnalyzeInfo(game.visualBoard.getCell(pos.x, pos.y), rate, pv, score,
-                            it.order, it.visits)
+                            it.order, it.visits,
+                            maxVisits)
             }
     }
 

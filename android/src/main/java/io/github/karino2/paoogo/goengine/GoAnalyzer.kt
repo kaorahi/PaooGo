@@ -4,6 +4,10 @@ import android.graphics.Color
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlin.math.ln
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.math.roundToInt
 import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.logic.GoMove
@@ -51,13 +55,28 @@ data class AnalyzeInfo(
     val score: Double,
     val order: Int,
     val visits: Int,
+    val maxVisits: Int,
 ) {
-    val rateColor: Color
+    val visitsColor: Color
         get() {
-            // interpolate from RED to Green by winrate.
-            val rcomp = 1.0-rate
-            val gcomp = rate
-            return Color.valueOf(rcomp.toFloat(), gcomp.toFloat(), 0.0F)
+            if (order == 0)
+                return Color.valueOf(0.0F, 1.0F, 1.0F)
+            // Borrowed from Lizzie (drawLeelazSuggestionsBackgroundShadow)
+            val saturation = 1.0F
+            val brightness = 0.85F
+            val maxAlpha = 240
+            val minAlpha = 20
+            val alphaFactor = 5.0
+            val redHue = 0
+            val greenHue = 120
+            val p = visits / maxVisits.toDouble()
+            val q = 2 * p
+            val f = if (q < 1) q.pow(2/3.0) / 2 else 1 - (2 - q).pow(0.5) / 2
+            val hue = redHue + (greenHue - redHue) * f
+            val alpha = minAlpha + (maxAlpha - minAlpha) * max(0.0, ln(p) / alphaFactor + 1)
+            val alphaInt = alpha.roundToInt().coerceIn(0, 255)
+            val hsv = floatArrayOf(hue.toFloat(), saturation, brightness)
+            return Color.valueOf(Color.HSVToColor(alphaInt, hsv))
         }
 
     val scoreString : String
