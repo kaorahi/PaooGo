@@ -296,6 +296,11 @@ class PlayAgainstEngineActivity : GoActivity() {
                 switchToCounting()
                 return true
             }
+            R.id.menu_swap_sides -> {
+                engineGoGame.swapPlayerColors()
+                updatePlayerName()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }

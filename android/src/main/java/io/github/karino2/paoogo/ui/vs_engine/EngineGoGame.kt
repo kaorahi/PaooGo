@@ -5,8 +5,8 @@ import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.ui.GoPrefs
 
 class EngineGoGame internal constructor(
-    val playingBlack: Boolean,
-    val playingWhite: Boolean,
+    var playingBlack: Boolean,
+    var playingWhite: Boolean,
     private val game: GoGame,
     private val engineName: String
 ) {
@@ -19,6 +19,13 @@ class EngineGoGame internal constructor(
 
     fun engineNowBlack(): Boolean {
         return game.isBlackToMove && playingBlack
+    }
+
+    fun swapPlayerColors() {
+        playingBlack = playingWhite.also { playingWhite = playingBlack }
+        val metaData = game.metaData
+        metaData.blackName = metaData.whiteName.also { metaData.whiteName = metaData.blackName }
+        metaData.blackRank = metaData.whiteRank.also { metaData.whiteRank = metaData.blackRank }
     }
 
     fun setMetaDataForGame(app: App) {
