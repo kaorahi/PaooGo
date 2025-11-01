@@ -70,6 +70,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
 
         binding.btnFirst.setOnClickListener {
             game.clearAnalyzerInfo()
+            game.reviewVariation?.markers?.clear()
             val nextJunction = game.findPrevJunction()
             if (nextJunction!!.isFirstMove) {
                 game.jump(nextJunction)
@@ -81,6 +82,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
 
         binding.btnFirst.setOnLongClickListener {
             game.clearAnalyzerInfo()
+            game.reviewVariation?.markers?.clear()
             game.jump(game.findFirstMove())
             true
         }
