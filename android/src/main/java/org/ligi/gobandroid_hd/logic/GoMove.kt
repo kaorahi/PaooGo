@@ -71,6 +71,8 @@ class GoMove(val parent: GoMove?) {
     }
 
     fun apply(board: StatefulGoBoard) {
+        if (parent == null)
+            return
         parent!!.addNextMove(this)
         board.setCell(cell!!, cellStatus.toByte())
         board.setCellGroup(captures, STONE_NONE)
