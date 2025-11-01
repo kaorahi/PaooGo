@@ -334,6 +334,15 @@ open class GoBoardView : View {
             canvas.drawText(it.scoreString, tx, ty, analyzeTextPaint)
         }
 
+        game.actMove.nextMoveVariations.forEachIndexed { i, move ->
+            val basePaint = if (move.isBlack) blackLastStoneCirclePaint else whiteLastStoneCirclePaint
+            val paint = Paint(basePaint).apply {
+                strokeWidth = if (i == 0) 8.0f else 3.0f
+            }
+            val cell = move.cell ?: return@forEachIndexed
+            drawBoardCircle(canvas, cell.x.toFloat(), cell.y.toFloat(), stone_size * 0.5f, paint)
+        }
+
         // draw semi transparent stone on current touch pos as a shadow
         if (!move_stone_mode && actpos_highlight_condition) {
             val touch_cell = interactionScope.touchCell
