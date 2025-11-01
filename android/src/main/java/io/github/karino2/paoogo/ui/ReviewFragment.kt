@@ -24,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 class ReviewFragment : GobandroidGameAwareFragment() {
     private var _binding: ReviewButtonContainerBinding? = null
@@ -131,9 +132,11 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             val rootInfo = info.getOrNull(0)?.rootInfo
             val totalVisits = rootInfo?.visits ?: 0
             val playerSign = if (rootInfo?.currentPlayer == "B") +1.0 else -1.0
+            val wr = (rootInfo?.winrate ?: 0.5) * 100.0
+            val winrate = (if (playerSign > 0.0) wr else 100.0 - wr).roundToInt()
             val score = (rootInfo?.scoreLead ?: 0.0) * playerSign
             val leadingColor = getString(if (score > 0.0) R.string.leading_black else R.string.leading_white)
-            statusText.text = getString(R.string.analysis_summary, leadingColor, abs(score), blueVisits, totalVisits)
+            statusText.text = getString(R.string.analysis_summary, winrate, leadingColor, abs(score), blueVisits, totalVisits)
             onCompleted()
         }
     }

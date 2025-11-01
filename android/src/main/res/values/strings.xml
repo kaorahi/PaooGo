@@ -378,6 +378,6 @@
     <string name="engine_ready">OK</string>
     <string name="leading_black">B</string>
     <string name="leading_white">W</string>
-    <string name="analysis_summary">%s+%.1f (Visits) blue %d / total %d</string>
+    <string name="analysis_summary">Win %1$d%% %2$s%3$.1f (Visits) blue %4$d / total %5$d</string>
     <string name="play_best">Best move</string>
 </resources>
