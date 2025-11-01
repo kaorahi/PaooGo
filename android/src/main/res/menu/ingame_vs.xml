@@ -5,15 +5,15 @@ xmlns:yourapp="http://schemas.android.com/apk/res-auto">
     android:title="@string/undo"
     android:id="@+id/menu_game_undo"
     android:icon="@drawable/ic_content_undo"
-    yourapp:showAsAction="ifRoom|withText"/>
+    yourapp:showAsAction="always|withText"/>
 <item
     android:title="@string/game_pass"
     android:id="@+id/menu_game_pass"
-    yourapp:showAsAction="ifRoom" />
+    yourapp:showAsAction="always" />
     <item
         android:title="@string/review"
         android:id="@+id/menu_goto_review"
-        yourapp:showAsAction="withText"/>
+        yourapp:showAsAction="always|withText"/>
     <item
         android:title="@string/end_game"
         android:id="@+id/menu_end_game"
