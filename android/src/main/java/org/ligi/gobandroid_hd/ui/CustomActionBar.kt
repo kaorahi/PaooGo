@@ -66,7 +66,7 @@ class CustomActionBar(private val activity: Activity) : LinearLayout(activity) {
             binding.blackCapturesTv.text = game.capturesBlack.toString()
 
             val isWhitesMove = !game.isBlackToMove && !game.isFinished
-            binding.whiteInfoContainer.setBackgroundColor(if (isWhitesMove) highlightColor else transparent)
+            binding.whiteStoneImageview.setBackgroundColor(if (isWhitesMove) highlightColor else transparent)
             binding.whiteCapturesTv.setBackgroundColor(if (isWhitesMove) highlightColor else transparent)
 
             val isBlacksMove = game.isBlackToMove || game.isFinished
