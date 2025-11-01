@@ -37,6 +37,7 @@ class AboutActivity : AppCompatActivity() {
     }
 
     fun getData() = arrayOf(
+        LinkWithDescription("https://github.com/kaorahi/PaooGo", "Modified PaooGo source", "kaorahi"),
         LinkWithDescription("https://github.com/karino2/PaooGo", "PaooGo source", "karino2"),
         LinkWithDescription("https://amigogtp.sourceforge.net/", "AmiGoGtp"),
         LinkWithDescription("https://lists.gnu.org/archive/html/gnugo-devel/2005-08/msg00036.html", "Liberty", "GnuGo fork"),

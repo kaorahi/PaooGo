@@ -56,12 +56,12 @@ android {
 
     defaultConfig {
         versionCode 4
-        versionName "0.4"
+        versionName "0.1"
         minSdkVersion 26
         targetSdkVersion 36
-        applicationId "io.github.karino2.paoogo"
+        applicationId "io.github.kaorahi.paoogo"
         testInstrumentationRunner "io.github.karino2.paoogo.AppReplacingRunner"
-        archivesBaseName = "PaooGo-$versionName"
+        archivesBaseName = "ModPaooGo-$versionName"
         vectorDrawables.useSupportLibrary = true
     }
     packagingOptions {
