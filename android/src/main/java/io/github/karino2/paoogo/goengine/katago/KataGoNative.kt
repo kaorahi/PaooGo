@@ -82,7 +82,9 @@ class KataGoNative : GoEngine, GoAnalyzer {
                 val pv = it.pv.mapNotNull {
                     if (it.uppercase() == "PASS") null else GTPHelper.strToCell(it, game)
                 }
-                AnalyzeInfo(game.visualBoard.getCell(pos.x, pos.y), rate, pv)
+                val score = if (isBlack) it.scoreLead else - it.scoreLead
+                AnalyzeInfo(game.visualBoard.getCell(pos.x, pos.y), rate, pv, score,
+                            it.order, it.visits)
             }
     }
 

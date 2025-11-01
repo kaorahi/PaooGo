@@ -2,6 +2,8 @@ package io.github.karino2.paoogo.goengine
 
 import android.graphics.Color
 import io.github.karino2.paoogo.goengine.gnugo2.MovePos
+import kotlin.math.abs
+import kotlin.math.roundToInt
 import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.logic.GoMove
@@ -42,7 +44,14 @@ interface EngineConfig {
     }
 }
 
-data class AnalyzeInfo(val cell: Cell, val rate: Double, val pv: List<Cell>) {
+data class AnalyzeInfo(
+    val cell: Cell,
+    val rate: Double,
+    val pv: List<Cell>,
+    val score: Double,
+    val order: Int,
+    val visits: Int,
+) {
     val rateColor: Color
         get() {
             // interpolate from RED to Green by winrate.
@@ -51,8 +60,8 @@ data class AnalyzeInfo(val cell: Cell, val rate: Double, val pv: List<Cell>) {
             return Color.valueOf(rcomp.toFloat(), gcomp.toFloat(), 0.0F)
         }
 
-    val rateString : String
-        get() = "%.1f".format(rate*100.0)
+    val scoreString : String
+        get() = if (abs(score) < 10.0) "%+.1f".format(score) else "%+d".format(score.roundToInt())
 }
 
 interface GoAnalyzer : EngineConfig {
