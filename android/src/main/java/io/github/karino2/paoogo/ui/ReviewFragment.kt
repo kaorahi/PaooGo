@@ -40,68 +40,29 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         updateButtonStates()
 
         binding.btnNext.setOnClickListener {
-            game.clearAnalyzerInfo()
-            doNext()
+            doNext(1)
         }
 
         binding.btnNext.setOnLongClickListener {
-            game.clearAnalyzerInfo()
-            repeat(10) {
-                if (!doNext())
-                    return@repeat
-            }
+            doNext(10)
             true
         }
 
         binding.btnPrev.setOnClickListener {
-            game.clearAnalyzerInfo()
-            if (game.canUndo()) {
-                game.undo()
-            }
+            doPrev(1)
         }
 
         binding.btnPrev.setOnLongClickListener {
-            game.clearAnalyzerInfo()
-            repeat(10) {
-                if (game.canUndo()) game.undo() else return@repeat
-            }
+            doPrev(10)
             true
         }
 
         binding.btnFirst.setOnClickListener {
-            game.clearAnalyzerInfo()
-            game.reviewVariation?.markers?.clear()
-            val nextJunction = game.findPrevJunction()
-            if (nextJunction!!.isFirstMove) {
-                game.jump(nextJunction)
-            } else {
-                showJunctionInfoSnack(R.string.found_junction_snack_for_first)
-                game.jump(nextJunction.nextMoveVariations[0])
-            }
-        }
-
-        binding.btnFirst.setOnLongClickListener {
-            game.clearAnalyzerInfo()
-            game.reviewVariation?.markers?.clear()
-            game.jump(game.findFirstMove())
-            true
+            doPrev(9999)
         }
 
         binding.btnLast.setOnClickListener {
-            game.clearAnalyzerInfo()
-            val nextJunction = game.findNextJunction()
-            if (nextJunction!!.hasNextMove()) {
-                showJunctionInfoSnack(R.string.found_junction_snack_for_last)
-                game.jump(nextJunction.nextMoveVariations[0])
-            } else {
-                game.jump(nextJunction)
-            }
-        }
-
-        binding.btnLast.setOnLongClickListener {
-            game.clearAnalyzerInfo()
-            game.jump(game.findLastMove())
-            true
+            doNext(9999)
         }
 
         binding.btnMainline.setOnClickListener {
@@ -120,17 +81,26 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
     }
 
-    private fun doNext(): Boolean {
-        if (!game.canRedo())
-            return false
-        if (game.isInReviewVariation && game.possibleVariationCount > 1) {
-            game.redo(1)
-        } else if (GoPrefs.isShowForwardAlertWanted) {
-            GameForwardAlert.showIfNeeded(requireActivity(), game)
-        } else {
-            game.redo(0)
+    private fun doPrev(n: Int) {
+        game.clearAnalyzerInfo()
+        repeat(n) {
+            if (game.canUndo()) game.undo() else return@repeat
         }
-        return true
+    }
+
+    private fun doNext(n: Int) {
+        game.clearAnalyzerInfo()
+        repeat(n) {
+            if (!game.canRedo()) {
+                return@repeat
+            } else if (game.isInReviewVariation && game.possibleVariationCount > 1) {
+                game.redo(1)
+            } else if (GoPrefs.isShowForwardAlertWanted) {
+                GameForwardAlert.showIfNeeded(requireActivity(), game)
+            } else {
+                game.redo(0)
+            }
+        }
     }
 
     private fun doAnalyze(msec: Int) {
