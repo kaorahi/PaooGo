@@ -153,9 +153,6 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
 
     lateinit var metaData: GoGameMetadata
 
-    var blackPlayerName = R.string.you
-    var whitePlayerName = R.string.you
-
     private lateinit var all_handicap_positions: Array<BooleanArray>
 
     init {

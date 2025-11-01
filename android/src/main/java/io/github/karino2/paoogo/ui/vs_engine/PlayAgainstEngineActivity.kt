@@ -145,7 +145,8 @@ class PlayAgainstEngineActivity : GoActivity() {
     private fun setupEngine() {
         val epair = engineRepository.getEngine(GoPrefs.engineLevel)
         engine = epair.first
-        game.whitePlayerName = epair.second
+        game.metaData.blackName = getString(R.string.you)
+        game.metaData.whiteName = getString(epair.second)
         engine.setKomi(game.komi)
         engine.setBoardSize(game.boardSize)
         engine.clearBoard()

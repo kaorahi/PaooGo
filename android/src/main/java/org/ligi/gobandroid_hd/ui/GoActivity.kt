@@ -105,8 +105,8 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
 
     fun updatePlayerName()
     {
-        binding.whitePlayerNameTv!!.text = getString(game.whitePlayerName)
-        binding.blackPlayerNameTv!!.text = getString(game.blackPlayerName)
+        binding.whitePlayerNameTv!!.text = game.metaData.whiteName
+        binding.blackPlayerNameTv!!.text = game.metaData.blackName
     }
 
     @SuppressLint("MissingInflatedId")
