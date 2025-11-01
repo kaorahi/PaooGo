@@ -236,15 +236,6 @@ open class GoBoardView : View {
             actpos_highlight_condition = do_actpos_highlight && interactionScope.hasTouchCell()
         }
 
-        // draw semi transparent stone on current touch pos as a shadow
-        if (!move_stone_mode && actpos_highlight_condition) {
-            val touch_cell = interactionScope.touchCell
-            if (touch_cell != null) {
-                val bitmap = if (game.isBlackToMove) black_stone_bitmap!! else white_stone_bitmap!!
-                canvas.drawBitmap(bitmap, touch_cell.x * stone_size, touch_cell.y * stone_size, placeStonePaint)
-            }
-        }
-
         // draw the vertical lines for the grid
         val board = game.visualBoard
         for (x in 0..game.size - 1)
@@ -341,6 +332,15 @@ open class GoBoardView : View {
             analyzePaint.color = it.visitsColor.toArgb()
             canvas.drawCircle(x+half_ssize, y+half_ssize, half_ssize, analyzePaint)
             canvas.drawText(it.scoreString, tx, ty, analyzeTextPaint)
+        }
+
+        // draw semi transparent stone on current touch pos as a shadow
+        if (!move_stone_mode && actpos_highlight_condition) {
+            val touch_cell = interactionScope.touchCell
+            if (touch_cell != null) {
+                val bitmap = if (game.isBlackToMove) black_stone_bitmap!! else white_stone_bitmap!!
+                canvas.drawBitmap(bitmap, touch_cell.x * stone_size, touch_cell.y * stone_size, placeStonePaint)
+            }
         }
 
         canvas.restore()
