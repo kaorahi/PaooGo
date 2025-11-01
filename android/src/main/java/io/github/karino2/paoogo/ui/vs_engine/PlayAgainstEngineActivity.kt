@@ -291,6 +291,10 @@ class PlayAgainstEngineActivity : GoActivity() {
                 switchToReview()
                 return true
             }
+            R.id.menu_end_game -> {
+                switchToCounting()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
