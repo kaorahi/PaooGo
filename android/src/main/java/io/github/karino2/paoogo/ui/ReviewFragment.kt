@@ -41,13 +41,16 @@ class ReviewFragment : GobandroidGameAwareFragment() {
 
         binding.btnNext.setOnClickListener {
             game.clearAnalyzerInfo()
-            if (game.isInReviewVariation && game.possibleVariationCount > 1) {
-                game.redo(1)
-            } else if (GoPrefs.isShowForwardAlertWanted) {
-                    GameForwardAlert.showIfNeeded(requireActivity(), game)
-            } else {
-                game.redo(0)
+            doNext()
+        }
+
+        binding.btnNext.setOnLongClickListener {
+            game.clearAnalyzerInfo()
+            repeat(10) {
+                if (!doNext())
+                    return@repeat
             }
+            true
         }
 
         binding.btnPrev.setOnClickListener {
@@ -55,6 +58,14 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             if (game.canUndo()) {
                 game.undo()
             }
+        }
+
+        binding.btnPrev.setOnLongClickListener {
+            game.clearAnalyzerInfo()
+            repeat(10) {
+                if (game.canUndo()) game.undo() else return@repeat
+            }
+            true
         }
 
         binding.btnFirst.setOnClickListener {
@@ -116,6 +127,19 @@ class ReviewFragment : GobandroidGameAwareFragment() {
                 statusText.text = getString(R.string.visits_count, blueVisits, totalVisits)
             }
         }
+    }
+
+    private fun doNext(): Boolean {
+        if (!game.canRedo())
+            return false
+        if (game.isInReviewVariation && game.possibleVariationCount > 1) {
+            game.redo(1)
+        } else if (GoPrefs.isShowForwardAlertWanted) {
+            GameForwardAlert.showIfNeeded(requireActivity(), game)
+        } else {
+            game.redo(0)
+        }
+        return true
     }
 
     private fun postGameChangeEvent() {
