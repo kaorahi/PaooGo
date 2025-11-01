@@ -6,6 +6,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'com.trevjonez.composer'
+apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
 
 composer {
     apkInstallTimeout 600
@@ -124,6 +125,7 @@ dependencies {
     implementation 'com.github.ligi:ExtraCompats:1.0'
     implementation 'androidx.annotation:annotation:1.9.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
     implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
     implementation "com.chibatching.kotpref:initializer:$kotpref_version"
     androidTestImplementation 'androidx.test:runner:1.7.0'
