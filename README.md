@@ -1,3 +1,5 @@
+# This branch is obsolete. Use [251101a_humansl](https://github.com/kaorahi/PaooGo/tree/251101a_humansl).
+
 This is a modified version of [PaooGo](https://github.com/karino2/PaooGo) for KataGo's human-like model ([discussion](https://github.com/karino2/PaooGo/issues/4)). On my phone, it plays at 2 sec/move on 9x9 and 3 sec/move on 13x13. Fast enough for me.
 
 To build it, you need the following:
