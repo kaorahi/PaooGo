@@ -1,4 +1,4 @@
-# This branch is obsolete. Use [251019a_humansl](https://github.com/kaorahi/PaooGo/tree/251019a_humansl).
+# This branch is obsolete. Use [251101a_humansl](https://github.com/kaorahi/PaooGo/tree/251101a_humansl).
 
 This is a modified version of [PaooGo](https://github.com/karino2/PaooGo) for KataGo's human-like model ([discussion](https://github.com/karino2/PaooGo/issues/4)).
 
